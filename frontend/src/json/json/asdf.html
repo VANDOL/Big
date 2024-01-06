@@ -1,0 +1,59 @@
+<style>
+#hello {
+    position: relative;
+    width: 600px;
+    height: 600px;
+}
+#world {
+    position: absolute;
+    left: 150px;
+    top: 150px;
+    
+    background-color: red;
+}
+#hw {
+    position: absolute;
+    left: 50%;
+    bottom: 100%;
+    margin-bottom: 20px ;
+    background-color: blue;
+    transform: translate(-50%, 0%);
+}
+#wh {
+    position: absolute;
+    
+    text-wrap: nowrap;
+    bottom: 0%;
+    left: 50%;
+    background-color: green;
+    transform: translate(-50%,0%);
+}
+#wh:after {
+    position: absolute;
+    left: 50%;
+    top: 100%;
+    
+    
+    border: 10px solid black;
+    border-color: black transparent transparent transparent;
+    content: '';
+    transform: translate(-50%, 0%);
+}
+#QQQ {
+    width: 100px;
+    height: 100px;
+    background-color: blueviolet;
+}
+</style>
+<div id="hello">
+    <div id="world">
+        <div id="hw">
+            <div id="wh">
+                크아아악!! <br> asdfasdfa
+            </div>
+        </div>
+        <div id="QQQ">
+    
+        </div>
+    </div>
+</div>

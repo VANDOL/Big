@@ -1,0 +1,98 @@
+<!-- {% load static %}
+{% csrf_token %} -->
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8"/>
+	<title>레이아웃</title>
+    
+    <!-- {% block style %}
+    {% endblock %} -->
+    <style>
+        html, body {
+            margin: 0px;
+            height: 100%;
+        }
+        #body {
+            display: flex;
+            flex-direction: column;
+        }
+        .stroke {
+            border: 1px solid black;
+        }
+        #header {
+            height: 130px;
+            width: 100%;
+            display: flex;
+            align-items: flex-end;
+        }
+        #logo {
+            height: 100%;
+            width: 130px;
+        }
+        #nav {
+            height: 50%;
+            flex: 1;
+            display: flex;
+            justify-content: flex-end;
+            
+        }
+        #nav > div {
+            
+            width: 100px;
+            
+        }
+        #nav > div > a {
+            width: 100%;
+            height: 100%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        #main {
+            flex: 1;
+        }
+        #footer {
+            height: 100px;
+            width: 100%;
+        }
+    </style>
+</head>
+<body id="body">
+    <header id="header" class="stroke">
+        <div id="logo" class="stroke">
+
+        </div>
+        <nav id="nav">
+            <div>
+                <a href="">
+                    회원가입
+                </a>
+            </div>
+            <div>
+                <a href="">
+                    로그인
+                </a>
+            </div>
+            <div>
+                <a href="">
+                    내 정보
+                </a>
+            </div>
+            <div>
+                <a href="">
+                    게시판
+                </a>
+            </div>
+        </nav>
+    </header>
+    <main id="main"  class="stroke">
+        {% block content %}
+        
+        {% endblock %}
+    </main>
+    <footer id="footer"  class="stroke">
+
+    </footer>
+</body>
+</html>
