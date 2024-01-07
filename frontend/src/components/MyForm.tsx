@@ -26,7 +26,7 @@ export default function MyForm(props: any) {
     const cateData:any = cateData_;
 
 
-    function sendData(f:any) {
+    async function sendData(f:any) {
         // let formData = new FormData();
         let formObj:any = {
             "cate": null,
@@ -64,19 +64,22 @@ export default function MyForm(props: any) {
         console.log(JSON.stringify(formObj));
         
         try {
-            const response = fetch("http://127.0.0.1:8000/cafe/", {
-              method: "POST", // 또는 'PUT'
-              headers: {
-                "Content-Type": "application/json",
-              },
-              body: JSON.stringify(formObj),
-            }).then((response)=>(response.json()))
-        
-            const result = response;
-            console.log("성공:", result);
-        } 
-        catch (error) {
-            console.error("실패:", error);
+            const response = await fetch("http://127.0.0.1:8000/cafe/anal", {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json",
+                },
+                body: JSON.stringify(formObj),
+            });
+    
+            if (response.ok) {
+                const result = await response.json();
+                console.log("Success:", result);
+            } else {
+                console.error("Request failed with status:", response.status);
+            }
+        } catch (error) {
+            console.error("Request error:", error);
         }
     }
     

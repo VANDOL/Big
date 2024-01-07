@@ -36,9 +36,9 @@ from fuzzywuzzy import fuzz as fw_fuzz
 import skfuzzy as fuzz
 
 
-final_data = pd.read_csv('final_data (4).csv')
+final_data = pd.read_csv('cafe_data/final_data (4).csv')
 
-def recommend_similar_markets(final_data, service_name, locations, user_preferences, n=5):
+def recommend_similar_markets(service_name, locations, user_preferences, n=5):
     fuzzy_df = final_data[final_data['Service_Industry_Name'] == service_name]
     fuzzy_df2 = fuzzy_df[fuzzy_df['Administrative_District'].isin(locations)]
     fuzzy_df3 = fuzzy_df2.set_index('Commercial_Code')
@@ -106,7 +106,7 @@ def recommend_similar_markets(final_data, service_name, locations, user_preferen
         # percentage을 기준으로 내림차순으로 정렬하여 상위 n개만 다시 선택
         additional_results = additional_results.sort_values(by='percentage', ascending=False)
         recommended_results = additional_results.head(n)
-
+        
     return recommended_results
 
 

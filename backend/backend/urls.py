@@ -23,5 +23,5 @@ urlpatterns = [
     path("data/", include("market_data.urls")),
     path("board/", include("bulletinboard.urls")),
     path("chatbot/", include("chatbot.urls")),
-    # path("cafe/", include("cafe_data.urls")),
+    path("cafe/", include("cafe_data.urls")),
 ]
