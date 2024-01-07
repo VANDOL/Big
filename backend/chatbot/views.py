@@ -1,12 +1,13 @@
+import os
 from django.http import JsonResponse
 from openai import OpenAI
-from django.conf import settings
 import json
 from django.views.decorators.csrf import csrf_exempt
 
 @csrf_exempt
-async def chatbot_response(request):
-    client = OpenAI(api_key=settings.OPENAI_API_KEY)
+def chatbot_response(request):
+    OPENAI_API_KEY = os.environ.get('OPENAI_API_KEY')
+    client = OpenAI(api_key=OPENAI_API_KEY)
     assistant = client.beta.assistants.retrieve("asst_5WVX627XVTiobNaXuNoNzAtV")
     thread = client.beta.threads.create()
 
