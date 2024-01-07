@@ -64,7 +64,7 @@ export default function MyForm(props: any) {
         console.log(JSON.stringify(formObj));
         
         try {
-            const response = fetch("https://example.com/profile", {
+            const response = fetch("http://127.0.0.1:8000/cafe/", {
               method: "POST", // 또는 'PUT'
               headers: {
                 "Content-Type": "application/json",
