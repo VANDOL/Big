@@ -110,6 +110,7 @@ export default function Header() {
         md: 0,
       }}
       borderBottomWidth={1}
+      zIndex={50}
     >
       <Box color={logoColor}>
         <Link to={"/"}>
@@ -120,9 +121,7 @@ export default function Header() {
         </Link>
       </Box>
 
-      <HStack spacing={2}>
-        <Link to="/subboard">업체 </Link>
-        
+      <HStack spacing={1}>      
         <Link to="/new-board">게시판</Link>
         <IconButton
           onClick={toggleColorMode}
@@ -149,10 +148,10 @@ export default function Header() {
                 <Avatar name={user?.name} src={user?.avatar} size={"md"} />
               </MenuButton>
               <MenuList>
-                <MenuItem onClick={onLogOut}>Log out</MenuItem>
                 <Link to="/profile">
                   <MenuItem>Profile</MenuItem>
                 </Link>
+                <MenuItem onClick={onLogOut}>Log out</MenuItem>
               </MenuList>
             </Menu>
           )
