@@ -60,7 +60,29 @@ export default function MyMap1() {
     }
   );
 
+  const moveRef = useRef<any>({
+    lat: 0 as any,
+    lng: 0 as any
+  });
 
+
+  function clickSDong(ev: any) {
+    for (let i of mk_obj.current.sDong) {
+      if (i.name + "-sang" == ev.currentTarget.id) {
+        let coords = new kakao.maps.LatLng(parseFloat(i.customOverlay.props.position["lat"]), parseFloat(i.customOverlay.props.position["lng"]));
+
+        mapRef.current?.panTo(coords);
+        if (mapRef.current?.getLevel()! > 4) {
+          setTimeout(function(){
+            mapRef.current?.setLevel(4);
+          }, 500) 
+        }
+      }
+    }
+    setGoRender((m) => {
+      return !m;
+    });
+  }
 
   function clickDong(ev: any) {
     let check = false;
@@ -76,11 +98,13 @@ export default function MyMap1() {
           i.click_c = true;
           check = true;
           let coords = new kakao.maps.LatLng(parseFloat(i.customOverlay.props.position["lat"]), parseFloat(i.customOverlay.props.position["lng"]));
-
-          if (mapRef.current?.getLevel()! > 4) {
-            mapRef.current?.setLevel(4);
-          }
           mapRef.current?.panTo(coords);
+          
+          if (mapRef.current?.getLevel()! > 4) {
+            setTimeout(function(){
+              mapRef.current?.setLevel(4);
+            }, 500) 
+          }
           setClickName(i.name);
         }
       }
@@ -182,7 +206,7 @@ export default function MyMap1() {
 
       let content_ = React.createElement(
         "div",
-        { className: "mk-1", id: name + "-sang", onClick: clickSang },
+        { className: "mk-1", id: name + "-sang", onClick: clickSDong },
         React.createElement("div", { className: "mk-2", onClick: null }, name)
       );
       CustomOverlay = React.createElement(CustomOverlayMap, { position: { lat: p_1 / p_count, lng: p_2 / p_count }, key: key_id }, content_);
@@ -200,13 +224,32 @@ export default function MyMap1() {
       key_id = key_id + 1;
     }
   }
+
+  function clickGu(ev: any) {
+    let check = false;
+    for (let i of mk_obj.current.gu) {
+      if (i.name == ev.currentTarget.id) {
+        let coords = new kakao.maps.LatLng(parseFloat(i.customOverlay.props.position["lat"]), parseFloat(i.customOverlay.props.position["lng"]));
+        
+        mapRef.current?.panTo(coords);
+        if (mapRef.current?.getLevel()! > 5) {
+          setTimeout(function(){
+            mapRef.current?.setLevel(5);
+          }, 500) 
+        }
+      }
+    }
+    setGoRender((m) => {
+      return !m;
+    });
+  }
   function makeGu(hello: any) {
     let key_id = 1;
     for (let n of hello["name"]) {
       let name = n;
       let content = React.createElement(
         "div"
-        , { className: "mk-1", id: name, onClick: clickDong },
+        , { className: "mk-1", id: name, onClick: clickGu },
         React.createElement("div", { className: "mk-2" }, name)
       );
       let CustomOverlay = React.createElement(CustomOverlayMap, { position: { lat: hello[n][1], lng: hello[n][0] }, key: key_id }, content);
@@ -295,10 +338,13 @@ export default function MyMap1() {
           let coords = new kakao.maps.LatLng(parseFloat(i.customOverlay.props.position["lat"]), parseFloat(i.customOverlay.props.position["lng"]));
           // mapRef.current?.panTo()
 
-          if (mapRef.current?.getLevel()! > 3) {
-            mapRef.current?.setLevel(3);
-          }
+          
           mapRef.current?.panTo(coords);
+          if (mapRef.current?.getLevel()! > 3) {
+            setTimeout(function(){
+              mapRef.current?.setLevel(3);
+            }, 500) 
+          }
           setClickCode1(i.code);
           setClickName1(i.name);
         }
@@ -313,22 +359,22 @@ export default function MyMap1() {
     });
 
   }
-  function makePath(p:any, mp:any, p_1:any, p_2:any, p_count:any) {
-    if(typeof p[0][0] == 'number') {
+  function makePath(p: any, mp: any, p_1: any, p_2: any, p_count: any) {
+    if (typeof p[0][0] == 'number') {
       // console.log(p);
       return true;
     }
     // console.log(p);
-    for(const pp of p) {
+    for (const pp of p) {
       let check = makePath(pp, mp, p_1, p_2, p_count);
-      if(check == true) {
+      if (check == true) {
         // console.log(pp);
-        const mpp:any = [];
-        for(const ppp of pp) {
+        const mpp: any = [];
+        for (const ppp of pp) {
           p_1[0] = p_1[0] + ppp[1];
           p_2[0] = p_2[0] + ppp[0];
           mpp.push({ lat: ppp[1], lng: ppp[0] });
-          
+
           p_count[0] = p_count[0] + 1;
         }
         mp.push(mpp);
@@ -351,17 +397,17 @@ export default function MyMap1() {
       let p_1 = [0];
       let p_2 = [0];
       let p_count = [0];
-      let m_path:any = [];
+      let m_path: any = [];
       let len = i["geometry"]["coordinates"].length;
       makePath(i["geometry"]["coordinates"], m_path, p_1, p_2, p_count);
-      
+
       // for (let p of i["geometry"]["coordinates"][0]) {
       //   p_1 = p_1 + p[1];
       //   p_2 = p_2 + p[0];
       //   p_count = p_count + 1;
       //   m_path.push({ lat: p[1], lng: p[0] });
       // }
-      
+
       let content = React.createElement(
         "div",
         { className: "mk-1", id: name, onClick: clickSang },
@@ -369,9 +415,9 @@ export default function MyMap1() {
       );
       // let CustomOverlay = React.createElement(CustomOverlayMap, { position: { lat: p_1 / p_count, lng: p_2 / p_count }, key: key_id }, content);
       let CustomOverlay = React.createElement(CustomOverlayMap, { position: { lat: p_1[0] / p_count[0], lng: p_2[0] / p_count[0] }, key: key_id }, content);
-      let polygonList:any = [];
-      let polygonList1:any = [];
-      for(let p of m_path) {
+      let polygonList: any = [];
+      let polygonList1: any = [];
+      for (let p of m_path) {
         let polygon1 = React.createElement(
           Polygon,
           {
@@ -381,7 +427,7 @@ export default function MyMap1() {
             fillOpacity: true ? 0.5 : 0.7, key: key_id
           },
           null);
-          polygonList1.push(polygon1);
+        polygonList1.push(polygon1);
         let polygon = React.createElement(
           Polygon,
           {
@@ -391,7 +437,7 @@ export default function MyMap1() {
             fillOpacity: true ? 0.3 : 0.5, key: key_id
           },
           null);
-          polygonList.push(polygon);
+        polygonList.push(polygon);
       }
 
       // let polygon1 = React.createElement(
@@ -692,7 +738,13 @@ export default function MyMap1() {
 
         const map = mapRef.current;
 
-
+        kakao.maps.event.addListener(map, 'center_changed', function() {
+          const pos = mapRef.current?.getCenter();
+          console.log(moveRef);
+          moveRef.current = ({lat: pos?.getLat(), lng: pos?.getLng()});
+          
+        });
+        
         makeDong(data1);
         makeGu(data2);
         makeSido(data3);
@@ -810,10 +862,10 @@ export default function MyMap1() {
       fetch("http://127.0.0.1:8000/data/market/?commercial_code=" + clickCode1)
         .then((res) => { return res.json(); })
         .then((res) => {
-          console.log(res);
+          // console.log(res);
           sangData.current = res;
-          
-          setGoRender((m)=>(!m));
+
+          setGoRender((m) => (!m));
         })
         .catch((res) => { console.error(res) })
     }
@@ -824,14 +876,14 @@ export default function MyMap1() {
 
   useEffect(function () {
     if (!!mk_obj.current.sang[0]) {
-      let rList:any = [];
-      
+      let rList: any = [];
+
       for (let i of mk_obj.current.sang) {
         i.select_c = false;
         for (let j of rSang) {
           if (i.code == j["Commercial_Code"]) {
             i.select_c = true;
-            let obj:any = {
+            let obj: any = {
               dong: i.dong,
               gu: i.gu,
               cate: i.cate,
@@ -875,7 +927,7 @@ export default function MyMap1() {
               onClick={() => {
                 setClick_m(false);
                 setMode_m(0)
-                
+
                 setClickName1('');
                 clickSang({ currentTarget: { id: "" } });
               }}
@@ -917,28 +969,28 @@ export default function MyMap1() {
                 overflowY={"auto"}
               >
                 {
-                  rSang.length > 0?
-                  (
-                  <div className="shortcut-win">
-                    <div className="c-btn">
-                      추천상권
-                      <CloseIcon position={"relative"} left={"calc(100% - 100px)"} bottom={"10px"}
-                      cursor={"pointer"}
-                      onClick={(ev)=>{
-                        setRSang([]);
-                      }}
-                      >
+                  rSang.length > 0 ?
+                    (
+                      <div className="shortcut-win">
+                        <div className="c-btn">
+                          추천상권
+                          <CloseIcon position={"relative"} left={"calc(100% - 100px)"} bottom={"10px"}
+                            cursor={"pointer"}
+                            onClick={(ev) => {
+                              setRSang([]);
+                            }}
+                          >
 
-                      </CloseIcon>
-                    </div>
-                    {
-                      rSang_.map((n:any, i:any)=>{
-                        return <Shortcut key={n.name} data={n} map={mapRef}></Shortcut>
-                      })
-                    }
-                  </div>
-                  ):
-                  (<MyForm setData={setRSang} setCheck={setGetCheck}></MyForm>)
+                          </CloseIcon>
+                        </div>
+                        {
+                          rSang_.map((n: any, i: any) => {
+                            return <Shortcut key={n.name} data={n} map={mapRef}></Shortcut>
+                          })
+                        }
+                      </div>
+                    ) :
+                    (<MyForm setData={setRSang} setCheck={setGetCheck}></MyForm>)
                 }
               </TabPanel>
             </TabPanels>
@@ -1014,12 +1066,12 @@ export default function MyMap1() {
           {
             (mode_m == 1 && mk_obj.current.sang) && mk_obj.current.sang.map(function (n: any, i: any) {
               // return (n.select_c && (n.polygon1.map((n:any, i:any)=>{return n}))) || (n.click_c && (n.polygon.map((n:any, i:any)=>{return n})));
-              return (n.select_c && (n.polygon1.map((n:any, i:any)=>{return n})));
+              return (n.select_c && (n.polygon1.map((n: any, i: any) => { return n })));
             })
           }
           {
             (mode_m == 1 && mk_obj.current.sang) && mk_obj.current.sang.map(function (n: any, i: any) {
-              return (n.click_c && (n.polygon.map((n:any, i:any)=>{return n})));
+              return (n.click_c && (n.polygon.map((n: any, i: any) => { return n })));
             })
           }
           {
