@@ -1,18 +1,18 @@
+/* Improved CSS */
+
 .i-win {
     position: absolute;
-    right: 0px;
+    right: 0;
     top: 50px;
     height: 88%;
     width: 550px;
-    /* border: 1px solid black; */
-    /* border-top-left-radius: 20px;
-    border-bottom-left-radius: 20px; */
-    /* border-radius: 20px; */
     background-color: white;
-    box-shadow: 0px 0px 15px -5px #4A5568;
-    overflow-y: auto;
+    box-shadow: 0 0 15px -5px #4A5568;
+    overflow-y: auto; /* Consider if you want to make it scroll only when necessary with overflow-y: auto; */
     z-index: 15;
     transition: right 0.5s;
+    /* Ensure no unwanted text selection on drag or double click */
+    user-select: none; 
 }
 
 .i-btn {
@@ -22,21 +22,100 @@
     width: 50px;
     right: 550px;
     top: 70px;
-    z-index: 10;
+    z-index: 16; /* Ensure button is above .i-win */
     display: flex;
     justify-content: center;
     align-items: center;
     transition: right 0.5s;
+    cursor: pointer; /* Indicate that the element is clickable */
+    /* Added a slight shadow or border for better visibility */
+    box-shadow: 0 0 5px -1px #4A5568;
+    border-radius: 50%; /* Making it circular if it's meant to be a round button */
 }
 
+/* Toggle visibility */
 .dis-hi {
     display: none;
 }
 
+/* Toggle positions with checkbox */
 #i-checkbox:checked + .i-btn {
-    right: calc(550px - 500px);
+    right: 50px; /* Adjusted to the new position */
 }
 
-#i-checkbox:checked + .i-btn + .i-win{
+#i-checkbox:checked + .i-btn + .i-win {
     right: -500px;
+}
+
+/* InterfaceWin.css */
+.popup-header {
+    background: #f7f7f7;
+    padding: 20px;
+    border-bottom: 1px solid #ddd;
+    /* Ensure consistent text rendering */
+    text-rendering: optimizeLegibility;
+}
+
+.popup-header h2 {
+    margin-bottom: 10px;
+    /* Minor stylistic font adjustment */
+    font-weight: 600;
+}
+
+.popup-header p {
+    font-size: 14px;
+    color: #666;
+}
+
+.popup-body {
+    padding: 20px;
+}
+
+.stat {
+    margin-bottom: 20px;
+}
+
+.stat-title {
+    font-weight: bold;
+    margin-bottom: 5px;
+}
+
+.stat-value {
+    font-size: 18px;
+    color: #333;
+}
+
+/* Tabs styling */
+.TabList {
+    background: #efefef;
+    padding: 10px 0;
+}
+
+.Tab {
+    padding: 10px 20px;
+    cursor: pointer;
+    color: #333;
+    /* Added focus and hover styles for better interactivity */
+    transition: background-color 0.3s ease;
+}
+
+.Tab:hover {
+    background-color: #ddd; /* A light hover effect */
+}
+
+.Tab[aria-selected="true"] {
+    border-bottom: 2px solid #007bff;
+    font-weight: bold;
+}
+
+.TabPanel {
+    padding: 20px;
+}
+
+/* Custom styles for bar chart */
+canvas {
+    max-width: 100%;
+    height: auto; /* maintain aspect ratio */
+    /* Consider adding a border or shadow for better distinction */
+    box-shadow: 0 0 10px 0 rgba(0,0,0,0.1);
 }
