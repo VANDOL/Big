@@ -4,6 +4,11 @@ import { useRef, useState, useEffect } from "react"
 import { ArrowLeftIcon, ArrowRightIcon } from '@chakra-ui/icons'
 import { Tabs, TabList, TabPanels, Tab, TabPanel } from '@chakra-ui/react'
 import "../css/InterfaceWin.css"
+import Button_1 from '../visualization_of_data/Button_1';
+import Button_2 from '../visualization_of_data/Button_2';
+import Button_3 from '../visualization_of_data/Button_3';
+import Button_4 from '../visualization_of_data/Button_4';
+import Button_5 from '../visualization_of_data/Button_5';
 
 export default function InterfaceWin(props: any) {
     const [openToggle, setOpenToggle] = useState(false);
@@ -60,26 +65,20 @@ export default function InterfaceWin(props: any) {
                         </TabList>
                         <TabPanels>
                             <TabPanel h={"100%"}>
-                                {/* 1번 내용 */}
-                                {/* {props.data.a && "a"} */}
-                                {
-                                    
-                                }
+                                { <Button_1 regionData={props.data.regionData} />}
+                            </TabPanel>
+                            {/* <TabPanel h={"100%"}>
+                                {<Button_2 barChartData={yourBarChartData} pieChartData={yourPieChartData} openingData={yourOpeningData} closingData={yourClosingData} />}
                             </TabPanel>
                             <TabPanel h={"100%"}>
-                                {/* 2번 내용 */}
-                                {props.data.b}
+                                {<Button_3 barChartData={yourBarChartData} pieChartData={yourPieChartData} />}
                             </TabPanel>
                             <TabPanel h={"100%"}>
-                                {/* 3번 내용 */}
-                                {props.data.c}
+                                { <Button_4 regionData={props.data.regionData} />}
                             </TabPanel>
                             <TabPanel h={"100%"}>
-                                {/* 4번 내용 */}
-                            </TabPanel>
-                            <TabPanel h={"100%"}>
-                                {/* 5번 내용 */}
-                            </TabPanel>
+                                { <Button_5 regionData={props.data.regionData} />}
+                            </TabPanel> */}
                         </TabPanels>
                     </Tabs>
                     :

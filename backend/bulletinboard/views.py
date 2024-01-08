@@ -33,7 +33,7 @@ def create_post(request):
         title = request.POST.get('title')
         content = request.POST.get('content')
 
-        new_post = Post(title=title, content=content)
+        new_post = Post(title=title, content=content, author=request.user)
         new_post.save()
         if 'file' in request.FILES:
             file = request.FILES['file']
@@ -70,6 +70,8 @@ def post_detail(request, pk):
 @csrf_exempt
 def delete_post(request, pk):
     post = get_object_or_404(Post, pk=pk)
+    if request.user != post.author:
+        return JsonResponse({'error': 'Unauthorized'}, status=403)
     if post.file:
         post.file.delete()  # 파일 삭제
     post.delete()  # 게시글 삭제
@@ -78,8 +80,9 @@ def delete_post(request, pk):
 @csrf_exempt
 def update_post(request, pk):
     try:
-        post = Post.objects.get(pk=pk)
-
+        post = get_object_or_404(Post, pk=pk)
+        if request.user != post.author:
+            return JsonResponse({'error': 'Unauthorized'}, status=403)
         if request.method == 'PUT':
             # JSON 데이터 유효성 검사
             if not request.body:

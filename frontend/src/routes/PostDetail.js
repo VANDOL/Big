@@ -22,7 +22,7 @@ function PostDetail() {
   const [file, setFile] = useState(null);
   const navigate = useNavigate();
   
-
+  const currentUser = JSON.parse(localStorage.getItem('currentUser')) || {};
   useEffect(() => {
     axios.get(`http://127.0.0.1:8000/board/posts/${pk}/`).then((response) => {
       setPost(response.data);
@@ -30,14 +30,28 @@ function PostDetail() {
       setEditedContent(response.data.content);
     });
   }, [pk]);
+
   const handleEdit = () => {
-    if (post) {
-      setEditedTitle(post.title);
-      setEditedContent(post.content);
+    if (post && post.authorId && currentUser.id === post.authorId) {
       setEditMode(true);
     } else {
-      // post가 null인 경우 처리, 예: 경고 메시지 표시
-      alert('게시글이 로드되지 않았습니다.');
+      alert('수정 권한이 없습니다.');
+    }
+  };
+
+  const handleDelete = () => {
+    if (post && currentUser.id === post.authorId) {
+      axios.delete(`http://127.0.0.1:8000/board/posts/${pk}/delete/`)
+        .then(() => {
+          alert('게시글이 삭제되었습니다.');
+          navigate('/new-board'); // 삭제 후 게시판 페이지로 리디렉트
+        })
+        .catch((error) => {
+          console.error('Error deleting post:', error);
+          alert('게시글을 삭제하는 중 오류가 발생했습니다.');
+        });
+    } else {
+      alert('삭제 권한이 없습니다.');
     }
   };
   const handleFileChange = (e) => {
@@ -68,6 +82,7 @@ function PostDetail() {
   return (
     <Container>
       {editMode ? (
+        // 편집 모드 UI
         <>
           <Input 
             value={editedTitle}
@@ -82,25 +97,17 @@ function PostDetail() {
           <Button onClick={handleSave}>저장</Button>
         </>
       ) : (
+        // 일반 보기 모드 UI
         <Box>
           <Flex>
             <Heading>{post?.title}</Heading>
             <Text>{post?.content}</Text>
-            <Button onClick={handleEdit}>수정</Button>
-            <Button
-              colorScheme="red"
-              onClick={() => {
-                axios.delete(`http://127.0.0.1:8000/board/posts/${pk}/delete/`)
-                  .then(() => {
-                    navigate('/new-board');
-                  })
-                  .catch((error) => {
-                    console.error('Error deleting post:', error);
-                  });
-              }}
-            >
-              삭제
-            </Button>
+            {currentUser.id === post?.authorId && (
+              <>
+                <Button onClick={handleEdit}>수정</Button>
+                <Button colorScheme="red" onClick={handleDelete}>삭제</Button>
+              </>
+            )}
           </Flex>
         </Box>
       )}
