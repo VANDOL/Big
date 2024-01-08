@@ -45,7 +45,7 @@ def recommend_similar_markets(service_name, locations, user_preferences, n=5):
 
     features = [ 'Workplace', 'Resident',
                 'Male','Female',
-                'Age_Group_10s', 'Age_Group_20s','Age_Group_30s', 'Age_Group_40s', 'Age_Group_50s', 'Age_Group_60s']
+                'Age_Group_20s','Age_Group_30s', 'Age_Group_40s', 'Age_Group_50s', 'Age_Group_60s']
     data_matrix = fuzzy_df3[features].values.T
 
     num_clusters = 5

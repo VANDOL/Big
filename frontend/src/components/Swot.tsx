@@ -8,7 +8,7 @@ import s_img3 from "../img/swot_img/swot_o.png";
 import s_img4 from "../img/swot_img/swot_t.png";
 export default function MySwot(props: any) {
     const Hello = true;
-    console.log(props);
+    // console.log(props);
     return (
         <>
         <div className="s-name">
