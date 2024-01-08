@@ -31,8 +31,8 @@ import { createImportSpecifier } from "typescript";
 
 export default function MyMap1() {
   useKakaoLoader()
-  const [level, setLevel] = useState(8);
-  const [click_m, setClick_m] = useState(false);
+  const [level, setLevel] = useState(10);
+  const [click_m, setClick_m] = useState(true);
   const [over_m, setOver_m] = useState(false);
   const [mode_m, setMode_m] = useState(0);
   const [goRender, setGoRender] = useState(false);
@@ -60,11 +60,6 @@ export default function MyMap1() {
     }
   );
 
-  const moveRef = useRef<any>({
-    lat: 0 as any,
-    lng: 0 as any
-  });
-
 
   function clickSDong(ev: any) {
     for (let i of mk_obj.current.sDong) {
@@ -73,9 +68,9 @@ export default function MyMap1() {
 
         mapRef.current?.panTo(coords);
         if (mapRef.current?.getLevel()! > 4) {
-          setTimeout(function(){
+          setTimeout(function () {
             mapRef.current?.setLevel(4);
-          }, 500) 
+          }, 500)
         }
       }
     }
@@ -99,11 +94,11 @@ export default function MyMap1() {
           check = true;
           let coords = new kakao.maps.LatLng(parseFloat(i.customOverlay.props.position["lat"]), parseFloat(i.customOverlay.props.position["lng"]));
           mapRef.current?.panTo(coords);
-          
+
           if (mapRef.current?.getLevel()! > 4) {
-            setTimeout(function(){
+            setTimeout(function () {
               mapRef.current?.setLevel(4);
-            }, 500) 
+            }, 500)
           }
           setClickName(i.name);
         }
@@ -230,12 +225,12 @@ export default function MyMap1() {
     for (let i of mk_obj.current.gu) {
       if (i.name == ev.currentTarget.id) {
         let coords = new kakao.maps.LatLng(parseFloat(i.customOverlay.props.position["lat"]), parseFloat(i.customOverlay.props.position["lng"]));
-        
+
         mapRef.current?.panTo(coords);
         if (mapRef.current?.getLevel()! > 5) {
-          setTimeout(function(){
+          setTimeout(function () {
             mapRef.current?.setLevel(5);
-          }, 500) 
+          }, 500)
         }
       }
     }
@@ -280,13 +275,33 @@ export default function MyMap1() {
       key_id = key_id + 1;
     }
   }
+
+  function clickSido(ev: any) {
+    for (let i of mk_obj.current.sido) {
+      if (i.name == ev.currentTarget.id) {
+          let coords = new kakao.maps.LatLng(parseFloat(i.customOverlay.props.position["lat"]), parseFloat(i.customOverlay.props.position["lng"]));
+          // mapRef.current?.panTo()
+          mapRef.current?.panTo(coords);
+          if (mapRef.current?.getLevel()! > 8) {
+            setTimeout(function () {
+              mapRef.current?.setLevel(8);
+            }, 500)
+          }
+        }
+    }
+    setGoRender((m) => {
+      return !m;
+    });
+
+  }
+
   function makeSido(hello: any) {
     let key_id = 1;
     for (let n of hello["name"]) {
       let name = n;
       let content = React.createElement(
         "div"
-        , { className: "mk-1", id: name, onClick: clickDong },
+        , { className: "mk-1", id: name, onClick: clickSido },
         React.createElement("div", { className: "mk-2" }, name)
       );
       let CustomOverlay = React.createElement(CustomOverlayMap, { position: { lat: hello[n][1], lng: hello[n][0] }, key: key_id }, content);
@@ -301,7 +316,7 @@ export default function MyMap1() {
 
       let content_ = React.createElement(
         "div"
-        , { className: "mk-1", id: name + "-sang", onClick: clickDong },
+        , { className: "mk-1", id: name + "-sang", onClick: clickSido },
         React.createElement("div", { className: "mk-2" }, name)
       );
       CustomOverlay = React.createElement(CustomOverlayMap, { position: { lat: hello[n][1], lng: hello[n][0] }, key: key_id }, content);
@@ -338,12 +353,12 @@ export default function MyMap1() {
           let coords = new kakao.maps.LatLng(parseFloat(i.customOverlay.props.position["lat"]), parseFloat(i.customOverlay.props.position["lng"]));
           // mapRef.current?.panTo()
 
-          
+
           mapRef.current?.panTo(coords);
           if (mapRef.current?.getLevel()! > 3) {
-            setTimeout(function(){
+            setTimeout(function () {
               mapRef.current?.setLevel(3);
-            }, 500) 
+            }, 500)
           }
           setClickCode1(i.code);
           setClickName1(i.name);
@@ -737,13 +752,6 @@ export default function MyMap1() {
         clearInterval(timerId);
 
         const map = mapRef.current;
-
-        kakao.maps.event.addListener(map, 'center_changed', function() {
-          const pos = mapRef.current?.getCenter();
-          console.log(moveRef);
-          moveRef.current = ({lat: pos?.getLat(), lng: pos?.getLng()});
-          
-        });
         
         makeDong(data1);
         makeGu(data2);
@@ -910,7 +918,7 @@ export default function MyMap1() {
       }
       <div id="mymap">
         {
-          mode_m == 1 &&
+          mode_m == 0 &&
           <InterfaceWin getCheck={getCheck} data={sangData.current}></InterfaceWin>
         }
         <Tabs isFitted variant='soft-rounded'
@@ -925,14 +933,15 @@ export default function MyMap1() {
                 color: "white"
               }}
               onClick={() => {
-                setClick_m(false);
+                setClick_m(true);
                 setMode_m(0)
-
-                setClickName1('');
-                clickSang({ currentTarget: { id: "" } });
+                setClickName('');
+                // setClickName1('');
+                clickDong({ currentTarget: { id: "" } });
+                // clickSang({ currentTarget: { id: "" } });
               }}
             >
-              행정동
+              상권분석
             </Tab>
             <Tab bg={"#EDF2F7"} boxShadow={"xs"}
               _selected={{
@@ -940,30 +949,21 @@ export default function MyMap1() {
                 color: "white"
               }}
               onClick={() => {
-                setClick_m(true);
+                setClick_m(false);
                 setMode_m(1);
-                setClickName('');
-                clickDong({ currentTarget: { id: "" } });
+                setClickName1('');
+                // setClickName('');
+                clickSang({ currentTarget: { id: "" } });
+                // clickDong({ currentTarget: { id: "" } });
               }}
             >
-              업체
+              가게분석
             </Tab>
           </TabList>
           {
             click_m &&
             <TabPanels h={"100%"}>
               <TabPanel w={"400px"} bg={"white"} h={"500px"} mt={"10px"}
-                borderRadius={"20px"}
-                boxShadow={"0px 0px 15px -5px #4A5568"}
-                overflowY={"auto"}
-              >
-                {
-                  stores_m.current.map((n: any, i: any) => {
-                    return clickSName == n.name && <MySwot key={i} data={n}></MySwot>
-                  })
-                }
-              </TabPanel>
-              <TabPanel w={"400px"} bg={"white"} h={"85%"} mt={"10px"}
                 borderRadius={"20px"}
                 boxShadow={"0px 0px 15px -5px #4A5568"}
                 overflowY={"auto"}
@@ -991,6 +991,17 @@ export default function MyMap1() {
                       </div>
                     ) :
                     (<MyForm setData={setRSang} setCheck={setGetCheck}></MyForm>)
+                }
+              </TabPanel>
+              <TabPanel w={"400px"} bg={"white"} h={"85%"} mt={"10px"}
+                borderRadius={"20px"}
+                boxShadow={"0px 0px 15px -5px #4A5568"}
+                overflowY={"auto"}
+              >
+                {
+                  stores_m.current.map((n: any, i: any) => {
+                    return clickSName == n.name && <MySwot key={i} data={n}></MySwot>
+                  })
                 }
               </TabPanel>
             </TabPanels>
@@ -1026,66 +1037,66 @@ export default function MyMap1() {
             width: "100%",
             height: "100%",
           }}
-          level={8} // 지도의 확대 레벨
+          level={10} // 지도의 확대 레벨
           maxLevel={11}
           onZoomChanged={(qqq) => setLevel(qqq.getLevel())}
           ref={mapRef}
           onCreate={() => { }}
         >
-          {(mode_m == 0 && level < 6) && mk_obj.current.dong.map(function (n: any, i: any) {
+          {(mode_m == 1 && level < 6) && mk_obj.current.dong.map(function (n: any, i: any) {
             return n && (n.customOverlay);
           })
           }
           {
-            (mode_m == 0 && mk_obj.current.dong) && mk_obj.current.dong.map(function (n: any, i: any) {
+            (mode_m == 1 && mk_obj.current.dong) && mk_obj.current.dong.map(function (n: any, i: any) {
 
               return (n.click_c || n.hover_c) && n.polygon;
             })
           }
           {//swot
-            (mode_m == 0 && clickName != '' && level < 6) && stores_m.current.map((n: any, i: any) => {
+            (mode_m == 1 && clickName != '' && level < 6) && stores_m.current.map((n: any, i: any) => {
               return n.marker;
             })
           }
           {
-            (mode_m == 0 && level < 9 && level > 5) && mk_obj.current.gu.map(function (n: any, i: any) {
+            (mode_m == 1 && level < 9 && level > 5) && mk_obj.current.gu.map(function (n: any, i: any) {
               return n && n.customOverlay;
             })
           }
           {
-            (mode_m == 0 && level > 8) && mk_obj.current.sido.map(function (n: any, i: any) {
+            (mode_m == 1 && level > 8) && mk_obj.current.sido.map(function (n: any, i: any) {
               return n && n.customOverlay;
             })
           }
 
           {
-            (mode_m == 1 && mk_obj.current.sang && level < 5) && mk_obj.current.sang.map(function (n: any, i: any) {
+            (mode_m == 0 && mk_obj.current.sang && level < 5) && mk_obj.current.sang.map(function (n: any, i: any) {
               return n.customOverlay;
             })
           }
           {
-            (mode_m == 1 && mk_obj.current.sang) && mk_obj.current.sang.map(function (n: any, i: any) {
+            (mode_m == 0 && mk_obj.current.sang) && mk_obj.current.sang.map(function (n: any, i: any) {
               // return (n.select_c && (n.polygon1.map((n:any, i:any)=>{return n}))) || (n.click_c && (n.polygon.map((n:any, i:any)=>{return n})));
               return (n.select_c && (n.polygon1.map((n: any, i: any) => { return n })));
             })
           }
           {
-            (mode_m == 1 && mk_obj.current.sang) && mk_obj.current.sang.map(function (n: any, i: any) {
+            (mode_m == 0 && mk_obj.current.sang) && mk_obj.current.sang.map(function (n: any, i: any) {
               return (n.click_c && (n.polygon.map((n: any, i: any) => { return n })));
             })
           }
           {
-            (mode_m == 1 && mk_obj.current.sDong && level < 7 && level > 4) && mk_obj.current.sDong.map(function (n: any, i: any) {
+            (mode_m == 0 && mk_obj.current.sDong && level < 7 && level > 4) && mk_obj.current.sDong.map(function (n: any, i: any) {
               return n.customOverlay;
             })
           }
           {
-            (mode_m == 1 && mk_obj.current.sGu && level < 9 && level > 6) && mk_obj.current.sGu.map(function (n: any, i: any) {
+            (mode_m == 0 && mk_obj.current.sGu && level < 9 && level > 6) && mk_obj.current.sGu.map(function (n: any, i: any) {
               return n.customOverlay;
             })
           }
           {
-            (mode_m == 1 && mk_obj.current.sSido && level > 8) && mk_obj.current.sSido.map(function (n: any, i: any) {
+            (mode_m == 0 && mk_obj.current.sSido && level > 8) && mk_obj.current.sSido.map(function (n: any, i: any) {
               return n.customOverlay;
             })
           }

@@ -210,7 +210,7 @@ export default function MyForm(props: any) {
                     </div>
                 </div>
                 <div>
-                    <input className="form_range" type="range" name="rv4" onChange={(ev) => { setRV4(parseFloat(ev.target.value)) }} />
+                    <input className="form_range" type="range" name="rv4" value={rV4} onChange={(ev) => { setRV4(parseFloat(ev.target.value)) }} />
 
                 </div>
             </div>
