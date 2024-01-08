@@ -27,7 +27,7 @@ import MySwot from "../components/Swot";
 import InterfaceWin from "../components/InterfaceWin";
 import Shortcut from "../components/Shortcut";
 import { createImportSpecifier } from "typescript";
-
+import Button_1 from '../visualization_of_data/Button_1';
 
 export default function MyMap1() {
   useKakaoLoader()
@@ -911,7 +911,6 @@ export default function MyMap1() {
     setGoRender((m) => (!m));
   }, [rSang]);
 
-
   return (
     <>
       {
@@ -919,8 +918,14 @@ export default function MyMap1() {
       }
       <div id="mymap">
         {
+<<<<<<< HEAD
           mode_m == 0 &&
           <InterfaceWin getCheck={getCheck} data={sangData.current}></InterfaceWin>
+=======
+          mode_m == 1 &&
+          <InterfaceWin getCheck={getCheck} data={sangData.current}>
+          </InterfaceWin>
+>>>>>>> see
         }
         <Tabs isFitted variant='soft-rounded'
           pos={"absolute"} left={"20px"} top={"5px"}

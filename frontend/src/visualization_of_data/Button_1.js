@@ -1,7 +1,12 @@
 import React, { useState, useEffect } from 'react';
+<<<<<<< HEAD
 // import './chart/Button.css'; 
 
 import BarChart from './../chart/Barchart';
+=======
+import './chart/Button.css'; 
+import BarChart from '../../chart/BarChart'; 
+>>>>>>> see
 
 const Button_1 = ({ regionData }) => {
     // 데이터베이스로부터 가져온 데이터를 state에 저장합니다.
@@ -22,7 +27,11 @@ const Button_1 = ({ regionData }) => {
                 따라서 자신의 판단과 책임하에 보고서를 활용하시기 바랍니다.
                 또한 서울시는 본 보고서를 활용하여 결과에 대한 어떠한 법적 책임도 없으며 전적으로 사용자 자신에게 있음을 알려드립니다.
                 </p>
+<<<<<<< HEAD
                 <h1>{regionData}</h1> 
+=======
+                <h1>{regionData.name}</h1> {/* 예시: db에서 가져온 지역명으로 변경 */}
+>>>>>>> see
             </div>
             <div className="popup-body">
               {/* 데이터베이스에서 가져온 값으로 통계를 표시합니다. */}
@@ -43,7 +52,11 @@ const Button_1 = ({ regionData }) => {
                     <div className="stat-value">{data?.populationByAge}</div>
                 </div>
                 <p>업종별 평균 매출액</p>
+<<<<<<< HEAD
                 {data && <BarChart data={data.salesData} />} 
+=======
+                {data && <BarChart data={data.salesData} />} {/* 차트 데이터를 바 차트 컴포넌트에 전달 */}
+>>>>>>> see
                 <p>매출액은 카드사 데이터로 도출한 매출추정액입니다.</p>
             </div>
         </div>

@@ -47,7 +47,6 @@ export default function LoginModal({ isOpen, onClose }: LoginModalProps) {
       });
       onClose();
       queryClient.refetchQueries(["me"]);
-      reset();
     },
   });
   const onSubmit = ({ username, password }: IForm) => {

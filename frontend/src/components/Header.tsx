@@ -23,16 +23,23 @@ import LoginModal from "./LoginModal";
 import useUser from "../lib/useUser";
 import { logOut } from "../api";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
-import { useRef } from "react";
+import { useEffect, useRef } from "react";
 import { Text } from "@chakra-ui/react";
 import React, { useState } from 'react';
 import { BsChatDots } from 'react-icons/bs';
 import ChatBot from '../routes/ChatBot';
 
 
-const ChatbotIcon = () => {
+const ChatbotIcon =  ({ isLoggedIn }: { isLoggedIn: boolean }) => {
   const [showChat, setShowChat] = useState(false);
 
+  const handleChatIconClick = () => {
+    if (isLoggedIn) {
+      setShowChat(!showChat);
+    } else {
+      alert('로그인이 필요한 서비스입니다. 로그인해주세요.');
+    }
+  };
   return (
     <>
       <Box position="fixed" bottom="90px" right="50px" style={{ display: showChat ? 'block' : 'none' }}>
@@ -44,7 +51,7 @@ const ChatbotIcon = () => {
         borderRadius="full"
         size="lg"
         aria-label="챗봇 열기"
-        onClick={() => setShowChat(!showChat)}
+        onClick={handleChatIconClick}
         position="fixed" // 아이콘 버튼을 고정 위치에 두기
         bottom="50px" // 아이콘 버튼의 위치 조정
         right="50px"
@@ -52,6 +59,7 @@ const ChatbotIcon = () => {
     </>
   );
 };
+
 
 export default function Header() {
   const { userLoading, isLoggedIn, user } = useUser();
@@ -95,6 +103,15 @@ export default function Header() {
   const onLogOut = async () => {
     mutation.mutate();
   };
+
+  const handleBoardClick = (event: React.MouseEvent<HTMLAnchorElement, MouseEvent>) => {
+    if (!isLoggedIn) {
+      alert('게시판을 사용하기 위해서는 로그인이 필요합니다.');
+      event.preventDefault();
+      return;
+    }
+  };
+
   return (
     <Stack
       justifyContent={"space-between"}
@@ -122,7 +139,7 @@ export default function Header() {
       </Box>
 
       <HStack spacing={1}>      
-        <Link to="/new-board">게시판</Link>
+        <Link to="/new-board" onClick={handleBoardClick}>게시판</Link>
         <IconButton
           onClick={toggleColorMode}
           variant={"ghost"}
@@ -160,7 +177,7 @@ export default function Header() {
 
       <LoginModal isOpen={isLoginOpen} onClose={onLoginClose} />
       {/* 챗봇 아이콘 컴포넌트 추가 */}
-      <ChatbotIcon />
+      <ChatbotIcon isLoggedIn={isLoggedIn} />
     </Stack>
   );
 }
