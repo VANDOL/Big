@@ -73,7 +73,7 @@ export default function MyForm(props: any) {
         props.setData(testList);
 
         try {
-            fetch("http://127.0.0.1:8000/user/test1", {
+            fetch("http://127.0.0.1:8000/cafe/anal", {
               method: "POST", // 또는 'PUT'
               headers: {
                 "Content-Type": "application/json",

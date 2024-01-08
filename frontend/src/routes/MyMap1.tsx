@@ -27,7 +27,7 @@ import MySwot from "../components/Swot";
 import InterfaceWin from "../components/InterfaceWin";
 import Shortcut from "../components/Shortcut";
 import { createImportSpecifier } from "typescript";
-import { mymap } from "./MyMap";
+// import { mymap } from "./MyMap";
 
 export default function MyMap1() {
   useKakaoLoader()
