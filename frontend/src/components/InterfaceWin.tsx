@@ -7,7 +7,15 @@ import "../css/InterfaceWin.css"
 
 export default function InterfaceWin(props: any) {
     const [openToggle, setOpenToggle] = useState(false);
-    
+    const [check, setCheck] = useState<any>(false);
+    useEffect(()=>{
+        setCheck(false);
+        if(props.data.length > 0) {
+            setCheck(true);
+            console.log(props);
+        }
+        console.log(props);
+    },[props.data])
     useEffect(()=>{
         if(props.getCheck == '') {
             setOpenToggle(false);
@@ -53,7 +61,10 @@ export default function InterfaceWin(props: any) {
                         <TabPanels>
                             <TabPanel h={"100%"}>
                                 {/* 1번 내용 */}
-                                {props.data.a && "a"}
+                                {/* {props.data.a && "a"} */}
+                                {
+                                    
+                                }
                             </TabPanel>
                             <TabPanel h={"100%"}>
                                 {/* 2번 내용 */}
