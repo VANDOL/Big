@@ -26,7 +26,7 @@ export default function MyForm(props: any) {
     const cateData:any = cateData_;
 
 
-    async function sendData(f:any) {
+    function sendData(f:any) {
         // let formData = new FormData();
         let formObj:any = {
             "cate": null,
@@ -39,7 +39,7 @@ export default function MyForm(props: any) {
         };
         let nameList = ["cate", "gu", "rv1", "rv2", "rv3", "rv4", "age"];
         const checkList = ["cate","gu","age"];
-        console.log(formObj);
+        
         for(let i of f.elements) {
             if(i.name == "cate") {
                 if(i.checked) {
@@ -60,26 +60,36 @@ export default function MyForm(props: any) {
                 formObj[i.name] = (i.value);
             }
         }
-        console.log(formObj);
-        console.log(JSON.stringify(formObj));
-        
+        // console.log(formObj);
+        // console.log(JSON.stringify(formObj));
+        const testList:any = []
+        testList.push({"a":"3130001", "b":"qwer"});
+        testList.push({"a":"3110008", "b":"qwer"});
+        testList.push({"a":"3130002", "b":"qwer"});
+        testList.push({"a":"3130001", "b":"qwer"});
+        testList.push({"a":"3130020", "b":"qwer"});
+        testList.push({"a":"3130019", "b":"qwer"});
+        testList.push({"a":"3130014", "b":"qwer"});
+        props.setData(testList);
+
         try {
-            const response = await fetch("http://127.0.0.1:8000/cafe/anal", {
-                method: "POST",
-                headers: {
-                    "Content-Type": "application/json",
-                },
-                body: JSON.stringify(formObj),
-            });
-    
-            if (response.ok) {
-                const result = await response.json();
-                console.log("Success:", result);
-            } else {
-                console.error("Request failed with status:", response.status);
-            }
-        } catch (error) {
-            console.error("Request error:", error);
+            fetch("http://127.0.0.1:8000/user/test1", {
+              method: "POST", // 또는 'PUT'
+              headers: {
+                "Content-Type": "application/json",
+              },
+              body: JSON.stringify(formObj),
+            }).then((res)=>(res.json()))
+            .then((res)=>{
+
+                props.setData.current = res;
+                console.log(res)
+            })
+            .catch((res)=>{console.error(res)})
+            
+        } 
+        catch (error) {
+            console.error("실패:", error);
         }
     }
     
@@ -87,7 +97,7 @@ export default function MyForm(props: any) {
     return (
         <form onSubmit={(ev) => { 
             const El:any = ev.target;
-            ev.preventDefault(); console.log("으악!") 
+            ev.preventDefault();
             sendData(El);
             }}>
             <div className="pd-b">
@@ -160,7 +170,7 @@ export default function MyForm(props: any) {
                 <div className="form-h1 pos-rel">
                     보증금
                     <div className="e-txt">
-                        {rV1} 입니다
+                        {rV1}만원이하
                     </div>
                 </div>
                 <div>
@@ -172,7 +182,7 @@ export default function MyForm(props: any) {
                 <div className="form-h1 pos-rel">
                     월임대료
                     <div className="e-txt">
-                        평당 {rV2} 입니다
+                        평당 {rV2}만원이하
                     </div>
                 </div>
                 <div>
@@ -184,7 +194,7 @@ export default function MyForm(props: any) {
                 <div className="form-h1 pos-rel">
                     성별
                     <div className="e-txt">
-                        {rV3} : {100 - rV3} 입니다
+                        {rV3}(남) : {100 - rV3}(여)
                     </div>
                 </div>
                 <div>
@@ -196,11 +206,11 @@ export default function MyForm(props: any) {
                 <div className="form-h1 pos-rel">
                     인구
                     <div className="e-txt">
-                        {rV4} : {100 - rV4} 입니다
+                        {rV4}(직장) : {100 - rV4}(상주)
                     </div>
                 </div>
                 <div>
-                    <input className="form_range" type="range" name="rv4" value={rV4} onChange={(ev) => { setRV4(parseFloat(ev.target.value)) }} />
+                    <input className="form_range" type="range" name="rv4" onChange={(ev) => { setRV4(parseFloat(ev.target.value)) }} />
 
                 </div>
             </div>
