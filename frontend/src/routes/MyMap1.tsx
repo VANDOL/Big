@@ -12,7 +12,7 @@ import data4 from "../json/store_data_사직동.json";
 import sang_data1 from "../json/why_map1.json";
 
 // import { chakra } from '@chakra-ui/react'
-import { Box, Center, Input, Button, IconButton, VStack, HStack, Text, Tabs, TabList, Tab, TabPanels, TabPanel, } from '@chakra-ui/react'
+import { Box, Center, Input, Button, IconButton, VStack, HStack, Text, Tabs, TabList, Tab, TabPanels, TabPanel, Divider, } from '@chakra-ui/react'
 import {
   Slider,
   SliderTrack,
@@ -20,11 +20,14 @@ import {
   SliderThumb,
   SliderMark,
 } from '@chakra-ui/react'
-import { SearchIcon } from '@chakra-ui/icons'
+import { SearchIcon, CloseIcon } from '@chakra-ui/icons'
 import { isVisible } from "@testing-library/user-event/dist/utils";
 import MyForm from "../components/MyForm";
 import MySwot from "../components/Swot";
+import InterfaceWin from "../components/InterfaceWin";
+import Shortcut from "../components/Shortcut";
 import { createImportSpecifier } from "typescript";
+import { mymap } from "./MyMap";
 
 export default function MyMap1() {
   useKakaoLoader()
@@ -35,7 +38,14 @@ export default function MyMap1() {
   const [goRender, setGoRender] = useState(false);
   const mapRef = useRef<kakao.maps.Map>(null);
   const [clickName, setClickName] = useState("");
+  const [clickName1, setClickName1] = useState("");
+  
   const [clickSName, setClickSName] = useState("");
+
+  const sangData = useRef<any>({});
+  const [rSang, setRSang] = useState<any>([]);
+  const [rSang_, setRSang_] = useState<any>([]);
+  const [getCheck, setGetCheck] = useState('');
 
   const stores_m = useRef<any>([]);
   const mk_obj = useRef(
@@ -49,26 +59,30 @@ export default function MyMap1() {
       sSido: [] as any
     }
   );
-  const stores: any = {};
-  stores["사직동"] = data4;
 
-  useEffect(() => {
 
-  }, [click_m, level])
 
   function clickDong(ev: any) {
     let check = false;
     for (let i of mk_obj.current.dong) {
       if (i.name == ev.currentTarget.id) {
-        i.click_c = true;
-        check = true;
-        let coords = new kakao.maps.LatLng(parseFloat(i.customOverlay.props.position["lat"]), parseFloat(i.customOverlay.props.position["lng"]));
-
-        if (mapRef.current?.getLevel()! > 4) {
-          mapRef.current?.setLevel(4);
+        setClick_m(false);
+        if (i.click_c == true) {
+          i.click_c = false;
+          setClickName('');
+          setClickSName('');
         }
-        mapRef.current?.panTo(coords);
-        setClickName(i.name);
+        else {
+          i.click_c = true;
+          check = true;
+          let coords = new kakao.maps.LatLng(parseFloat(i.customOverlay.props.position["lat"]), parseFloat(i.customOverlay.props.position["lng"]));
+
+          if (mapRef.current?.getLevel()! > 4) {
+            mapRef.current?.setLevel(4);
+          }
+          mapRef.current?.panTo(coords);
+          setClickName(i.name);
+        }
       }
       else {
         i.click_c = false;
@@ -271,7 +285,7 @@ export default function MyMap1() {
         if (i.click_c) {
           i.click_c = false;
 
-          setClickName('');
+          setClickName1('');
         }
         else {
           i.click_c = true;
@@ -284,8 +298,7 @@ export default function MyMap1() {
             mapRef.current?.setLevel(3);
           }
           mapRef.current?.panTo(coords);
-          // mapRef.current?.setCenter(coords);
-          setClickName(i.name);
+          setClickName1(i.name);
         }
 
       }
@@ -296,50 +309,130 @@ export default function MyMap1() {
     setGoRender((m) => {
       return !m;
     });
-    setClick_m((m: boolean) => {
-      return check;
-    });
-  }
 
+  }
+  function makePath(p:any, mp:any, p_1:any, p_2:any, p_count:any) {
+    if(typeof p[0][0] == 'number') {
+      // console.log(p);
+      return true;
+    }
+    // console.log(p);
+    for(const pp of p) {
+      let check = makePath(pp, mp, p_1, p_2, p_count);
+      if(check == true) {
+        // console.log(pp);
+        const mpp:any = [];
+        for(const ppp of pp) {
+          p_1[0] = p_1[0] + ppp[1];
+          p_2[0] = p_2[0] + ppp[0];
+          mpp.push({ lat: ppp[1], lng: ppp[0] });
+          
+          p_count[0] = p_count[0] + 1;
+        }
+        mp.push(mpp);
+        break;
+      }
+    }
+    return false;
+  }
   function makeSang(hello: any) {
     let key_id = 1;
     for (let i of hello["features"]) {
       let code = i["properties"]["TRDAR_CD"];
       let name = i["properties"]["TRDAR_CD_N"];
-      let p_1 = 0;
-      let p_2 = 0;
-      let p_count = 0;
-      let m_path = [];
-      for (let p of i["geometry"]["coordinates"][0]) {
-        p_1 = p_1 + p[1];
-        p_2 = p_2 + p[0];
-        p_count = p_count + 1;
-        m_path.push({ lat: p[1], lng: p[0] });
+      let cate = i["properties"]["TRDAR_SE_1"];
+      let gu = i["properties"]["SIGNGU_CD_"];
+      let dong = i["properties"]["ADSTRD_CD_"];
+      // let p_1 = 0;
+      // let p_2 = 0;
+      // let p_count = 0;
+      let p_1 = [0];
+      let p_2 = [0];
+      let p_count = [0];
+      let m_path:any = [];
+      let len = i["geometry"]["coordinates"].length;
+      makePath(i["geometry"]["coordinates"], m_path, p_1, p_2, p_count);
+      
+      // for (let p of i["geometry"]["coordinates"][0]) {
+      //   p_1 = p_1 + p[1];
+      //   p_2 = p_2 + p[0];
+      //   p_count = p_count + 1;
+      //   m_path.push({ lat: p[1], lng: p[0] });
+      // }
+      if(code == "3110008") {
+        console.log("311");
+        console.log(m_path);
       }
-
+      if(code == "3130020") {
+        // console.log(i["geometry"]["coordinates"]);
+        console.log("313");
+        console.log(m_path);
+      }
       let content = React.createElement(
         "div",
         { className: "mk-1", id: name, onClick: clickSang },
         React.createElement("div", { className: "mk-2", onClick: null }, name)
       );
-      let CustomOverlay = React.createElement(CustomOverlayMap, { position: { lat: p_1 / p_count, lng: p_2 / p_count }, key: key_id }, content);
-      let polygon = React.createElement(
-        Polygon,
-        {
-          path: m_path, strokeWeight: 2,
-          strokeColor: "#C53030", strokeOpacity: 0.7,
-          strokeStyle: "solid", fillColor: true ? "#FC8181" : "#A2FF99",
-          fillOpacity: true ? 0.5 : 0.7, key: key_id
-        },
-        null);
+      // let CustomOverlay = React.createElement(CustomOverlayMap, { position: { lat: p_1 / p_count, lng: p_2 / p_count }, key: key_id }, content);
+      let CustomOverlay = React.createElement(CustomOverlayMap, { position: { lat: p_1[0] / p_count[0], lng: p_2[0] / p_count[0] }, key: key_id }, content);
+      let polygonList:any = [];
+      let polygonList1:any = [];
+      for(let p of m_path) {
+        let polygon1 = React.createElement(
+          Polygon,
+          {
+            path: m_path, strokeWeight: 2,
+            strokeColor: "#4299E1", strokeOpacity: 0.7,
+            strokeStyle: "solid", fillColor: true ? "#BEE3F8" : "#A2FF99",
+            fillOpacity: true ? 0.5 : 0.7, key: key_id
+          },
+          null);
+          polygonList1.push(polygon1);
+        let polygon = React.createElement(
+          Polygon,
+          {
+            path: m_path, strokeWeight: 3,
+            strokeColor: "#2F855A", strokeOpacity: 0.7,
+            strokeStyle: "dashed", fillColor: true ? "#68D391" : "#A2FF99",
+            fillOpacity: true ? 0.3 : 0.5, key: key_id
+          },
+          null);
+          polygonList.push(polygon);
+      }
+
+      // let polygon1 = React.createElement(
+      //   Polygon,
+      //   {
+      //     path: m_path, strokeWeight: 2,
+      //     strokeColor: "#C53030", strokeOpacity: 0.7,
+      //     strokeStyle: "solid", fillColor: true ? "#FC8181" : "#A2FF99",
+      //     fillOpacity: true ? 0.5 : 0.7, key: key_id
+      //   },
+      //   null);
+      // let polygon = React.createElement(
+      //   Polygon,
+      //   {
+      //     path: m_path, strokeWeight: 3,
+      //     strokeColor: "#2F855A", strokeOpacity: 0.7,
+      //     strokeStyle: "dashed", fillColor: true ? "#68D391" : "#A2FF99",
+      //     fillOpacity: true ? 0.3 : 0.5, key: key_id
+      //   },
+      //   null);
       let m_obj = {
         name: name,
         sang: name,
+        cate: cate,
+        gu: gu,
+        dong: dong,
         code: code,
         customOverlay: CustomOverlay,
         // customOverlay: null,
-        polygon: polygon,
-        click_c: false
+        // polygon: polygon,
+        // polygon1: polygon1,
+        polygon: polygonList,
+        polygon1: polygonList1,
+        click_c: false,
+        select_c: false,
       };
 
       mk_obj.current.sang.push(m_obj);
@@ -411,6 +504,7 @@ export default function MyMap1() {
         #mymap {
             flex: 1;
             position: relative;
+            overflow: hidden;
         }
         @keyframes pulse {
           0% {
@@ -515,37 +609,6 @@ export default function MyMap1() {
           border-color: #2D3748 transparent transparent transparent;
           transform: translate(-50%, 0%);
         }
-        // ::-webkit-scrollbar {
-        //   display: none;
-        // }
-        .swot_table {
-          width: 100%;
-          // border-collapse: unset;
-          //border-collapse: initial;
-          border: none;
-        }
-        .swot_info {
-          width: 100%;
-          min-height: 100px;
-          height:100px;
-          border: 1px solid black;
-          border-radius: 20px;
-          // background-color: white;
-          // box-shadow: 0px 1px 4px -2px;
-          // margin-bottom: 10px;
-          // margin-top: 10px;
-          // display: flex;
-        }
-        
-        .swot_img {
-          width: 50px;
-          height: 50px;
-          // border: 1px solid black;
-        }
-        .swot_txt {
-          // border: 1px solid black;
-          
-        }
         .dis_hi {
           display: none;
         }
@@ -612,15 +675,14 @@ export default function MyMap1() {
           width:20px;
           height:20px;
         }
-        .di {
-          width: 200px;
-          height: 200px;
-          border: 1px solid black;
+        .shortcut-win {
+          position: relative;
+          width: 100%;
         }
-        .qqq {
-          width: 100px;
-          height: 100px;
-          border: 1px solid black;
+        .c-btn {
+          padding: 5px;
+          margin: 5px;
+          width: 100%;
         }
         `;
     const head = document.head || document.getElementsByTagName('head')[0];
@@ -666,80 +728,142 @@ export default function MyMap1() {
       return;
     }
     try {
-      fetch("http://127.0.0.1:8000/data/dong/?dong="+ clickName)
-      .then((res)=>{return res.json();})
-      .then((res)=>{
-        let len = res.length;
-        console.log(len)
-        let key_id = 0;
-        for(let i of res) {
-          let obj:any = {}
-          obj["name"] = i.name;
-          obj["s"] = i["s"];
-          obj["w"] = i["w"];
-          obj["o"] = i["o"];
-          obj["t"] = i["t"];
-          obj["marker"] = React.createElement(
-            MapMarker,
-            {
-              key: key_id++,
-              position: { lat: parseFloat(i["lat"]), lng: parseFloat(i["lng"])},
-              onClick: (ev) => {
-                const E: any = ev;
-                setClickSName(i.name);
-                console.log(i.name);
-                setClick_m(true);
-              },
-              onMouseOver: (ev) => {
-                const E: any = ev;
-                let el = document.createElement("div");
-                el.className = "info-1";
-                el.innerHTML = `${i.name}`;
-                E.a.appendChild(el);
-              },
-              onMouseOut: (ev) => {
-                const E: any = ev;
-                for (let c of E.a.children) {
-                  if (c.className == 'info-1') {
-                    E.a.removeChild(c);
+      fetch("http://127.0.0.1:8000/data/dong/?dong=" + clickName)
+        .then((res) => { return res.json(); })
+        .then((res) => {
+          let len = res.length;
+          console.log(len)
+          let key_id = 0;
+          for (let i of res) {
+            let obj: any = {}
+            obj["name"] = i.name;
+            obj["s"] = i["s"];
+            obj["w"] = i["w"];
+            obj["o"] = i["o"];
+            obj["t"] = i["t"];
+            obj["marker"] = React.createElement(
+              MapMarker,
+              {
+                key: key_id++,
+                position: { lat: parseFloat(i["lat"]), lng: parseFloat(i["lng"]) },
+                onClick: (ev) => {
+                  const E: any = ev;
+                  setClickSName(i.name);
+                  console.log(i.name);
+                  setClick_m(true);
+                },
+                onMouseOver: (ev) => {
+                  const E: any = ev;
+                  let el = document.createElement("div");
+                  el.className = "info-1";
+                  el.innerHTML = `${i.name}`;
+                  E.a.appendChild(el);
+                },
+                onMouseOut: (ev) => {
+                  const E: any = ev;
+                  for (let c of E.a.children) {
+                    if (c.className == 'info-1') {
+                      E.a.removeChild(c);
+                    }
                   }
                 }
-              }
-            },
-            // <div className="click-me dis-not"></div>
-          );
-          stores_m.current.push(obj);
-        }
-        let timerId1 = setInterval(() => {
-          if (stores_m.current.length == 0) {
-            clearInterval(timerId1);
-            setGoRender((m) => (!m));
-    
+              },
+              // <div className="click-me dis-not"></div>
+            );
+            stores_m.current.push(obj);
           }
-        }, 100);
-        let timerId2 = setInterval(() => {
-          if (stores_m.current.length != 0) {
-            clearInterval(timerId2);
-            setGoRender((m) => (!m));
-    
-          }
-        }, 100);
-        return res;
-      })
-      .catch((res)=>{console.error(res)})
+          let timerId1 = setInterval(() => {
+            if (stores_m.current.length == 0) {
+              clearInterval(timerId1);
+              setGoRender((m) => (!m));
+
+            }
+          }, 100);
+          let timerId2 = setInterval(() => {
+            if (stores_m.current.length != 0) {
+              clearInterval(timerId2);
+              setGoRender((m) => (!m));
+            }
+          }, 100);
+          return res;
+        })
+        .catch((res) => { console.error(res) })
     }
     catch {
 
     }
   }, [clickName]);
 
+
   useEffect(function () {
-  }, []);
+    stores_m.current = [];
+    if (!mapRef.current) {
+      return;
+    }
+    else if (clickName1 == '') {
+      setGetCheck('');
+      return;
+    }
+
+    sangData.current = {
+      a: "a",
+      b: "b",
+      c: "c"
+    }
+
+    setGetCheck(clickName1);
+    try {
+      fetch("http://127.0.0.1:8000/data/dong/?dong=" + clickName1)
+        .then((res) => { return res.json(); })
+        .then((res) => {
+
+        })
+        .catch((res) => { console.error(res) })
+    }
+    catch {
+
+    }
+  }, [clickName1]);
+
+  useEffect(function () {
+    if (!!mk_obj.current.sang[0]) {
+      let rList:any = [];
+      
+      for (let i of mk_obj.current.sang) {
+        i.select_c = false;
+        for (let j of rSang) {
+          if (i.code == j["a"]) {
+            i.select_c = true;
+            let obj:any = {
+              dong: i.dong,
+              gu: i.gu,
+              cate: i.cate,
+              name: i.name,
+              position: i.customOverlay.props.position
+            }
+            // console.log(i.customOverlay.props.position);
+            rList.push(obj);
+            break;
+          }
+        }
+      }
+      console.log(rList);
+      setRSang_(rList);
+    }
+    setGoRender((m) => (!m));
+  }, [rSang]);
 
 
   return (
     <>
+      {
+        // console.log(rSang)
+      }
       <div id="mymap">
+        {
+          mode_m == 1 &&
+          <InterfaceWin getCheck={getCheck} data={sangData.current}></InterfaceWin>
+        }
         <Tabs isFitted variant='soft-rounded'
           pos={"absolute"} left={"20px"} top={"5px"}
           zIndex={"15"}
@@ -752,8 +876,10 @@ export default function MyMap1() {
                 color: "white"
               }}
               onClick={() => {
+                setClick_m(false);
                 setMode_m(0)
-                setClickName('');
+                
+                setClickName1('');
                 clickSang({ currentTarget: { id: "" } });
               }}
             >
@@ -765,6 +891,7 @@ export default function MyMap1() {
                 color: "white"
               }}
               onClick={() => {
+                setClick_m(true);
                 setMode_m(1);
                 setClickName('');
                 clickDong({ currentTarget: { id: "" } });
@@ -782,7 +909,7 @@ export default function MyMap1() {
                 overflowY={"auto"}
               >
                 {
-                  stores_m.current.map((n:any, i:any)=>{
+                  stores_m.current.map((n: any, i: any) => {
                     return clickSName == n.name && <MySwot data={n}></MySwot>
                   })
                 }
@@ -792,7 +919,29 @@ export default function MyMap1() {
                 boxShadow={"0px 0px 15px -5px #4A5568"}
                 overflowY={"auto"}
               >
-                <MyForm></MyForm>
+                {
+                  rSang.length > 0?
+                  (
+                  <div className="shortcut-win">
+                    <div className="c-btn">
+                      <CloseIcon position={"relative"} left={"calc(100% - 10px)"} bottom={"10px"}
+                      cursor={"pointer"}
+                      onClick={(ev)=>{
+                        setRSang([]);
+                      }}
+                      >
+
+                      </CloseIcon>
+                    </div>
+                    {
+                      rSang_.map((n:any, i:any)=>{
+                        return <Shortcut key={i} data={n} map={mapRef}></Shortcut>
+                      })
+                    }
+                  </div>
+                  ):
+                  (<MyForm setData={setRSang} setCheck={setGetCheck}></MyForm>)
+                }
               </TabPanel>
             </TabPanels>
           }
@@ -843,7 +992,7 @@ export default function MyMap1() {
             })
           }
           {//swot
-            (mode_m == 0 && clickName != '' && level < 6) && stores_m.current.map((n:any, i:any)=>{
+            (mode_m == 0 && clickName != '' && level < 6) && stores_m.current.map((n: any, i: any) => {
               return n.marker;
             })
           }
@@ -865,11 +1014,15 @@ export default function MyMap1() {
           }
           {
             (mode_m == 1 && mk_obj.current.sang) && mk_obj.current.sang.map(function (n: any, i: any) {
-
-              return n.click_c && n.polygon;
+              // return (n.select_c && (n.polygon1.map((n:any, i:any)=>{return n}))) || (n.click_c && (n.polygon.map((n:any, i:any)=>{return n})));
+              return (n.select_c && (n.polygon1.map((n:any, i:any)=>{return n})));
             })
           }
-
+          {
+            (mode_m == 1 && mk_obj.current.sang) && mk_obj.current.sang.map(function (n: any, i: any) {
+              return (n.click_c && (n.polygon.map((n:any, i:any)=>{return n})));
+            })
+          }
           {
             (mode_m == 1 && mk_obj.current.sDong && level < 7 && level > 4) && mk_obj.current.sDong.map(function (n: any, i: any) {
               return n.customOverlay;
