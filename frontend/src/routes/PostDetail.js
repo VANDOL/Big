@@ -9,9 +9,12 @@ import {
   Text,
   Link,
   Button,
-  Input
+  Input,
+  VStack,
+  Divider
 } from '@chakra-ui/react';
 import { useNavigate } from 'react-router-dom';
+import "../css/PostDetail.css";
 
 function PostDetail() {
   const { pk } = useParams();
@@ -80,7 +83,7 @@ function PostDetail() {
   };
 
   return (
-    <Container>
+    <Container h={"100%"}>
       {editMode ? (
         // 편집 모드 UI
         <>
@@ -98,17 +101,17 @@ function PostDetail() {
         </>
       ) : (
         // 일반 보기 모드 UI
-        <Box>
-          <Flex>
-            <Heading>{post?.title}</Heading>
-            <Text>{post?.content}</Text>
+        <Box flex={"1"} h={"100%"}>
+          <VStack h={"100%"}>
+            <Heading w={"100%"} mt={"20px"} pb={"10px"}>{post?.title}</Heading>
+            <Text pb={"10px"} w={"100%"} boxShadow={"0px 1px 1px -1px black"}>{post?.content}</Text>
             {currentUser.id === post?.authorId && (
-              <>
+              <Flex mb={"20px"} w={"100%"} justifyContent={"space-between"}>
                 <Button onClick={handleEdit}>수정</Button>
                 <Button colorScheme="red" onClick={handleDelete}>삭제</Button>
-              </>
+              </Flex>
             )}
-          </Flex>
+          </VStack>
         </Box>
       )}
     </Container>

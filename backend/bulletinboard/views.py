@@ -68,6 +68,19 @@ def post_detail(request, pk):
         return JsonResponse({'error': 'Post not found'}, status=404)
 
 @csrf_exempt
+def post_file(request, pk):
+    try:
+        post = Post.objects.get(pk=pk)
+        return JsonResponse({
+            'title': post.title,
+            'content': post.content,
+            'created_at': post.created_at,
+            'file_url': post.file.url if post.file else None
+        })
+    except Post.DoesNotExist:
+        return JsonResponse({'error': 'Post not found'}, status=404)
+
+@csrf_exempt
 def delete_post(request, pk):
     post = get_object_or_404(Post, pk=pk)
     if request.user != post.author:
