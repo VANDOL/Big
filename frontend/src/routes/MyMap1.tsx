@@ -918,7 +918,7 @@ export default function MyMap1() {
       }
       <div id="mymap">
         {
-          mode_m == 1 &&
+          mode_m == 0 &&
           <InterfaceWin getCheck={getCheck} data={sangData.current}>
           </InterfaceWin>
         }
