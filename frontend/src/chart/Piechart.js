@@ -1,13 +1,3 @@
-<<<<<<< HEAD
-import React from 'react';
-import { Pie } from 'react-chartjs-2';
-
-const PieChart = ({ data, options }) => {
-    return <Pie data={data} options={options} />;
-};
-
-export default PieChart;
-=======
 // PieChart.js
 
 import React, { useRef, useEffect } from 'react';
@@ -61,4 +51,3 @@ const PieChart = ({ data }) => {
 };
 
 export default PieChart;
->>>>>>> see

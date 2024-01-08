@@ -4,13 +4,6 @@ import { useRef, useState, useEffect } from "react"
 import { ArrowLeftIcon, ArrowRightIcon } from '@chakra-ui/icons'
 import { Tabs, TabList, TabPanels, Tab, TabPanel } from '@chakra-ui/react'
 import "../css/InterfaceWin.css"
-<<<<<<< HEAD
-import Button_1 from '../visualization_of_data/Button_1';
-import Button_2 from '../visualization_of_data/Button_2';
-import Button_3 from '../visualization_of_data/Button_3';
-import Button_4 from '../visualization_of_data/Button_4';
-import Button_5 from '../visualization_of_data/Button_5';
-=======
 import BarChart from "../chart/Barchart";
 import PieChart from "../chart/Piechart";
 
@@ -62,7 +55,6 @@ const data={
       // ... other categories
     ]
   }
->>>>>>> see
 
 export default function InterfaceWin(props: any) {
     const [openToggle, setOpenToggle] = useState(false);
@@ -119,18 +111,6 @@ export default function InterfaceWin(props: any) {
                         </TabList>
                         <TabPanels>
                             <TabPanel h={"100%"}>
-<<<<<<< HEAD
-                                { <Button_1 regionData={props.data.regionData} />}
-                            </TabPanel>
-                            {/* <TabPanel h={"100%"}>
-                                {<Button_2 barChartData={yourBarChartData} pieChartData={yourPieChartData} openingData={yourOpeningData} closingData={yourClosingData} />}
-                            </TabPanel>
-                            <TabPanel h={"100%"}>
-                                {<Button_3 barChartData={yourBarChartData} pieChartData={yourPieChartData} />}
-                            </TabPanel>
-                            <TabPanel h={"100%"}>
-                                { <Button_4 regionData={props.data.regionData} />}
-=======
                             <div className="popup-container">
                                 <div className="popup-header">
                                     <h2>책임의 한계 안내</h2>
@@ -209,9 +189,8 @@ export default function InterfaceWin(props: any) {
                             <BarChart data={workingData.data} options={workingData.options} />
                         </div>
                                 {props.data.c} */}
->>>>>>> see
                             </TabPanel>
-                            <TabPanel h={"100%"}>
+                            {/* <TabPanel h={"100%"}>
                                 { <Button_5 regionData={props.data.regionData} />}
                             </TabPanel> */}
                         </TabPanels>

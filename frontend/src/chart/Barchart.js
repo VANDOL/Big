@@ -1,12 +1,4 @@
-<<<<<<< HEAD
-import React from 'react';
-import { Bar } from 'react-chartjs-2';
-const BarChart = ({ data, options }) => {
-    return <Bar data={data} options={options} />;
-};
 
-export default BarChart;
-=======
 // BarChart.js
 import React, { useEffect, useRef } from 'react';
 import Chart from 'chart.js/auto';
@@ -52,4 +44,3 @@ const BarChart = ({ data }) => {
 };
 
 export default BarChart;
->>>>>>> see

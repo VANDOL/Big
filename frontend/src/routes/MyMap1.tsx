@@ -918,14 +918,9 @@ export default function MyMap1() {
       }
       <div id="mymap">
         {
-<<<<<<< HEAD
-          mode_m == 0 &&
-          <InterfaceWin getCheck={getCheck} data={sangData.current}></InterfaceWin>
-=======
           mode_m == 1 &&
           <InterfaceWin getCheck={getCheck} data={sangData.current}>
           </InterfaceWin>
->>>>>>> see
         }
         <Tabs isFitted variant='soft-rounded'
           pos={"absolute"} left={"20px"} top={"5px"}
