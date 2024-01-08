@@ -27,7 +27,7 @@ import MySwot from "../components/Swot";
 import InterfaceWin from "../components/InterfaceWin";
 import Shortcut from "../components/Shortcut";
 import { createImportSpecifier } from "typescript";
-import { mymap } from "./MyMap";
+
 
 export default function MyMap1() {
   useKakaoLoader()
@@ -39,10 +39,10 @@ export default function MyMap1() {
   const mapRef = useRef<kakao.maps.Map>(null);
   const [clickName, setClickName] = useState("");
   const [clickName1, setClickName1] = useState("");
-  
+  const [clickCode1, setClickCode1] = useState("");
   const [clickSName, setClickSName] = useState("");
 
-  const sangData = useRef<any>({});
+  const sangData = useRef<any>([]);
   const [rSang, setRSang] = useState<any>([]);
   const [rSang_, setRSang_] = useState<any>([]);
   const [getCheck, setGetCheck] = useState('');
@@ -285,6 +285,7 @@ export default function MyMap1() {
         if (i.click_c) {
           i.click_c = false;
 
+          setClickCode1("");
           setClickName1('');
         }
         else {
@@ -298,6 +299,7 @@ export default function MyMap1() {
             mapRef.current?.setLevel(3);
           }
           mapRef.current?.panTo(coords);
+          setClickCode1(i.code);
           setClickName1(i.name);
         }
 
@@ -359,15 +361,7 @@ export default function MyMap1() {
       //   p_count = p_count + 1;
       //   m_path.push({ lat: p[1], lng: p[0] });
       // }
-      if(code == "3110008") {
-        console.log("311");
-        console.log(m_path);
-      }
-      if(code == "3130020") {
-        // console.log(i["geometry"]["coordinates"]);
-        console.log("313");
-        console.log(m_path);
-      }
+      
       let content = React.createElement(
         "div",
         { className: "mk-1", id: name, onClick: clickSang },
@@ -805,25 +799,28 @@ export default function MyMap1() {
       return;
     }
 
-    sangData.current = {
-      a: "a",
-      b: "b",
-      c: "c"
-    }
+    // sangData.current = {
+    //   a: "a",
+    //   b: "b",
+    //   c: "c"
+    // }
 
     setGetCheck(clickName1);
     try {
-      fetch("http://127.0.0.1:8000/data/dong/?dong=" + clickName1)
+      fetch("http://127.0.0.1:8000/data/market/?commercial_code=" + clickCode1)
         .then((res) => { return res.json(); })
         .then((res) => {
-
+          console.log(res);
+          sangData.current = res;
+          
+          setGoRender((m)=>(!m));
         })
         .catch((res) => { console.error(res) })
     }
     catch {
 
     }
-  }, [clickName1]);
+  }, [/*clickName1*/ clickCode1]);
 
   useEffect(function () {
     if (!!mk_obj.current.sang[0]) {
@@ -910,7 +907,7 @@ export default function MyMap1() {
               >
                 {
                   stores_m.current.map((n: any, i: any) => {
-                    return clickSName == n.name && <MySwot data={n}></MySwot>
+                    return clickSName == n.name && <MySwot key={i} data={n}></MySwot>
                   })
                 }
               </TabPanel>
