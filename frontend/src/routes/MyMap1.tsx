@@ -31,7 +31,7 @@ import { createImportSpecifier } from "typescript";
 
 export default function MyMap1() {
   useKakaoLoader()
-  const [level, setLevel] = useState(3);
+  const [level, setLevel] = useState(8);
   const [click_m, setClick_m] = useState(false);
   const [over_m, setOver_m] = useState(false);
   const [mode_m, setMode_m] = useState(0);
@@ -967,13 +967,14 @@ export default function MyMap1() {
         </HStack>
         <Map // 지도를 표시할 Container
           // center={{ lat: 37.575650779448786, lng: 126.976888842748167 }}
-          center={{ lng: 126.9655355, lat: 37.583049 }}
+          // 126.99049375019212, 37.55267434584237
+          center={{ lng: 126.99049375019212, lat: 37.55267434584237 }}
           style={{
             // 지도의 크기
             width: "100%",
             height: "100%",
           }}
-          level={3} // 지도의 확대 레벨
+          level={8} // 지도의 확대 레벨
           maxLevel={11}
           onZoomChanged={(qqq) => setLevel(qqq.getLevel())}
           ref={mapRef}
