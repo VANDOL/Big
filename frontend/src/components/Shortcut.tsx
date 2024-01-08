@@ -9,7 +9,7 @@ export default function Shortcut(props: any) {
        <div className="short-card" onClick={(ev)=>{
         let coords = new kakao.maps.LatLng(parseFloat(props.data.position.lat), parseFloat(props.data.position.lng))
 
-        console.log(coords);
+        // console.log(coords);
         props.map.current.panTo(coords);
        }}>
         {props.data.gu} {props.data.dong} <br />

@@ -62,15 +62,15 @@ export default function MyForm(props: any) {
         }
         // console.log(formObj);
         // console.log(JSON.stringify(formObj));
-        const testList:any = []
-        testList.push({"a":"3130001", "b":"qwer"});
-        testList.push({"a":"3110008", "b":"qwer"});
-        testList.push({"a":"3130002", "b":"qwer"});
-        testList.push({"a":"3130001", "b":"qwer"});
-        testList.push({"a":"3130020", "b":"qwer"});
-        testList.push({"a":"3130019", "b":"qwer"});
-        testList.push({"a":"3130014", "b":"qwer"});
-        props.setData(testList);
+        // const testList:any = []
+        // testList.push({"a":"3130001", "b":"qwer"});
+        // testList.push({"a":"3110008", "b":"qwer"});
+        // testList.push({"a":"3130002", "b":"qwer"});
+        // testList.push({"a":"3130001", "b":"qwer"});
+        // testList.push({"a":"3130020", "b":"qwer"});
+        // testList.push({"a":"3130019", "b":"qwer"});
+        // testList.push({"a":"3130014", "b":"qwer"});
+        // props.setData(testList);
 
         try {
             fetch("http://127.0.0.1:8000/cafe/anal", {
@@ -82,7 +82,7 @@ export default function MyForm(props: any) {
             }).then((res)=>(res.json()))
             .then((res)=>{
 
-                props.setData.current = res;
+                props.setData(res);
                 console.log(res)
             })
             .catch((res)=>{console.error(res)})

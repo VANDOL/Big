@@ -726,7 +726,7 @@ export default function MyMap1() {
         .then((res) => { return res.json(); })
         .then((res) => {
           let len = res.length;
-          console.log(len)
+          // console.log(len)
           let key_id = 0;
           for (let i of res) {
             let obj: any = {}
@@ -743,7 +743,7 @@ export default function MyMap1() {
                 onClick: (ev) => {
                   const E: any = ev;
                   setClickSName(i.name);
-                  console.log(i.name);
+                  // console.log(i.name);
                   setClick_m(true);
                 },
                 onMouseOver: (ev) => {
@@ -829,7 +829,7 @@ export default function MyMap1() {
       for (let i of mk_obj.current.sang) {
         i.select_c = false;
         for (let j of rSang) {
-          if (i.code == j["a"]) {
+          if (i.code == j["Commercial_Code"]) {
             i.select_c = true;
             let obj:any = {
               dong: i.dong,
@@ -921,7 +921,8 @@ export default function MyMap1() {
                   (
                   <div className="shortcut-win">
                     <div className="c-btn">
-                      <CloseIcon position={"relative"} left={"calc(100% - 10px)"} bottom={"10px"}
+                      추천상권
+                      <CloseIcon position={"relative"} left={"calc(100% - 100px)"} bottom={"10px"}
                       cursor={"pointer"}
                       onClick={(ev)=>{
                         setRSang([]);
@@ -932,7 +933,7 @@ export default function MyMap1() {
                     </div>
                     {
                       rSang_.map((n:any, i:any)=>{
-                        return <Shortcut key={i} data={n} map={mapRef}></Shortcut>
+                        return <Shortcut key={n.name} data={n} map={mapRef}></Shortcut>
                       })
                     }
                   </div>

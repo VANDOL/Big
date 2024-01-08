@@ -12,9 +12,9 @@ export default function InterfaceWin(props: any) {
         setCheck(false);
         if(props.data.length > 0) {
             setCheck(true);
-            console.log(props);
+            // console.log(props);
         }
-        console.log(props);
+        // console.log(props);
     },[props.data])
     useEffect(()=>{
         if(props.getCheck == '') {
