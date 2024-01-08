@@ -894,6 +894,7 @@ export default function MyMap1() {
             let obj: any = {
               dong: i.dong,
               gu: i.gu,
+              code: i.code,
               cate: i.cate,
               name: i.name,
               position: i.customOverlay.props.position
@@ -985,7 +986,7 @@ export default function MyMap1() {
                         </div>
                         {
                           rSang_.map((n: any, i: any) => {
-                            return <Shortcut key={n.name} data={n} map={mapRef}></Shortcut>
+                            return <Shortcut key={n.name} setName={setClickName1} setCode={setClickCode1} data={n} map={mapRef} mk_obj={mk_obj}></Shortcut>
                           })
                         }
                       </div>
