@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { useParams } from 'react-router-dom';
+import { useParams, useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import {
   Box,
@@ -8,45 +8,31 @@ import {
   Heading,
   Text,
   Button,
-  Input
+  Input,
+  Textarea,
+  VStack
 } from '@chakra-ui/react';
-import { useNavigate } from 'react-router-dom';
 import { getCsrfToken } from '../api';
-const data = {
-  title: '게시글 제목',
-  content: '게시글 내용',
-  // 기타 필요한 데이터
-};
-const headers = {
-  'X-CSRFToken': getCsrfToken(),
-  'Content-Type': 'multipart/form-data',
-};
 
 function PostDetail() {
   const { pk } = useParams();
+  const navigate = useNavigate();
   const [post, setPost] = useState(null);
   const [editMode, setEditMode] = useState(false);
   const [editedTitle, setEditedTitle] = useState('');
   const [editedContent, setEditedContent] = useState('');
-  // const [file, setFile] = useState(null);
-  const navigate = useNavigate();
-  
+
   useEffect(() => {
-    axios.get(`http://127.0.0.1:8000/board/posts/${pk}/`).then((response) => {
-      setPost(response.data);
-      setEditedTitle(response.data.title);
-      setEditedContent(response.data.content);
-    });
+    axios.get(`http://127.0.0.1:8000/board/posts/${pk}/`)
+      .then((response) => {
+        setPost(response.data);
+        setEditedTitle(response.data.title);
+        setEditedContent(response.data.content);
+      });
   }, [pk]);
 
   const handleEdit = () => {
-    if (post) {
-      setEditedTitle(post.title);
-      setEditedContent(post.content);
-      setEditMode(true);
-    } else {
-      alert('게시글이 로드되지 않았습니다.');
-    }
+    setEditMode(true);
   };
 
   // const handleFileChange = (e) => {
@@ -91,43 +77,39 @@ function PostDetail() {
   };
 
   return (
-    <Container>
+    <Container maxW="container.xl" py={5}>
       {editMode ? (
-        <>
-          <Input 
+        <VStack spacing={4}>
+          <Input
             value={editedTitle}
             onChange={(e) => setEditedTitle(e.target.value)}
+            placeholder="제목"
           />
-          <Input 
+          <Textarea
             value={editedContent}
             onChange={(e) => setEditedContent(e.target.value)}
-            multiline
+            placeholder="내용"
+            minHeight="300px"
           />
-          {/* <Input type="file" onChange={handleFileChange} /> */}
-          <Button onClick={handleSave}>저장</Button>
-        </>
+          <Flex justify="flex-end" w="full">
+            <Button colorScheme="blue" onClick={handleSave}>저장</Button>
+          </Flex>
+        </VStack>
       ) : (
-        <Box>
-          <Flex>
-            <Heading>{post?.title}</Heading>
+        <Flex direction="column" align="stretch" w="60%" m="auto">
+          <Heading mb={4}>{post?.title}</Heading>
+          <Box borderWidth="1px" borderRadius="md" p={3} minHeight="1200px" maxHeight="1200px" overflowY="auto">
             <Text>{post?.content}</Text>
-            <Button onClick={handleEdit}>수정</Button>
-            <Button
-              colorScheme="red"
-              onClick={() => {
-                axios.delete(`http://127.0.0.1:8000/board/posts/${pk}/delete/`, { headers })
-                  .then(() => {
-                    navigate('/new-board');
-                  })
-                  .catch((error) => {
-                    console.error('게시글 삭제 오류:', error);
-                  });
-              }}
-            >
+          </Box>
+          <Flex justify="flex-end" mt={4}>
+            <Button colorScheme="green" onClick={handleEdit} mr={2}>수정</Button>
+            <Button colorScheme="red" onClick={() => {
+              // 삭제 로직
+            }}>
               삭제
             </Button>
           </Flex>
-        </Box>
+        </Flex>
       )}
     </Container>
   );
