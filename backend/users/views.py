@@ -73,15 +73,38 @@ class ChangePassword(APIView):
         else:
             raise ParseError
         
+# class LogIn(APIView):
+#     def post(self, request):
+#         username = request.data.get("username")
+#         password = request.data.get("password")
+        
+#         print(username)
+#         print(password)
+        
+#         if not username or not password:
+#             raise ParseError
+#         user = authenticate(
+#             request,
+#             username=username,
+#             password=password,
+#         )
+#         if user:
+#             login(request, user)
+#             token = Token.objects.get(user=user)
+#             print(token.key)
+#             return Response({"Token": token.key ,"ok": "Welcome!"}, status=200)
+#         else:
+#             return Response({"error": "wrong password"},
+#                             status=status.HTTP_400_BAD_REQUEST)
 class LogIn(APIView):
     def post(self, request):
         username = request.data.get("email")
         password = request.data.get("password")
         
-        print(username)
+        print(email)
         print(password)
         
-        if not username or not password:
+        if not email or not password:
             raise ParseError
         
         user = authenticate(
@@ -94,11 +117,10 @@ class LogIn(APIView):
             login(request, user)
             token = Token.objects.get(user=user)
             print(token.key)
-            return Response({"Token": token.key ,"ok": "Welcome!"}, status=200)
+            return Response({"Token": token.key, "ok": "Welcome!"}, status=200)
         else:
             return Response({"error": "wrong password"},
-                            status=status.HTTP_400_BAD_REQUEST)
-            
+                            status=status.HTTP_400_BAD_REQUEST)            
 class LogOut(APIView):
     permission_classes = [IsAuthenticated]
     

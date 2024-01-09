@@ -4,7 +4,7 @@ import { SiGooglemaps } from "react-icons/si";
 import  MyMap1  from './MyMap1';
 
 export default function Home() {
-  const [showMap, setShowMap] = useState(false);
+  const [showMap, setShowMap] = useState(true);
 
   const toggleMap = () => setShowMap(!showMap);
 

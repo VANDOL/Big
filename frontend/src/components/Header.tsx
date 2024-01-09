@@ -23,16 +23,16 @@ import LoginModal from "./LoginModal";
 import useUser from "../lib/useUser";
 import { logOut } from "../api";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
-import { useEffect, useRef } from "react";
+import { useRef } from "react";
 import { Text } from "@chakra-ui/react";
 import React, { useState } from 'react';
 import { BsChatDots } from 'react-icons/bs';
 import ChatBot from '../routes/ChatBot';
-
-
+ 
+ 
 const ChatbotIcon =  ({ isLoggedIn }: { isLoggedIn: boolean }) => {
   const [showChat, setShowChat] = useState(false);
-
+ 
   const handleChatIconClick = () => {
     if (isLoggedIn) {
       setShowChat(!showChat);
@@ -59,8 +59,7 @@ const ChatbotIcon =  ({ isLoggedIn }: { isLoggedIn: boolean }) => {
     </>
   );
 };
-
-
+ 
 export default function Header() {
   const { userLoading, isLoggedIn, user } = useUser();
   const {
@@ -103,15 +102,6 @@ export default function Header() {
   const onLogOut = async () => {
     mutation.mutate();
   };
-
-  const handleBoardClick = (event: React.MouseEvent<HTMLAnchorElement, MouseEvent>) => {
-    if (!isLoggedIn) {
-      alert('게시판을 사용하기 위해서는 로그인이 필요합니다.');
-      event.preventDefault();
-      return;
-    }
-  };
-
   return (
     <Stack
       justifyContent={"space-between"}
@@ -137,16 +127,16 @@ export default function Header() {
           </HStack>
         </Link>
       </Box>
-
+ 
       <HStack spacing={1}>      
-        <Link to="/new-board" onClick={handleBoardClick}>게시판</Link>
+        <Link to="/new-board">게시판</Link>
         <IconButton
           onClick={toggleColorMode}
           variant={"ghost"}
           aria-label="Toggle dark mode"
           icon={<Icon />}
         />
-
+ 
         {!userLoading ? (
           !isLoggedIn ? (
             <>
@@ -174,10 +164,10 @@ export default function Header() {
           )
         ) : null}
       </HStack>
-
+ 
       <LoginModal isOpen={isLoginOpen} onClose={onLoginClose} />
       {/* 챗봇 아이콘 컴포넌트 추가 */}
-      <ChatbotIcon isLoggedIn={isLoggedIn} />
+      <ChatbotIcon isLoggedIn ={isLoggedIn} />
     </Stack>
   );
 }

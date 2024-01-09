@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { useParams } from 'react-router-dom';
+import { useParams, useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import {
   Box,
@@ -7,69 +7,66 @@ import {
   Flex,
   Heading,
   Text,
-  Link,
   Button,
   Input,
-  VStack,
-  Divider
+  Textarea,
+  VStack
 } from '@chakra-ui/react';
-import { useNavigate } from 'react-router-dom';
-import "../css/PostDetail.css";
+import { getCsrfToken } from '../api';
 
 function PostDetail() {
   const { pk } = useParams();
+  const navigate = useNavigate();
   const [post, setPost] = useState(null);
   const [editMode, setEditMode] = useState(false);
   const [editedTitle, setEditedTitle] = useState('');
   const [editedContent, setEditedContent] = useState('');
-  const [file, setFile] = useState(null);
-  const navigate = useNavigate();
-  
-  const currentUser = JSON.parse(localStorage.getItem('currentUser')) || {};
+  const headers = {
+    'X-CSRFToken': getCsrfToken(),
+    // 필요한 경우 여기에 추가 헤더를 정의할 수 있습니다.
+  };
   useEffect(() => {
-    axios.get(`http://127.0.0.1:8000/board/posts/${pk}/`).then((response) => {
-      setPost(response.data);
-      setEditedTitle(response.data.title);
-      setEditedContent(response.data.content);
-    });
+    axios.get(`http://127.0.0.1:8000/board/posts/${pk}/`)
+      .then((response) => {
+        setPost(response.data);
+        setEditedTitle(response.data.title);
+        setEditedContent(response.data.content);
+      });
   }, [pk]);
 
   const handleEdit = () => {
-    if (post && post.authorId && currentUser.id === post.authorId) {
-      setEditMode(true);
-    } else {
-      alert('수정 권한이 없습니다.');
-    }
+    setEditMode(true);
   };
 
-  const handleDelete = () => {
-    if (post && currentUser.id === post.authorId) {
-      axios.delete(`http://127.0.0.1:8000/board/posts/${pk}/delete/`)
-        .then(() => {
-          alert('게시글이 삭제되었습니다.');
-          navigate('/new-board'); // 삭제 후 게시판 페이지로 리디렉트
-        })
-        .catch((error) => {
-          console.error('Error deleting post:', error);
-          alert('게시글을 삭제하는 중 오류가 발생했습니다.');
-        });
-    } else {
-      alert('삭제 권한이 없습니다.');
-    }
-  };
-  const handleFileChange = (e) => {
-    setFile(e.target.files[0]);
-  };
+  // const handleFileChange = (e) => {
+  //   setFile(e.target.files[0]);
+  // };
+
   const handleSave = () => {
     if (!editedTitle.trim() || !editedContent.trim()) {
       alert('제목과 내용을 모두 입력해주세요.');
       return;
     }
-    
-
-    axios.put(`http://127.0.0.1:8000/board/posts/${pk}/update/`, {
+    const updatedData = {
       title: editedTitle,
-      content: editedContent
+      content: editedContent,
+      // 기타 필요한 데이터
+    };
+    
+    const formData = new FormData();
+    formData.append('title', editedTitle);
+    formData.append('content', editedContent);
+    // if (file) {
+    //   formData.append('file', file);
+    // }
+
+
+
+
+    axios.put(`http://127.0.0.1:8000/board/posts/${pk}/update/`, updatedData, {
+      headers: {
+        'Content-Type': 'application/json',
+      }
     })
       .then((response) => {
         setPost(response.data);
@@ -77,42 +74,56 @@ function PostDetail() {
         navigate('/new-board');
       })
       .catch((error) => {
-        console.error('Error updating post:', error);
-        alert('게시글을 수정하는 중 오류가 발생했습니다.'); // 사용자에게 오류 통지
+        console.error('게시글 수정 오류:', error);
+        alert('게시글을 수정하는 중 오류가 발생했습니다.');
       });
   };
 
   return (
-    <Container h={"100%"}>
+    <Container maxW="container.xl" py={5}>
       {editMode ? (
-        // 편집 모드 UI
-        <>
-          <Input 
+        <VStack spacing={4}>
+          <Input
             value={editedTitle}
             onChange={(e) => setEditedTitle(e.target.value)}
+            placeholder="제목"
           />
-          <Input 
+          <Textarea
             value={editedContent}
             onChange={(e) => setEditedContent(e.target.value)}
-            multiline
+            placeholder="내용"
+            minHeight="300px"
           />
-          <Input type="file" onChange={handleFileChange} />
-          <Button onClick={handleSave}>저장</Button>
-        </>
+          <Flex justify="flex-end" w="full">
+            <Button colorScheme="blue" onClick={handleSave}>저장</Button>
+          </Flex>
+        </VStack>
       ) : (
-        // 일반 보기 모드 UI
-        <Box flex={"1"} h={"100%"}>
-          <VStack h={"100%"}>
-            <Heading w={"100%"} mt={"20px"} pb={"10px"}>{post?.title}</Heading>
-            <Text pb={"10px"} w={"100%"} boxShadow={"0px 1px 1px -1px black"}>{post?.content}</Text>
-            {currentUser.id === post?.authorId && (
-              <Flex mb={"20px"} w={"100%"} justifyContent={"space-between"}>
-                <Button onClick={handleEdit}>수정</Button>
-                <Button colorScheme="red" onClick={handleDelete}>삭제</Button>
-              </Flex>
-            )}
-          </VStack>
-        </Box>
+        <Flex direction="column" align="stretch" w="60%" m="auto">
+          <Box borderWidth="1px" borderRadius="md" p={3} mb={4}>
+            <Heading fontSize="xl" mb={2}>{post?.title}</Heading>
+            <Text fontSize="sm" color="gray.600">
+              작성자: {post?.author_username}
+            </Text>
+          </Box>
+          <Box borderWidth="1px" borderRadius="md" p={3} minHeight="1200px" maxHeight="1200px" overflowY="auto">
+            <Text>{post?.content}</Text>
+          </Box>
+          <Flex justify="flex-end" mt={4}>
+            <Button colorScheme="green" onClick={handleEdit} mr={2}>수정</Button>
+            <Button colorScheme="red" onClick={() => {
+              axios.delete(`http://127.0.0.1:8000/board/posts/${pk}/delete/`, { headers })
+                .then(() => {
+                  navigate('/new-board');
+                })
+                .catch((error) => {
+                  console.error('게시글 삭제 오류:', error);
+                });
+            }}>
+              삭제
+            </Button>
+          </Flex>
+        </Flex>
       )}
     </Container>
   );

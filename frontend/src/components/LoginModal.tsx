@@ -20,16 +20,19 @@ import { FaUserNinja, FaLock } from "react-icons/fa";
 import SocialLogin from "./SocialLogin";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import {
-  usernameLogIn,
+  emailLogIn, // 'usernameLogIn' 대신 'emailLogIn'을 import
 } from "../api";
+
 interface LoginModalProps {
   isOpen: boolean;
   onClose: () => void;
 }
+
 interface IForm {
   email: string;
   password: string;
 }
+
 export default function LoginModal({ isOpen, onClose }: LoginModalProps) {
   const {
     register,
@@ -39,7 +42,8 @@ export default function LoginModal({ isOpen, onClose }: LoginModalProps) {
   } = useForm<IForm>();
   const toast = useToast();
   const queryClient = useQueryClient();
-  const mutation = useMutation(usernameLogIn, {
+
+  const mutation = useMutation(emailLogIn, { // 'emailLogIn' 함수 사용
     onSuccess: () => {
       toast({
         title: "welcome back!",
@@ -62,11 +66,7 @@ export default function LoginModal({ isOpen, onClose }: LoginModalProps) {
           <VStack>
             <InputGroup size={"md"}>
               <InputLeftElement
-                children={
-                  <Box color="gray.500">
-                    <FaUserNinja />
-                  </Box>
-                }
+                children={<Box color="gray.500"><FaUserNinja /></Box>}
               />
               <Input
                 isInvalid={Boolean(errors.email?.message)}
@@ -79,11 +79,7 @@ export default function LoginModal({ isOpen, onClose }: LoginModalProps) {
             </InputGroup>
             <InputGroup>
               <InputLeftElement
-                children={
-                  <Box color="gray.500">
-                    <FaLock />
-                  </Box>
-                }
+                children={<Box color="gray.500"><FaLock /></Box>}
               />
               <Input
                 isInvalid={Boolean(errors.password?.message)}
@@ -96,11 +92,11 @@ export default function LoginModal({ isOpen, onClose }: LoginModalProps) {
               />
             </InputGroup>
           </VStack>
-          {mutation.isError ? (
+          {mutation.isError && (
             <Text color="red.500" textAlign={"center"} fontSize="sm">
-              Username or Password are wrong
+              Email or Password is incorrect
             </Text>
-          ) : null}
+          )}
           <Button
             isLoading={mutation.isLoading}
             type="submit"
