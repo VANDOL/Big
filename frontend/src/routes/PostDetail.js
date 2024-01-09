@@ -21,7 +21,10 @@ function PostDetail() {
   const [editMode, setEditMode] = useState(false);
   const [editedTitle, setEditedTitle] = useState('');
   const [editedContent, setEditedContent] = useState('');
-
+  const headers = {
+    'X-CSRFToken': getCsrfToken(),
+    // 필요한 경우 여기에 추가 헤더를 정의할 수 있습니다.
+  };
   useEffect(() => {
     axios.get(`http://127.0.0.1:8000/board/posts/${pk}/`)
       .then((response) => {
@@ -104,11 +107,17 @@ function PostDetail() {
           <Flex justify="flex-end" mt={4}>
             <Button colorScheme="green" onClick={handleEdit} mr={2}>수정</Button>
             <Button colorScheme="red" onClick={() => {
-              // 삭제 로직
-            }}>
-              삭제
-            </Button>
-          </Flex>
+    axios.delete(`http://127.0.0.1:8000/board/posts/${pk}/delete/`, { headers })
+      .then(() => {
+        navigate('/new-board');
+      })
+      .catch((error) => {
+        console.error('게시글 삭제 오류:', error);
+      });
+  }}>
+    삭제
+  </Button>
+</Flex>
         </Flex>
       )}
     </Container>
