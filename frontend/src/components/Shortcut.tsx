@@ -26,8 +26,15 @@ export default function Shortcut(props: any) {
         props.setName(props.data.name);
         props.setCode(props.data.code);
        }}>
-        {props.data.gu} {props.data.dong} <br />
-        {props.data.name} <br />
+        <div className="m-txt">
+            {props.data.name}
+        </div>
+        <div className="e-txt1">
+            {props.data.cname}
+        </div>
+        <div className="e-txt2">
+            {props.data.gu} {props.data.dong}
+        </div>
        </div>
     )
 }

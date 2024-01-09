@@ -1,0 +1,9 @@
+@font-face {
+    font-family: 'KCC-Ganpan';
+    src: url('../img/Form/KCC-Ganpan.woff') format('woff');
+}
+
+.f-font {
+    font-family: 'KCC-Ganpan', sans-serif;
+    font-size: 26px;
+}
