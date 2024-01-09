@@ -38,6 +38,9 @@ const DBarChart = ({ data }) => { // Renamed to start with an uppercase letter
                     y: {
                         beginAtZero: true
                     }
+                },
+                animation: {
+                    duration: 0
                 }
             }
         });

@@ -111,7 +111,7 @@ DATABASES = {
         "ENGINE": "django.db.backends.mysql",
         "NAME": "big-2",
         "USER" : "admin",
-        "PASSWORD" : "bigdatabase",
+        "PASSWORD" : env("DATABASE_PASSWORD"),
         "HOST" : "database-big.ctmce4qmcv2d.ap-northeast-2.rds.amazonaws.com",
         "PORT" : "3306",
         'OPTIONS': {

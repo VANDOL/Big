@@ -17,15 +17,17 @@ import environ
 env = environ.Env()
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
-BASE_DIR = Path(__file__).resolve().parent.parent
-environ.Env.read_env(os.path.join(BASE_DIR, "..",".env"))
+BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+env = environ.Env()
+env_file = os.path.join(BASE_DIR, '..', '.env')
 
+if os.path.exists(env_file):
+    env.read_env(env_file)
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/4.2/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
 SECRET_KEY = env("SECRET_KEY")
-
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
@@ -91,7 +93,7 @@ DATABASES = {
         "ENGINE": "django.db.backends.mysql",
         "NAME": "big-4",
         "USER" : "admin",
-        "PASSWORD" : "bigdatabase",
+        "PASSWORD" : env("DB_KEY"),
         "HOST" : "database-big.ctmce4qmcv2d.ap-northeast-2.rds.amazonaws.com",
         "PORT" : "3306",
         'OPTIONS': {

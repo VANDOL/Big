@@ -51,9 +51,12 @@ const BarChart = ({ data }) => {
             },
             options: {
                 scales: {
-                    y: {
-                        beginAtZero: true
+                    x: {
+                        beginAtZero: false
                     }
+                },
+                animation: {
+                    duration: 0
                 }
             }
         });
