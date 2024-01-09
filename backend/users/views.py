@@ -98,7 +98,7 @@ class ChangePassword(APIView):
 #                             status=status.HTTP_400_BAD_REQUEST)
 class LogIn(APIView):
     def post(self, request):
-        username = request.data.get("email")
+        email = request.data.get("email")  # username 대신 email 사용
         password = request.data.get("password")
         
         print(email)
@@ -107,12 +107,16 @@ class LogIn(APIView):
         if not email or not password:
             raise ParseError
         
-        user = authenticate(
-            request,
-            email=username,
-            password=password,
-        )
-        
+        # username 대신 email을 사용하여 사용자를 찾음
+        try:
+            user = User.objects.get(email=email)
+        except User.DoesNotExist:
+            return Response({"error": "User does not exist"},
+                            status=status.HTTP_404_NOT_FOUND)
+
+        # 사용자 인증
+        user = authenticate(request, username=user.username, password=password)
+
         if user:
             login(request, user)
             token = Token.objects.get(user=user)
