@@ -110,8 +110,8 @@ def delete_post(request, pk):
 def update_post(request, pk):
     try:
         post = get_object_or_404(Post, pk=pk)
-        if request.user != post.author:
-            return JsonResponse({'error': 'Unauthorized'}, status=403)
+        # if request.user != post.author:
+        #     return JsonResponse({'error': 'Unauthorized'}, status=403)
         if request.method == 'PUT':
             # JSON 데이터 유효성 검사
             if not request.body:
