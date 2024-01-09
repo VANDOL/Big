@@ -4,13 +4,26 @@ from django.views.decorators.csrf import csrf_exempt
 from django.core import serializers
 from django.shortcuts import get_object_or_404
 import json
+from django.contrib.auth import get_user_model
 
 @csrf_exempt
 def post_list(request):
     if request.method == 'GET':
         posts = Post.objects.all()
-        posts_json = serializers.serialize('json', posts)
-        return HttpResponse(posts_json, content_type="application/json")
+        posts_data = []
+
+        # 각 포스트에 대해 username 추가
+        for post in posts:
+            post_data = {
+                'id': post.pk,
+                'title': post.title,
+                'content': post.content,
+                'created_at': post.created_at,
+                'username': post.author.username  # 작성자의 username 추가
+            }
+            posts_data.append(post_data)
+
+        return JsonResponse(posts_data, safe=False)
 
     elif request.method == 'POST':
         title = request.POST.get('title')
@@ -57,10 +70,13 @@ def create_post(request):
 def post_detail(request, pk):
     try:
         post = Post.objects.get(pk=pk)
+        # 게시글의 작성자 정보 가져오기
+        author_username = post.author.username if post.author else None
         return JsonResponse({
             'title': post.title,
             'content': post.content,
             'created_at': post.created_at,
+            'author_username': author_username  # 작성자의 사용자 이름 추가
             # 'file_url': post.file.url if post.file else None
         })
     except Post.DoesNotExist:

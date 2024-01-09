@@ -100,24 +100,29 @@ function PostDetail() {
         </VStack>
       ) : (
         <Flex direction="column" align="stretch" w="60%" m="auto">
-          <Heading mb={4}>{post?.title}</Heading>
+          <Box borderWidth="1px" borderRadius="md" p={3} mb={4}>
+            <Heading fontSize="xl" mb={2}>{post?.title}</Heading>
+            <Text fontSize="sm" color="gray.600">
+              작성자: {post?.author_username}
+            </Text>
+          </Box>
           <Box borderWidth="1px" borderRadius="md" p={3} minHeight="1200px" maxHeight="1200px" overflowY="auto">
             <Text>{post?.content}</Text>
           </Box>
           <Flex justify="flex-end" mt={4}>
             <Button colorScheme="green" onClick={handleEdit} mr={2}>수정</Button>
             <Button colorScheme="red" onClick={() => {
-    axios.delete(`http://127.0.0.1:8000/board/posts/${pk}/delete/`, { headers })
-      .then(() => {
-        navigate('/new-board');
-      })
-      .catch((error) => {
-        console.error('게시글 삭제 오류:', error);
-      });
-  }}>
-    삭제
-  </Button>
-</Flex>
+              axios.delete(`http://127.0.0.1:8000/board/posts/${pk}/delete/`, { headers })
+                .then(() => {
+                  navigate('/new-board');
+                })
+                .catch((error) => {
+                  console.error('게시글 삭제 오류:', error);
+                });
+            }}>
+              삭제
+            </Button>
+          </Flex>
         </Flex>
       )}
     </Container>
