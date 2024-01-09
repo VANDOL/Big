@@ -453,6 +453,7 @@ class Sales(models.Model):
     age_group_40s = models.IntegerField(db_column='Age_Group_40s', blank=True, null=True)  # Field name made lowercase.
     age_group_50s = models.IntegerField(db_column='Age_Group_50s', blank=True, null=True)  # Field name made lowercase.
     age_group_60s = models.IntegerField(db_column='Age_Group_60s', blank=True, null=True)  # Field name made lowercase.
+    administrative_district = models.CharField(db_column='Administrative_District', max_length=45, blank=True, null=True)  # Field name made lowercase.
 
     class Meta:
         managed = False
