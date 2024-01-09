@@ -34,9 +34,55 @@ import numpy as np
 import pandas as pd
 from fuzzywuzzy import fuzz as fw_fuzz
 import skfuzzy as fuzz
+from .models import Sales
 
+def get_sales_data():
+    # Sales 모델의 모든 인스턴스를 가져옵니다.
+    sales_objects = Sales.objects.all()
 
-final_data = pd.read_csv('cafe_data/final_data (4).csv')
+    data_dict = {
+        'new_column': [],
+        'commercial_code': [],
+        'service_industry_name': [],
+        'deposit_amount': [],
+        'monthly_rent': [],
+        'workplace': [],
+        'resident': [],
+        'male': [],
+        'female': [],
+        'monthly_average_sales': [],
+        'age_group_10s': [],
+        'age_group_20s': [],
+        'age_group_30s': [],
+        'age_group_40s': [],
+        'age_group_50s': [],
+        'age_group_60s': [],
+    }
+
+    # 데이터를 딕셔너리에 저장합니다.
+    for item in sales_objects:
+        data_dict['new_column'].append(item.new_column)
+        data_dict['commercial_code'].append(item.commercial_code)
+        data_dict['service_industry_name'].append(item.service_industry_name)
+        data_dict['deposit_amount'].append(item.deposit_amount)
+        data_dict['monthly_rent'].append(item.monthly_rent)
+        data_dict['workplace'].append(item.workplace)
+        data_dict['resident'].append(item.resident)
+        data_dict['male'].append(item.male)
+        data_dict['female'].append(item.female)
+        data_dict['monthly_average_sales'].append(item.monthly_average_sales)
+        data_dict['age_group_10s'].append(item.age_group_10s)
+        data_dict['age_group_20s'].append(item.age_group_20s)
+        data_dict['age_group_30s'].append(item.age_group_30s)
+        data_dict['age_group_40s'].append(item.age_group_40s)
+        data_dict['age_group_50s'].append(item.age_group_50s)
+        data_dict['age_group_60s'].append(item.age_group_60s)
+
+    # 데이터를 DataFrame으로 변환합니다.
+    return pd.DataFrame(data_dict)
+
+# DataFrame 생성
+final_data = get_sales_data()
 
 def recommend_similar_markets(service_name, locations, user_preferences, n=5):
     fuzzy_df = final_data[final_data['Service_Industry_Name'] == service_name]

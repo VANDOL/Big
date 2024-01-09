@@ -27,7 +27,7 @@ interface LoginModalProps {
   onClose: () => void;
 }
 interface IForm {
-  username: string;
+  email: string;
   password: string;
 }
 export default function LoginModal({ isOpen, onClose }: LoginModalProps) {
@@ -49,9 +49,9 @@ export default function LoginModal({ isOpen, onClose }: LoginModalProps) {
       queryClient.refetchQueries(["me"]);
     },
   });
-  const onSubmit = ({ username, password }: IForm) => {
-    mutation.mutate({ username, password });
-  };
+  const onSubmit = ({ email, password }: IForm) => {
+    mutation.mutate({ email, password });
+  };  
   return (
     <Modal onClose={onClose} isOpen={isOpen}>
       <ModalOverlay />
@@ -69,12 +69,12 @@ export default function LoginModal({ isOpen, onClose }: LoginModalProps) {
                 }
               />
               <Input
-                isInvalid={Boolean(errors.username?.message)}
-                {...register("username", {
-                  required: "Please write a username",
+                isInvalid={Boolean(errors.email?.message)}
+                {...register("email", {
+                  required: "Please write a email",
                 })}
                 variant={"filled"}
-                placeholder="Username"
+                placeholder="Id"
               />
             </InputGroup>
             <InputGroup>

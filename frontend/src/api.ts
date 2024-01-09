@@ -61,7 +61,7 @@ export const kakaoLogIn = (code: string) =>
         })
         .then((response) => response.status);
 export interface IUsernameLoginVariables {
-    username: string;
+    email: string;
     password: string;
 }
 export interface IUsernameLoginSuccess {
@@ -71,11 +71,11 @@ export interface IUsernameLoginError {
     error: string;
 }
 export const usernameLogIn = ({
-    username,
+    email,
     password,
 }: IUsernameLoginVariables) => axios.post(
     'http://127.0.0.1:8000/user/login',
-    {username, password},
+    {email, password},
     {
         headers: {
             "X-CSRFToken": Cookies.get("csrftoken") || "",

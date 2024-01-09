@@ -75,7 +75,7 @@ class ChangePassword(APIView):
         
 class LogIn(APIView):
     def post(self, request):
-        username = request.data.get("username")
+        username = request.data.get("email")
         password = request.data.get("password")
         
         print(username)
@@ -83,11 +83,13 @@ class LogIn(APIView):
         
         if not username or not password:
             raise ParseError
+        
         user = authenticate(
             request,
-            username=username,
+            email=username,
             password=password,
         )
+        
         if user:
             login(request, user)
             token = Token.objects.get(user=user)

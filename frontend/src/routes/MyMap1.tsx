@@ -41,6 +41,8 @@ export default function MyMap1() {
   const [clickName1, setClickName1] = useState("");
   const [clickCode1, setClickCode1] = useState("");
   const [clickSName, setClickSName] = useState("");
+  const [fetchedData, setFetchedData] = useState(null);
+  const [fetchedData2, setFetchedData2] = useState(null);
 
   const sangData = useRef<any>([]);
   const [rSang, setRSang] = useState<any>([]);
@@ -872,7 +874,6 @@ export default function MyMap1() {
         .then((res) => {
           // console.log(res);
           sangData.current = res;
-
           setGoRender((m) => (!m));
         })
         .catch((res) => { console.error(res) })
@@ -911,6 +912,54 @@ export default function MyMap1() {
     setGoRender((m) => (!m));
   }, [rSang]);
 
+  useEffect(function () {
+      stores_m.current = [];
+      if (!mapRef.current) {
+        return;
+      }
+      else if (clickName1 == '') {
+        setGetCheck('');
+        return;
+      }
+      const fetchData = async () => {
+          setGetCheck(clickName1);
+          try {
+              const response = await fetch('http://127.0.0.1:8000/data/sang1/?commercial_code='+clickCode1);
+              const data = await response.json();
+              setFetchedData(data);
+          } catch (error) {
+              console.error("Failed to fetch data:", error);
+          }
+      };
+      fetchData();
+  }, [clickCode1]);
+
+  useEffect(function () {
+    stores_m.current = [];
+    if (!mapRef.current) {
+      return;
+    }
+    else if (clickName1 == '') {
+      setGetCheck('');
+      return;
+    }
+    const fetchData = async () => {
+        setGetCheck(clickName1);
+        try {
+            const response = await fetch('http://127.0.0.1:8000/data/sang2/?commercial_code='+clickCode1);
+            const data = await response.json();
+            setFetchedData2(data);
+        } catch (error) {
+            console.error("Failed to fetch data:", error);
+        }
+    };
+    fetchData();
+}, [clickCode1]);
+
+  // useEffect(() => {
+  //   console.log(fetchedData2);
+  // }, [fetchedData]);
+
   return (
     <>
       {
@@ -919,8 +968,7 @@ export default function MyMap1() {
       <div id="mymap">
         {
           mode_m == 0 &&
-          <InterfaceWin getCheck={getCheck} data={sangData.current}>
-          </InterfaceWin>
+          <InterfaceWin code={clickCode1} getCheck={getCheck} data={sangData.current} data1={fetchedData} data2={fetchedData2}></InterfaceWin>
         }
         <Tabs isFitted variant='soft-rounded'
           pos={"absolute"} left={"20px"} top={"5px"}

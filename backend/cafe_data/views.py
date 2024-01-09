@@ -6,7 +6,7 @@ from cafe_data.recommend_similar_markets import recommend_similar_markets
 from .models import Sales
 from rest_framework.views import APIView
 
-# Create your views here.
+# 분석하는 코드
 class recommend(APIView):
     def post(self, request):
         try:
