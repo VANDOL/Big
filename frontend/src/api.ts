@@ -1,6 +1,7 @@
 import Cookies from "js-cookie";
 import { QueryFunctionContext } from "@tanstack/react-query";
 import axios from "axios";
+
 const instance = axios.create({
     baseURL: "http://127.0.0.1:8000",
     withCredentials: true,
@@ -87,4 +88,7 @@ export const usernameLogIn = ({
           email: string;
           name: string;
         }
-      
+    export const getCsrfToken = () => {
+    const csrfToken = Cookies.get("csrftoken") || "";
+    return csrfToken;
+    };

@@ -82,8 +82,8 @@ const ChatBot = () => {
           overflowY="auto"
           minHeight="300px"
           maxHeight="500px"
-          width="400px"
-          backgroundColor="white"
+          width="500px"
+          backgroundColor="gray.100"
           sx={{
             '&::-webkit-scrollbar': {
               display: 'none',
@@ -139,6 +139,7 @@ const ChatBot = () => {
             onChange={(e) => setInput(e.target.value)}
             onKeyPress={(e) => e.key === 'Enter' && sendMessage()}
             width="400px"
+            background-color="gray.100"
           />
           <Button onClick={sendMessage}>보내기</Button>
         </Flex>
