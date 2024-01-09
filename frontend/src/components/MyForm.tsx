@@ -16,15 +16,19 @@ import "../css/MyForm.css"
 import cateData_ from "../json/cate_data.json";
 import uniqueValues_ from "../json/unique_values.json";
 
+import formImg1 from "../img/swot_img/MicrosoftTeams-image.png"
+
 export default function MyForm(props: any) {
-    const [rV1, setRV1] = useState(0);
-    const [rV2, setRV2] = useState(0);
-    const [rV3, setRV3] = useState(0);
-    const [rV4, setRV4] = useState(0);
+    const [rV1, setRV1] = useState(2400);
+    const [rV2, setRV2] = useState(15);
+    const [rV3, setRV3] = useState(50);
+    const [rV4, setRV4] = useState(50);
     
     const uniqueValues:any = uniqueValues_;
     const cateData:any = cateData_;
+    const name = ["한식", "일식", "중식", "양식", "분식", "패스트푸드", "치킨", "주점", "카페", "제과점"]
 
+    const moneyimgUrl = "../img/swot_img/money.png";
 
     function sendData(f:any) {
         // let formData = new FormData();
@@ -60,17 +64,6 @@ export default function MyForm(props: any) {
                 formObj[i.name] = (i.value);
             }
         }
-        // console.log(formObj);
-        // console.log(JSON.stringify(formObj));
-        // const testList:any = []
-        // testList.push({"a":"3130001", "b":"qwer"});
-        // testList.push({"a":"3110008", "b":"qwer"});
-        // testList.push({"a":"3130002", "b":"qwer"});
-        // testList.push({"a":"3130001", "b":"qwer"});
-        // testList.push({"a":"3130020", "b":"qwer"});
-        // testList.push({"a":"3130019", "b":"qwer"});
-        // testList.push({"a":"3130014", "b":"qwer"});
-        // props.setData(testList);
 
         try {
             fetch("http://127.0.0.1:8000/cafe/anal", {
@@ -92,7 +85,6 @@ export default function MyForm(props: any) {
             console.error("실패:", error);
         }
     }
-    
 
     return (
         <form onSubmit={(ev) => { 
@@ -101,6 +93,9 @@ export default function MyForm(props: any) {
             sendData(El);
             }}>
             <div className="pd-b">
+                <div className="form-h">
+                    상권 추천
+                </div>
                 <div className="form-h1">
                     업종
                 </div>
@@ -111,7 +106,16 @@ export default function MyForm(props: any) {
                                 <Fragment key={"f-r-i-"+i}>
                                     <input id={"f-r-i-"+i} className="in-r dis-hi" type="radio" name="cate" value={n} required/>
                                     <label htmlFor={"f-r-i-"+i} className="form-r-w-i">
-                                        {n}
+                                        {/* <div>{name[i]}</div>
+                                        <div className={"formImg formImg" + i}></div> */}
+                                        <div className="img-div">
+                                            <div className={"formImg formImg" + i}>
+                                            </div>
+                                            <div className="img-txt">
+                                                {name[i]}
+                                            </div>
+                                            
+                                        </div>
                                     </label>
                                 </Fragment>
                             )
@@ -134,7 +138,6 @@ export default function MyForm(props: any) {
                     const El2: any = document.getElementById("reg-txt");
                     El2.className += " dis-hi";
                 }}>
-
                     </div>
                     <div id="reg" className="dis-hi form-c-w-1 pos-rel">
                         <div className="form-c-w-2">
@@ -150,7 +153,7 @@ export default function MyForm(props: any) {
                             }
                         </div>
                         <div className="jub-btn">
-                            <TriangleUpIcon cursor={"pointer"} onClick={(ev)=>{
+                            <TriangleUpIcon cursor={"pointer"} onClick={(ev)=>{ 
                                 const El1: any = document.getElementById("reg-txt");
                                 El1.className = El1.className.split(' ').map((n: any) => {
                                     if (n != 'dis-hi') {
@@ -163,55 +166,50 @@ export default function MyForm(props: any) {
                         </div>
                     </div>
                 </div>
-
             </div>
 
             <div className="pd-b">
                 <div className="form-h1 pos-rel">
                     보증금
                     <div className="e-txt">
-                        {rV1}만원이하
+                        {rV1}만원 이하
                     </div>
                 </div>
                 <div>
-                    <input className="form_range" max={7500} type="range" name="rv1" value={rV1} onChange={(ev) => {setRV1(parseFloat(ev.target.value))}} />
-
+                    <input className="slider_manymoney" max={7500} type="range" name="rv1" value={rV1} onChange={(ev) => {setRV1(parseFloat(ev.target.value))}} />
                 </div>
             </div>
             <div className="pd-b">
                 <div className="form-h1 pos-rel">
                     월임대료
                     <div className="e-txt">
-                        평당 {rV2}만원이하
+                        평당 {rV2}만원 이하
                     </div>
                 </div>
                 <div>
-                    <input className="form_range" max={39} type="range" name="rv2" value={rV2} onChange={(ev) => { setRV2(parseFloat(ev.target.value)) }} />
-
+                    <input className="slider_money" max={39} type="range" name="rv2" value={rV2} onChange={(ev) => { setRV2(parseFloat(ev.target.value)) }} />
                 </div>
             </div>
             <div className="pd-b">
                 <div className="form-h1 pos-rel">
                     성별
                     <div className="e-txt">
-                        {rV3}(남) : {100 - rV3}(여)
+                        남 {rV3} : {100 - rV3} 여
                     </div>
                 </div>
                 <div>
-                    <input className="form_range" type="range" name="rv3" value={rV3} onChange={(ev) => { setRV3(parseFloat(ev.target.value)) }} />
-
+                    <input className="slider_sex" type="range" name="rv3" value={rV3} onChange={(ev) => { setRV3(parseFloat(ev.target.value)) }} />
                 </div>
             </div>
             <div className="pd-b">
                 <div className="form-h1 pos-rel">
                     인구
                     <div className="e-txt">
-                        {rV4}(직장) : {100 - rV4}(상주)
+                        직장 {rV4} : {100 - rV4} 상주
                     </div>
                 </div>
                 <div>
-                    <input className="form_range" type="range" name="rv4" value={rV4} onChange={(ev) => { setRV4(parseFloat(ev.target.value)) }} />
-
+                    <input className="slider_home" type="range" value={rV4} name="rv4" onChange={(ev) => { setRV4(parseFloat(ev.target.value)) }} />
                 </div>
             </div>
             <div className="pd-b">
@@ -244,7 +242,7 @@ export default function MyForm(props: any) {
             <div className="dis-flex f-center pm">
                 <button className="form-btn" type="submit">
                     <div>
-                        분석
+                        추천
                     </div>
                 </button>
             </div>

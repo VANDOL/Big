@@ -29,6 +29,8 @@ import Shortcut from "../components/Shortcut";
 import { createImportSpecifier } from "typescript";
 import Button_1 from '../visualization_of_data/Button_1';
 
+import formImg1 from "../img/form_img/MicrosoftTeams-image.png";
+
 export default function MyMap1() {
   useKakaoLoader()
   const [level, setLevel] = useState(10);
@@ -613,7 +615,8 @@ export default function MyMap1() {
           position: absolute;
           text-wrap: nowrap;
           bottom: 100%;
-          margin-left: 14.5px;
+          // margin-left: 14.5px;
+          margin-left: 25px;
           margin-bottom: 7px;
           transform: translate(-50%, 0%);
           background-color: #2D3748;
@@ -800,6 +803,13 @@ export default function MyMap1() {
               {
                 key: key_id++,
                 position: { lat: parseFloat(i["lat"]), lng: parseFloat(i["lng"]) },
+                image: {
+                  src: formImg1,
+                  size: {width: 50, height: 50},
+                  options: {
+                    offset: {x:25, y:25}
+                  }
+                },
                 onClick: (ev) => {
                   const E: any = ev;
                   setClickSName(i.name);
@@ -914,7 +924,6 @@ export default function MyMap1() {
   return (
     <>
       {
-        // console.log(rSang)
       }
       <div id="mymap">
         {
@@ -964,7 +973,7 @@ export default function MyMap1() {
           {
             click_m &&
             <TabPanels h={"100%"}>
-              <TabPanel w={"400px"} bg={"white"} h={"500px"} mt={"10px"}
+              <TabPanel w={"400px"} bg={"white"} h={"85%"} mt={"10px"}
                 borderRadius={"20px"}
                 boxShadow={"0px 0px 15px -5px #4A5568"}
                 overflowY={"auto"}
@@ -994,7 +1003,7 @@ export default function MyMap1() {
                     (<MyForm setData={setRSang} setCheck={setGetCheck}></MyForm>)
                 }
               </TabPanel>
-              <TabPanel w={"400px"} bg={"white"} h={"85%"} mt={"10px"}
+              <TabPanel w={"400px"} bg={"white"} h={"500px"} mt={"10px"}
                 borderRadius={"20px"}
                 boxShadow={"0px 0px 15px -5px #4A5568"}
                 overflowY={"auto"}
