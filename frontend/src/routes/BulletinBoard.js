@@ -30,7 +30,7 @@ function BulletinBoard() {
           </div>
         </div>
         {posts.map(post => (
-  <Link to={`/posts/${post.id}`} key={post.id} style={{ textDecoration: 'none', color: 'inherit', width: '100%', maxWidth: '800px' }}>
+  <Link to={`/posts/${post.id}`} key={post.id} style={{ textDecoration: 'none', color: 'inherit', width: '100%', maxWidth: '800px', marginTop: '1px' ,marginBottom: '1px' }}>
     <div style={{ borderBottom: '1px solid #ddd', padding: '10px', display: 'flex', alignItems: 'center' }}>
       <div style={{ flex: '0.5' }}>
       <span style={{ fontSize: '16px' }}>•</span> {/* 중간 크기로 점 설정 */}

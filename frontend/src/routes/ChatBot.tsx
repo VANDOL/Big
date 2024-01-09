@@ -139,7 +139,7 @@ const ChatBot = () => {
             onChange={(e) => setInput(e.target.value)}
             onKeyPress={(e) => e.key === 'Enter' && sendMessage()}
             width="400px"
-            background-color="gray.100"
+            bg="gray.100"
           />
           <Button onClick={sendMessage}>보내기</Button>
         </Flex>
