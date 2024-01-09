@@ -5,7 +5,9 @@ from django.core import serializers
 from django.shortcuts import get_object_or_404
 import json
 from django.contrib.auth import get_user_model
- 
+from django.contrib.auth.decorators import login_required
+
+
 @csrf_exempt
 def post_list(request):
     if request.method == 'GET':
@@ -40,20 +42,19 @@ def post_list(request):
  
 @csrf_exempt
 def create_post(request):
-    print(request)
     if request.method == 'POST':
         title = request.POST.get('title')
         content = request.POST.get('content')
- 
-        new_post = Post(title=title, content=content)
+        author_email = request.POST.get('author')
+        try:
+            author = get_user_model().objects.get(email=author_email)
+        except get_user_model().DoesNotExist:
+            return JsonResponse({'error': '사용자가 존재하지 않습니다.'}, status=400)
+
+        new_post = Post(title=title, content=content, author=author)
         new_post.save()
-        # if 'file' in request.FILES:
-        #     file = request.FILES['file']
-        #     File.objects.create(post=new_post, file=file)
+
         return JsonResponse({'message': '게시물이 생성되었습니다.', 'post_id': new_post.pk}, status=201)
-    else:
-        return JsonResponse({'error': 'Invalid request'}, status=400)
- 
  
 # @csrf_exempt
 # def upload_file(request, pk):
