@@ -43,16 +43,31 @@ export default function LoginModal({ isOpen, onClose }: LoginModalProps) {
   const toast = useToast();
   const queryClient = useQueryClient();
 
-  const mutation = useMutation(emailLogIn, { // 'emailLogIn' 함수 사용
-    onSuccess: () => {
+  const mutation = useMutation(emailLogIn, {
+    onSuccess: (status) => {
+      if (status && !status.error) {
+        toast({
+          title: "Welcome back!",
+          status: "success",
+        });
+        onClose();
+        queryClient.refetchQueries(["me"]);
+      } else {
+        toast({
+          title: "Login failed.",
+          status: "error",
+        });
+      }
+    },
+    onError: (error) => {
       toast({
-        title: "welcome back!",
-        status: "success",
+        title: "An error occurred. Please try again later.",
+        status: "error",
       });
-      onClose();
-      queryClient.refetchQueries(["me"]);
     },
   });
+
+
   const onSubmit = ({ email, password }: IForm) => {
     mutation.mutate({ email, password });
   };  

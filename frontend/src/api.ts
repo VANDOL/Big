@@ -92,8 +92,10 @@ export const emailLogIn = ({
     const token = response.data.Token;
     if (token) {
         localStorage.setItem("authToken", token);
+        return { success: true, data: response.data };
+    } else {
+        return { success: false, error: "Login failed. Please check your credentials." };
     }
-    return response.data;
 }).catch((error: AxiosError<IEmailLoginError>) => {
     // 오류 처리 로직
     if (error.response) {

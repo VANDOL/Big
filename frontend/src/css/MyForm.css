@@ -4,17 +4,17 @@
 }
 .form-h {
     font-family: 'KCC-Ganpan', sans-serif;
-    font-size: 25px;
+    font-weight: bold;
+    font-size: 30px;
 }
 /* 카테고리 글자 */
 .form-h1 {
     font-family: 'KCC-Ganpan', sans-serif;
-    font-size: 18px;
-    font-weight: bold;
+    font-size: 20px;
     padding-right: 20px;
     margin-top:10px;
     width: 100%;
-    margin-bottom:10px;
+    margin-bottom:15px;
 }
 /* ~만원 이하 */
 .e-txt {
@@ -43,6 +43,7 @@
 .form-r-w-i {
     content: "";
     text-align: center;
+    margin-bottom:10px;
 }
 /* 연령 버튼 */
 .form-c-w {
@@ -58,8 +59,8 @@
 .form-div {
     width: 95%;
     margin: auto;
-    display: flex;
     font-family: 'KCC-Ganpan', sans-serif;
+    margin-bottom:40px;
 }
 /* 지역 밑에 누르는거 */
 #reg-txt {
@@ -72,8 +73,26 @@
     }
     width: 100%;
     min-height: 30px;
-    box-shadow: 0px 3px 3px -2px #66c79c
+    box-shadow: 0px 3px 3px -1px #66c79c;
+    padding: 5px 10px;
+
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: flex-start;
 }
+
+.s-txt {
+    margin-right: 10px;
+    margin-bottom: 10px;
+    font-size: 14px;
+    width: calc(25% - 10px);
+    box-sizing: border-box;
+    text-align: center;
+    background: #66c79c;
+    border-radius: 10px;
+    /* box-shadow: 0px 3px 3px -1px #66c79c; */
+}
+
 .form-c-w-1 {
     width: 100%;
     padding: 5px;
@@ -93,8 +112,8 @@
 }
 .in-c + label {
     background-color: #F7FAFC;
-    font-size: 12px;
-    font-weight: bold;
+    font-size: 13px;
+    /* font-weight: bold; */
     width: 48%;
     height: 30px;
     border-radius: 10px;
@@ -102,12 +121,12 @@
     display: flex;
     justify-content: center;
     align-items: center;
-    transition: transform 0.5s, font-size 0.5s;
+    /* transition: transform 0.5s, font-size 0.5s; */
 }
 
 .in-c:checked + label {
     background-color: #66c79c;
-    color: white;
+    color: black;
 }
 
 /* 연령 나이 카테고리 */
@@ -117,6 +136,7 @@
     justify-content: center;
     align-items: center;
     font-family: 'KCC-Ganpan', sans-serif;
+    margin-bottom:10px;
 }
 
 .cb2 {
@@ -290,6 +310,7 @@ input[id="f-c-i-5"] {
     width: 100%;
     height: 100%;
     margin-top: 20px;
+    cursor: pointer;
 }
 .img-div div {
     position: absolute;
@@ -385,7 +406,7 @@ input[id="f-c-i-5"] {
 }
 
 .in-r:checked + label {
-    font-weight: bold;
+    /* font-weight: bold; */
     background-color: #66c79c;
     box-shadow: 0px 1px 5px -1px black;
     font-size: 16px;
@@ -403,6 +424,7 @@ input[id="f-c-i-5"] {
     opacity: 0.7;
     -webkit-transition: .2s;
     transition: opacity .2s;
+    margin-bottom:20px;
 }
 
 .slider_manymoney:hover {
@@ -439,6 +461,7 @@ input[id="f-c-i-5"] {
     opacity: 0.7;
     -webkit-transition: .2s;
     transition: opacity .2s;
+    margin-bottom:20px;
 }
 
 .slider_money:hover {
@@ -475,6 +498,7 @@ input[id="f-c-i-5"] {
     opacity: 0.7;
     -webkit-transition: .2s;
     transition: opacity .2s;
+    margin-bottom:20px;
 }
 
 .slider_sex:hover {
@@ -511,6 +535,7 @@ input[id="f-c-i-5"] {
     opacity: 0.7;
     -webkit-transition: .2s;
     transition: opacity .2s;
+    margin-bottom:40px;
 }
 
 .slider_home:hover {
@@ -549,7 +574,7 @@ input[id="f-c-i-5"] {
     margin-top: 20px;
     font-family: 'KCC-Ganpan', sans-serif;
     &:active {
-        box-shadow: 0px 3px 3px -2px #66c79c inset;
+        box-shadow: 0px 3px 3px -1px #66c79c inset;
         line-height:1px;
     }
     &:active > div {
@@ -562,7 +587,7 @@ input[id="f-c-i-5"] {
     /* border: 1px solid black; */
     border-radius: 15px;
     background-color: #F7FAFC;
-    box-shadow: 0px 3px 3px -2px #66c79c;
+    box-shadow: 0px 3px 3px -1px #66c79c;
 }
 
 .dis-flex {
@@ -573,3 +598,58 @@ input[id="f-c-i-5"] {
     justify-content: center;
     align-items: center;
 }
+
+/* ::-webkit-scrollbar {
+    width: 7px;
+}
+
+::-webkit-scrollbar-vertical {
+    width: 12px;
+}
+  
+
+::-webkit-scrollbar-thumb {
+    background-color: #888;
+    border-radius: 5px; 
+} */
+
+/* ::-webkit-scrollbar-track {
+    background-color: #f1f1f1;
+} */
+/* 스크롤바 전체에 적용되는 스타일 */
+::-webkit-scrollbar {
+    width: 7px; /* 수직 스크롤바의 높이를 조절할 수 있습니다. */
+    height: 10%; /* 수평 스크롤바의 너비를 조절할 수 있습니다. */
+  }
+  
+  /* 수직 스크롤바의 트랙 스타일 */
+  ::-webkit-scrollbar-track {
+    background-color: #f1f1f1; /* 스크롤바 트랙의 배경색 */
+  }
+  
+  /* 수평 스크롤바의 트랙 스타일 */
+  ::-webkit-scrollbar-track:horizontal {
+    background-color: #f1f1f1; /* 수평 스크롤바 트랙의 배경색 */
+  }
+  
+  /* 수직 스크롤바의 쓰링(막대) 스타일 */
+  ::-webkit-scrollbar-thumb {
+    background-color: #888; /* 스크롤바 쓰링의 배경색 */
+    border-radius: 6px; /* 스크롤바 쓰링의 둥근 모서리 설정 */
+  }
+  
+  /* 수평 스크롤바의 쓰링(막대) 스타일 */
+  ::-webkit-scrollbar-thumb:horizontal {
+    background-color: #888; /* 수평 스크롤바 쓰링의 배경색 */
+    border-radius: 6px; /* 수평 스크롤바 쓰링의 둥근 모서리 설정 */
+  }
+  
+  /* 마우스 호버 시에 수직 스크롤바 쓰링의 스타일 */
+  ::-webkit-scrollbar-thumb:hover {
+    background-color: #555;
+  }
+  
+  /* 마우스 호버 시에 수평 스크롤바 쓰링의 스타일 */
+  ::-webkit-scrollbar-thumb:horizontal:hover {
+    background-color: #555;
+  }

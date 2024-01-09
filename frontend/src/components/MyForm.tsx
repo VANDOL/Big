@@ -1,7 +1,7 @@
 import React, { Fragment } from "react"
 import { useRef, useState, useEffect } from "react"
 import { Map, MapMarker, Polygon, CustomOverlayMap } from "react-kakao-maps-sdk"
- 
+
 import { Box, Center, Input, Button, IconButton, VStack, HStack, Text, Tabs, TabList, Tab, TabPanels, TabPanel, } from '@chakra-ui/react'
 import {
     Slider,
@@ -15,19 +15,31 @@ import { isVisible } from "@testing-library/user-event/dist/utils";
 import "../css/MyForm.css"
 import cateData_ from "../json/cate_data.json";
 import uniqueValues_ from "../json/unique_values.json";
- 
+
 export default function MyForm(props: any) {
+
+    const [txtList, setTxtList] = useState<any>([]);
+
     const [rV1, setRV1] = useState(2400);
     const [rV2, setRV2] = useState(15);
     const [rV3, setRV3] = useState(50);
     const [rV4, setRV4] = useState(50);
-   
+    
+    const [selectedRegions, setSelectedRegions] = useState([]);
+
     const uniqueValues:any = uniqueValues_;
     const cateData:any = cateData_;
     const name = ["한식", "일식", "중식", "양식", "분식", "패스트푸드", "치킨", "주점", "카페", "제과점"]
- 
+
     const moneyimgUrl = "../img/Form/money.png";
- 
+
+    const [gu, setGu] = useState(uniqueValues_);
+    useEffect(()=>{
+        let guList:Array<any> = gu.name;
+        guList.sort();
+        console.log(guList);
+        setGu({name:guList});
+    }, [])
     function sendData(f:any) {
         // let formData = new FormData();
         let formObj:any = {
@@ -41,7 +53,7 @@ export default function MyForm(props: any) {
         };
         let nameList = ["cate", "gu", "rv1", "rv2", "rv3", "rv4", "age"];
         const checkList = ["cate","gu","age"];
-       
+        
         for(let i of f.elements) {
             if(i.name == "cate") {
                 if(i.checked) {
@@ -62,30 +74,51 @@ export default function MyForm(props: any) {
                 formObj[i.name] = (i.value);
             }
         }
- 
-        fetch("http://127.0.0.1:8000/cafe/anal", {
-            method: "POST",
-            headers: {
+
+        try {
+            fetch("http://127.0.0.1:8000/cafe/anal", {
+              method: "POST", // 또는 'PUT'
+              headers: {
                 "Content-Type": "application/json",
-            },
-            body: JSON.stringify(formObj),
-            })
-            .then((res) => {
-                // Log the entire response for debugging
-                console.log(res);
-                return res.json();
-            })
-            .then((res) => {
+              },
+              body: JSON.stringify(formObj),
+            }).then((res)=>(res.json()))
+            .then((res)=>{
+
                 props.setData(res);
-                console.log(res);
+                console.log(res)
             })
-            .catch((error) => {
-                console.error("실패:", error);
-            });
+            .catch((res)=>{console.error(res)})
+            
+        } 
+        catch (error) {
+            console.error("실패:", error);
+        }
+
+        const styleScrollbar = () => {
+            // 수직 스크롤바 스타일링
+            const verticalScrollbar = document.querySelector(
+              '::-webkit-scrollbar-vertical'
+            ) as HTMLElement;
+      
+            if (verticalScrollbar) {
+              verticalScrollbar.style.width = '7px'; // 수직 스크롤바 너비 조절
+            }
+      
+            // 수평 스크롤바 스타일링
+            const horizontalScrollbar = document.querySelector(
+              '::-webkit-scrollbar-horizontal'
+            ) as HTMLElement;
+      
+            if (horizontalScrollbar) {
+              horizontalScrollbar.style.height = '10%'; // 수평 스크롤바 높이 조절
+            }
+          };
+          styleScrollbar();
     }
- 
+
     return (
-        <form onSubmit={(ev) => {
+        <form className="main" onSubmit={(ev) => { 
             const El:any = ev.target;
             ev.preventDefault();
             sendData(El);
@@ -111,7 +144,7 @@ export default function MyForm(props: any) {
                                             </div>
                                             <div className={"img-txt img-txt" + i}>
                                                 {name[i]}
-                                            </div>  
+                                            </div>   
                                         </div>
                                     </label>
                                 </Fragment>
@@ -135,22 +168,53 @@ export default function MyForm(props: any) {
                     const El2: any = document.getElementById("reg-txt");
                     El2.className += " dis-hi";
                 }}>
+                    {
+                        txtList.map((n:any, i:any)=>{
+                            return <span key={i} className="s-txt">{n}</span>;
+                        })
+                    }
                     </div>
                     <div id="reg" className="dis-hi form-c-w-1 pos-rel">
                         <div className="form-c-w-2">
                             {
-                                uniqueValues.name.map((n:any,i:any)=>{
+                                gu.name.map((n:any,i:any)=>{
                                     return (
                                         <Fragment key={"f-2-c-i-" + i}>
                                             <input id={"f-2-c-i-" + i} className="dis-hi in-c" value={n} type="checkbox" name="gu"/>
-                                            <label htmlFor={"f-2-c-i-" + i}>{n}</label>            
+                                            <label htmlFor={"f-2-c-i-" + i}
+                                            onClick={(ev)=>{
+                                                const E:any = ev;
+                                                const el:any = document.getElementById(E.target.htmlFor);
+                                                if(el.checked == false) {
+                                                    console.log(el.checked);
+                                                    let List:any = [];
+                                                    for(let i of txtList) {
+                                                        List.push(i);
+                                                    }
+                                                    List.push(el.value);
+                                                    setTxtList(List);
+                                                }
+                                                else {
+                                                    console.log(el.checked);
+                                                    let List:any = [];
+                                                    for(let i of txtList) {
+                                                        if(el.value != i) {
+                                                            List.push(i);
+                                                        }
+                                                    }
+                                                    setTxtList(List);
+                                                }
+                                            }}
+                                            >
+                                                {n}
+                                            </label>
                                         </Fragment>
                                     )
                                 })
                             }
                         </div>
                         <div className="jub-btn">
-                            <TriangleUpIcon cursor={"pointer"} onClick={(ev)=>{
+                            <TriangleUpIcon cursor={"pointer"} onClick={(ev)=>{ 
                                 const El1: any = document.getElementById("reg-txt");
                                 El1.className = El1.className.split(' ').map((n: any) => {
                                     if (n != 'dis-hi') {
@@ -164,7 +228,7 @@ export default function MyForm(props: any) {
                     </div>
                 </div>
             </div>
- 
+
             <div className="pd-b">
                 <div className="form-h1 pos-rel">
                     보증금
