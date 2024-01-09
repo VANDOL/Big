@@ -1,6 +1,11 @@
 /* Improved CSS */
+@font-face {
+    font-family: 'KCC-Ganpan';
+    src: url('../img/Form/KCC-Ganpan.woff') format('woff');
+}
 
 .i-win {
+    font-family: 'KCC-Ganpan';
     position: absolute;
     right: 0;
     top: 50px;

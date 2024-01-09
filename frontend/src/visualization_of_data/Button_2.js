@@ -1,33 +1,35 @@
-import React, { useState, useEffect } from 'react';
-import './css/Button.css'; 
-import BarChart from '../../chart/BarChart'; 
-import PieChart from '../../chart/PieChart'; 
+import React, { useState, useEffect } from "react";
+import "./css/Button.css";
+import "./css/Button1.css";
+import BarChart from "../chart/Barchart";
+// import PieChart from '../chart/PieChart';
 
-const Button_2 = ({ barChartData, pieChartData, openingData, closingData }) => {
+const Button_2 = ({ data1 }) => {
+    let chartData = [];
+    let highname = '';
+    if (data1) {
+        chartData = data1.map((entry) => ({
+            category: entry.service_industry_code_name,
+            value: entry.total_sales_amount,
+        }));
+    }
+    console.log(chartData);
+    if (chartData.length > 0) {
+        const high = chartData.reduce((max, entry) => max.value > entry.value ? max : entry);
+        highname = high.category
+        console.log(highname);
+    } else {
+        console.log('chartData is empty');
+    }
+    
     return (
-        <div className="statistics-container">
-            <h1>점포수</h1>
-            {/* 여기에 표 컴포넌트 삽입 위치 */}
-            <div className="status-row">
-                <div className="status-column">
-                    <h2>개업현황</h2>
-                    <p>개업수는 {openingData}입니다.</p>
-                </div>
-                <div className="status-column">
-                    <h2>폐업현황</h2>
-                    <p>폐업수는 {closingData}입니다.</p>
-                </div>
+        <div className="container">
+            <div className="header">
+                <div className="s_title">업종별 매출액</div>
             </div>
-            <div className="chart-row">
-                <div className="chart-column">
-                    <h3>상가 임대 시세</h3>
-                    <BarChart data={barChartData} /> {/* 바 차트 데이터 */}
-                </div>
-                <div className="chart-column">
-                    <h3>프렌차이즈 일반 점포 비교</h3>
-                    <PieChart data={pieChartData} /> {/* 파이 차트 데이터 */}
-                    {/* 여기에 파이 차트 레이블을 추가할 수 있습니다. */}
-                </div>
+            {data1 && <BarChart data={chartData} />}
+            <div className="header">
+                <p className="sub_text">업종별 매출이 가장 많은 업종은 <spane className="e_hi">{highname}</spane>입니다</p>
             </div>
         </div>
     );

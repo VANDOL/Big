@@ -31,6 +31,8 @@ import Button_1 from '../visualization_of_data/Button_1';
 
 import formImg1 from "../img/form_img/MicrosoftTeams-image.png";
 
+import "../css/MyMap.css"
+
 export default function MyMap1() {
   useKakaoLoader()
   const [level, setLevel] = useState(10);
@@ -43,6 +45,8 @@ export default function MyMap1() {
   const [clickName1, setClickName1] = useState("");
   const [clickCode1, setClickCode1] = useState("");
   const [clickSName, setClickSName] = useState("");
+  const [fetchedData, setFetchedData] = useState(null);
+  const [fetchedData2, setFetchedData2] = useState(null);
 
   const sangData = useRef<any>([]);
   const [rSang, setRSang] = useState<any>([]);
@@ -408,6 +412,7 @@ export default function MyMap1() {
       let cate = i["properties"]["TRDAR_SE_1"];
       let gu = i["properties"]["SIGNGU_CD_"];
       let dong = i["properties"]["ADSTRD_CD_"];
+      let cname = i["properties"]["TRDAR_SE_1"]
       // let p_1 = 0;
       // let p_2 = 0;
       // let p_count = 0;
@@ -477,6 +482,7 @@ export default function MyMap1() {
       //   null);
       let m_obj = {
         name: name,
+        cname: cname,
         sang: name,
         cate: cate,
         gu: gu,
@@ -882,7 +888,6 @@ export default function MyMap1() {
         .then((res) => {
           // console.log(res);
           sangData.current = res;
-
           setGoRender((m) => (!m));
         })
         .catch((res) => { console.error(res) })
@@ -907,6 +912,7 @@ export default function MyMap1() {
               code: i.code,
               cate: i.cate,
               name: i.name,
+              cname: i.cname,
               position: i.customOverlay.props.position
             }
             // console.log(i.customOverlay.props.position);
@@ -921,6 +927,54 @@ export default function MyMap1() {
     setGoRender((m) => (!m));
   }, [rSang]);
 
+  useEffect(function () {
+      stores_m.current = [];
+      if (!mapRef.current) {
+        return;
+      }
+      else if (clickName1 == '') {
+        setGetCheck('');
+        return;
+      }
+      const fetchData = async () => {
+          setGetCheck(clickName1);
+          try {
+              const response = await fetch('http://127.0.0.1:8000/data/sang1/?commercial_code='+clickCode1);
+              const data = await response.json();
+              setFetchedData(data);
+          } catch (error) {
+              console.error("Failed to fetch data:", error);
+          }
+      };
+      fetchData();
+  }, [clickCode1]);
+
+  useEffect(function () {
+    stores_m.current = [];
+    if (!mapRef.current) {
+      return;
+    }
+    else if (clickName1 == '') {
+      setGetCheck('');
+      return;
+    }
+    const fetchData = async () => {
+        setGetCheck(clickName1);
+        try {
+            const response = await fetch('http://127.0.0.1:8000/data/sang2/?commercial_code='+clickCode1);
+            const data = await response.json();
+            setFetchedData2(data);
+        } catch (error) {
+            console.error("Failed to fetch data:", error);
+        }
+    };
+    fetchData();
+}, [clickCode1]);
+
+  // useEffect(() => {
+  //   console.log(fetchedData2);
+  // }, [fetchedData]);
+
   return (
     <>
       {
@@ -928,8 +982,7 @@ export default function MyMap1() {
       <div id="mymap">
         {
           mode_m == 0 &&
-          <InterfaceWin getCheck={getCheck} data={sangData.current}>
-          </InterfaceWin>
+          <InterfaceWin code={clickCode1} getCheck={getCheck} data={sangData.current} data1={fetchedData} data2={fetchedData2}></InterfaceWin>
         }
         <Tabs isFitted variant='soft-rounded'
           pos={"absolute"} left={"20px"} top={"5px"}
@@ -982,9 +1035,9 @@ export default function MyMap1() {
                   rSang.length > 0 ?
                     (
                       <div className="shortcut-win">
-                        <div className="c-btn">
+                        <div className="c-btn f-font">
                           추천상권
-                          <CloseIcon position={"relative"} left={"calc(100% - 100px)"} bottom={"10px"}
+                          <CloseIcon position={"relative"} left={"calc(100% - 125px)"} bottom={"10px"}
                             cursor={"pointer"}
                             onClick={(ev) => {
                               setRSang([]);

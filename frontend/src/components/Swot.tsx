@@ -6,6 +6,8 @@ import s_img1 from "../img/swot_img/swot_s.png";
 import s_img2 from "../img/swot_img/swot_w.png";
 import s_img3 from "../img/swot_img/swot_o.png";
 import s_img4 from "../img/swot_img/swot_t.png";
+
+
 export default function MySwot(props: any) {
     const Hello = true;
     // console.log(props);
@@ -14,7 +16,31 @@ export default function MySwot(props: any) {
         <div className="s-name">
             {props.data.name}
         </div>
-        <table className="s-table">
+        <div>
+            <img src={s_img1} className="s-img" alt="" />
+            <div>
+                {props.data.s}
+            </div>
+        </div>
+        <div>
+            <img src={s_img2} className="s-img" alt="" />
+            <div>
+                {props.data.t}
+            </div>
+        </div>
+        <div>
+            <img src={s_img3} className="s-img" alt="" />
+            <div>
+                {props.data.o}
+            </div>
+        </div>
+        <div>
+            <img src={s_img4} className="s-img" alt="" />
+            <div>
+                {props.data.t}
+            </div>
+        </div>
+        {/* <table className="s-table">
             <tbody>
                 <tr className="s-tr">
                     <th className="s-th"><img className="s-img" src={s_img1} alt="" /></th>
@@ -41,7 +67,7 @@ export default function MySwot(props: any) {
                     </td>
                 </tr>
             </tbody>
-        </table>
+        </table> */}
         </>
     )
 }

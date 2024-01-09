@@ -1,7 +1,7 @@
 import React, { Fragment } from "react"
 import { useRef, useState, useEffect } from "react"
 import { Map, MapMarker, Polygon, CustomOverlayMap } from "react-kakao-maps-sdk"
-
+ 
 import { Box, Center, Input, Button, IconButton, VStack, HStack, Text, Tabs, TabList, Tab, TabPanels, TabPanel, } from '@chakra-ui/react'
 import {
     Slider,
@@ -15,21 +15,19 @@ import { isVisible } from "@testing-library/user-event/dist/utils";
 import "../css/MyForm.css"
 import cateData_ from "../json/cate_data.json";
 import uniqueValues_ from "../json/unique_values.json";
-
-import formImg1 from "../img/swot_img/MicrosoftTeams-image.png"
-
+ 
 export default function MyForm(props: any) {
     const [rV1, setRV1] = useState(2400);
     const [rV2, setRV2] = useState(15);
     const [rV3, setRV3] = useState(50);
     const [rV4, setRV4] = useState(50);
-    
+   
     const uniqueValues:any = uniqueValues_;
     const cateData:any = cateData_;
     const name = ["한식", "일식", "중식", "양식", "분식", "패스트푸드", "치킨", "주점", "카페", "제과점"]
-
-    const moneyimgUrl = "../img/swot_img/money.png";
-
+ 
+    const moneyimgUrl = "../img/Form/money.png";
+ 
     function sendData(f:any) {
         // let formData = new FormData();
         let formObj:any = {
@@ -43,7 +41,7 @@ export default function MyForm(props: any) {
         };
         let nameList = ["cate", "gu", "rv1", "rv2", "rv3", "rv4", "age"];
         const checkList = ["cate","gu","age"];
-        
+       
         for(let i of f.elements) {
             if(i.name == "cate") {
                 if(i.checked) {
@@ -64,30 +62,30 @@ export default function MyForm(props: any) {
                 formObj[i.name] = (i.value);
             }
         }
-
-        try {
-            fetch("http://127.0.0.1:8000/cafe/anal", {
-              method: "POST", // 또는 'PUT'
-              headers: {
+ 
+        fetch("http://127.0.0.1:8000/cafe/anal", {
+            method: "POST",
+            headers: {
                 "Content-Type": "application/json",
-              },
-              body: JSON.stringify(formObj),
-            }).then((res)=>(res.json()))
-            .then((res)=>{
-
-                props.setData(res);
-                console.log(res)
+            },
+            body: JSON.stringify(formObj),
             })
-            .catch((res)=>{console.error(res)})
-            
-        } 
-        catch (error) {
-            console.error("실패:", error);
-        }
+            .then((res) => {
+                // Log the entire response for debugging
+                console.log(res);
+                return res.json();
+            })
+            .then((res) => {
+                props.setData(res);
+                console.log(res);
+            })
+            .catch((error) => {
+                console.error("실패:", error);
+            });
     }
-
+ 
     return (
-        <form onSubmit={(ev) => { 
+        <form onSubmit={(ev) => {
             const El:any = ev.target;
             ev.preventDefault();
             sendData(El);
@@ -111,10 +109,9 @@ export default function MyForm(props: any) {
                                         <div className="img-div">
                                             <div className={"formImg formImg" + i}>
                                             </div>
-                                            <div className="img-txt">
+                                            <div className={"img-txt img-txt" + i}>
                                                 {name[i]}
-                                            </div>
-                                            
+                                            </div>  
                                         </div>
                                     </label>
                                 </Fragment>
@@ -153,7 +150,7 @@ export default function MyForm(props: any) {
                             }
                         </div>
                         <div className="jub-btn">
-                            <TriangleUpIcon cursor={"pointer"} onClick={(ev)=>{ 
+                            <TriangleUpIcon cursor={"pointer"} onClick={(ev)=>{
                                 const El1: any = document.getElementById("reg-txt");
                                 El1.className = El1.className.split(' ').map((n: any) => {
                                     if (n != 'dis-hi') {
@@ -167,7 +164,7 @@ export default function MyForm(props: any) {
                     </div>
                 </div>
             </div>
-
+ 
             <div className="pd-b">
                 <div className="form-h1 pos-rel">
                     보증금
@@ -219,23 +216,28 @@ export default function MyForm(props: any) {
                 <div className="form-c-w">
                     <div className="chk-d">
                         <input id="f-c-i-1" className="ckb" type="checkbox" name="age" value={"20"}/>
-                        <label htmlFor="f-c-i-1">20대</label>
+                        <label htmlFor="f-c-i-1" className='cb2'></label>
+                        <h3>20대</h3>
                     </div>
                     <div className="chk-d">
                         <input id="f-c-i-2" className="ckb" type="checkbox" name="age" value={"30"}/>
-                        <label htmlFor="f-c-i-2">30대</label>
+                        <label htmlFor="f-c-i-2" className='cb2'></label>
+                        <h3>30대</h3>
                     </div>
                     <div className="chk-d">
                         <input id="f-c-i-3" className="ckb" type="checkbox" name="age" value={"40"}/>
-                        <label htmlFor="f-c-i-3">40대</label>
+                        <label htmlFor="f-c-i-3" className='cb2'></label>
+                        <h3>40대</h3>
                     </div>
                     <div className="chk-d">
                         <input id="f-c-i-4" className="ckb" type="checkbox" name="age" value={"50"}/>
-                        <label htmlFor="f-c-i-4">50대</label>
+                        <label htmlFor="f-c-i-4" className='cb2'></label>
+                        <h3>50대</h3>
                     </div>
                     <div className="chk-d">
                         <input id="f-c-i-5" className="ckb" type="checkbox" name="age" value={"60"}/>
-                        <label htmlFor="f-c-i-5">60대</label>
+                        <label htmlFor="f-c-i-5" className='cb2'></label>
+                        <h3>60대</h3>
                     </div>
                 </div>
             </div>

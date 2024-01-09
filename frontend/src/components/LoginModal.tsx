@@ -53,11 +53,9 @@ export default function LoginModal({ isOpen, onClose }: LoginModalProps) {
       queryClient.refetchQueries(["me"]);
     },
   });
-
   const onSubmit = ({ email, password }: IForm) => {
     mutation.mutate({ email, password });
-  };
-
+  };  
   return (
     <Modal onClose={onClose} isOpen={isOpen}>
       <ModalOverlay />
@@ -73,14 +71,10 @@ export default function LoginModal({ isOpen, onClose }: LoginModalProps) {
               <Input
                 isInvalid={Boolean(errors.email?.message)}
                 {...register("email", {
-                  required: "Please write an email",
-                  pattern: {
-                    value: /^[^@ ]+@[^@ ]+\.[^@ .]{2,}$/,
-                    message: "Invalid email address"
-                  }
+                  required: "Please write a email",
                 })}
                 variant={"filled"}
-                placeholder="Email"
+                placeholder="Id"
               />
             </InputGroup>
             <InputGroup>

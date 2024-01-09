@@ -47,7 +47,7 @@ const PieChart = ({ data }) => {
         }
     }, [data]); // Re-render chart if data changes
 
-    return <canvas ref={canvasRef}></canvas>;
+    return <canvas ref={canvasRef} width="250px" height="250px"></canvas>;
 };
 
 export default PieChart;
