@@ -16,8 +16,6 @@ import "../css/MyForm.css"
 import cateData_ from "../json/cate_data.json";
 import uniqueValues_ from "../json/unique_values.json";
 
-import formImg1 from "../img/swot_img/MicrosoftTeams-image.png"
-
 export default function MyForm(props: any) {
     const [rV1, setRV1] = useState(2400);
     const [rV2, setRV2] = useState(15);
@@ -28,7 +26,7 @@ export default function MyForm(props: any) {
     const cateData:any = cateData_;
     const name = ["한식", "일식", "중식", "양식", "분식", "패스트푸드", "치킨", "주점", "카페", "제과점"]
 
-    const moneyimgUrl = "../img/swot_img/money.png";
+    const moneyimgUrl = "../img/Form/money.png";
 
     function sendData(f:any) {
         // let formData = new FormData();
@@ -111,10 +109,9 @@ export default function MyForm(props: any) {
                                         <div className="img-div">
                                             <div className={"formImg formImg" + i}>
                                             </div>
-                                            <div className="img-txt">
+                                            <div className={"img-txt img-txt" + i}>
                                                 {name[i]}
-                                            </div>
-                                            
+                                            </div>   
                                         </div>
                                     </label>
                                 </Fragment>
@@ -219,23 +216,28 @@ export default function MyForm(props: any) {
                 <div className="form-c-w">
                     <div className="chk-d">
                         <input id="f-c-i-1" className="ckb" type="checkbox" name="age" value={"20"}/>
-                        <label htmlFor="f-c-i-1">20대</label>
+                        <label htmlFor="f-c-i-1" className='cb2'></label>
+                        <h3>20대</h3>
                     </div>
                     <div className="chk-d">
                         <input id="f-c-i-2" className="ckb" type="checkbox" name="age" value={"30"}/>
-                        <label htmlFor="f-c-i-2">30대</label>
+                        <label htmlFor="f-c-i-2" className='cb2'></label>
+                        <h3>30대</h3>
                     </div>
                     <div className="chk-d">
                         <input id="f-c-i-3" className="ckb" type="checkbox" name="age" value={"40"}/>
-                        <label htmlFor="f-c-i-3">40대</label>
+                        <label htmlFor="f-c-i-3" className='cb2'></label>
+                        <h3>40대</h3>
                     </div>
                     <div className="chk-d">
                         <input id="f-c-i-4" className="ckb" type="checkbox" name="age" value={"50"}/>
-                        <label htmlFor="f-c-i-4">50대</label>
+                        <label htmlFor="f-c-i-4" className='cb2'></label>
+                        <h3>50대</h3>
                     </div>
                     <div className="chk-d">
                         <input id="f-c-i-5" className="ckb" type="checkbox" name="age" value={"60"}/>
-                        <label htmlFor="f-c-i-5">60대</label>
+                        <label htmlFor="f-c-i-5" className='cb2'></label>
+                        <h3>60대</h3>
                     </div>
                 </div>
             </div>
