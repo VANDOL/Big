@@ -30,25 +30,25 @@ function BulletinBoard() {
           </div>
         </div>
         {posts.map(post => (
-          <Link to={`/posts/${post.pk}`} key={post.pk} style={{ textDecoration: 'none', color: 'inherit', width: '100%', maxWidth: '800px' }}>
-            <div style={{ borderBottom: '1px solid #ddd', padding: '10px', display: 'flex', alignItems: 'center' }}>
-              <div style={{ marginLeft: '10px', marginRight: '10px', minWidth: '50px', flex: '1' }}>
-                <span style={{ fontSize: '16px' }}>•</span> {/* 중간 크기로 점 설정 */}
-              </div>
-              <div style={{ flex: '4', minWidth: '200px', maxWidth: '400px', whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}>
-                <strong>{post.fields.title}</strong>
-              </div>
-              <div style={{ flex: '2', minWidth: '100px', maxWidth: '200px', whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}>
-                {post.fields.author}
-              </div>
-              <div style={{ flex: '3', minWidth: '150px', maxWidth: '300px', whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}>
-                {new Date(post.fields.created_at).toLocaleDateString()} {/* 년 월 일만 표시 */}
-              </div>
-              <div style={{ flex: '1' }}>
-                {post.fields.viewCount}
-              </div>
-            </div>
-          </Link>
+  <Link to={`/posts/${post.id}`} key={post.id} style={{ textDecoration: 'none', color: 'inherit', width: '100%', maxWidth: '800px', marginTop: '1px' ,marginBottom: '1px' }}>
+    <div style={{ borderBottom: '1px solid #ddd', padding: '10px', display: 'flex', alignItems: 'center' }}>
+      <div style={{ flex: '0.5' }}>
+      <span style={{ fontSize: '16px' }}>•</span> {/* 중간 크기로 점 설정 */}
+   </div>
+   <div style={{ flex: '12', whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}>
+      <strong>{post.title}</strong>
+   </div>
+   <div style={{ flex: '2', whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}>
+     {post.username} {/* 사용자 이름 표시 */}
+    </div>
+    <div style={{ flex: '2', whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}>
+     {new Date(post.created_at).toLocaleDateString()} {/* 년 월 일만 표시 */}
+    </div>
+    <div style={{ flex: '0' }}>
+     {post.viewCount}
+   </div>
+  </div>
+  </Link>
         ))}
       </div>
     </VStack>
