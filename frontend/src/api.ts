@@ -1,25 +1,25 @@
 import Cookies from "js-cookie";
 import { QueryFunctionContext } from "@tanstack/react-query";
 import axios, { AxiosError } from 'axios';
-
+ 
 const instance = axios.create({
     baseURL: "http://127.0.0.1:8000",
     withCredentials: true,
 });
-export const getRooms = () => 
+export const getRooms = () =>
     instance.get(`rooms/`).then((response) => response.data);
 export const getRoom = ({ queryKey }: QueryFunctionContext) => {
     const [ _, roomPk ] = queryKey;
     return instance.get(`rooms/${roomPk}`).then((response) => response.data);
 }
-
+ 
 export const getRoomReviews = async ( { queryKey }: QueryFunctionContext) => {
     const [ _, roomPk ] = queryKey;
     const response = await instance
         .get(`rooms/${roomPk}/reviews`);
     return response.data;
 }
-export const getMe = () => 
+export const getMe = () =>
     instance.get(`http://127.0.0.1:8000/user/me`,
     {
         headers: {
@@ -27,7 +27,7 @@ export const getMe = () =>
             'Authorization': `Token ${localStorage.getItem("authToken")}`
         },
     }).then((response) => response.data);
-
+ 
 export const logOut = () =>
     instance
         .post(`http://127.0.0.1:8000/user/logout`, null, {
@@ -37,11 +37,11 @@ export const logOut = () =>
             },
         })
         .then((response) => {
-        
+       
             localStorage.removeItem("authToken");
             return response.data
         });
-        
+       
 export const githubLogIn = (code: string) =>
     instance
         .post(`users/github`,
@@ -62,25 +62,26 @@ export const kakaoLogIn = (code: string) =>
             },
         })
         .then((response) => response.status);
-export interface IUsernameLoginVariables {
+export interface IEmailLoginVariables {
     email: string;
     password: string;
 }
-
+ 
 export interface IEmailLoginSuccess {
     ok: string;
     Token: string;
 }
-
+ 
 export interface IEmailLoginError {
     error: string;
 }
-export const usernameLogIn = ({
+ 
+export const emailLogIn = ({
     email,
     password,
 }: IEmailLoginVariables) => axios.post<IEmailLoginSuccess>(
     'http://127.0.0.1:8000/user/login',
-    {email, password},
+    { email, password },
     {
         headers: {
             "X-CSRFToken": Cookies.get("csrftoken") || "",
