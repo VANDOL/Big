@@ -17,7 +17,7 @@
 
 .i-btn {
     position: absolute;
-    background-color: white;
+    /* background-color: white; */
     height: 50px;
     width: 50px;
     right: 550px;
@@ -29,8 +29,8 @@
     transition: right 0.5s;
     cursor: pointer; /* Indicate that the element is clickable */
     /* Added a slight shadow or border for better visibility */
-    box-shadow: 0 0 5px -1px #4A5568;
-    border-radius: 50%; /* Making it circular if it's meant to be a round button */
+    /* box-shadow: 0 0 5px -1px #4A5568; */
+    /* border-radius: 50%; Making it circular if it's meant to be a round button */
 }
 
 /* Toggle visibility */
