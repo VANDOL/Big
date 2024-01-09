@@ -64,8 +64,7 @@ class recommend(APIView):
         user_preferences.update(age_group_dict)
         
         result_data = recommend_similar_markets(service_name, locations, user_preferences, n=5)
-        
-        print(result_data)
+    
         commercial_codes_and_percentage = result_data[["Commercial_Code", "percentage"]]
         commercial_codes_and_percentage_dict = commercial_codes_and_percentage.to_dict(orient='records')
 

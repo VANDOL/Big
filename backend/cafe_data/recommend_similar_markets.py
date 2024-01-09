@@ -51,7 +51,7 @@ def get_sales_data():
         'Male': [],
         'Female': [],
         'Monthly_Average_Sales': [],
-        'Age_Group_10s': [],
+
         'Age_Group_20s': [],
         'Age_Group_30s': [],
         'Age_Group_40s': [],
@@ -72,7 +72,6 @@ def get_sales_data():
         data_dict['Male'].append(item.male)
         data_dict['Female'].append(item.female)
         data_dict['Monthly_Average_Sales'].append(item.monthly_average_sales)
-        data_dict['Age_Group_10s'].append(item.age_group_10s)
         data_dict['Age_Group_20s'].append(item.age_group_20s)
         data_dict['Age_Group_30s'].append(item.age_group_30s)
         data_dict['Age_Group_40s'].append(item.age_group_40s)
@@ -84,8 +83,6 @@ def get_sales_data():
 
 # DataFrame 생성
 final_data = get_sales_data()
-
-print(final_data)
 
 def recommend_similar_markets(service_name, locations, user_preferences, n=5):
     fuzzy_df = final_data[final_data['Service_Industry_Name'] == service_name]
