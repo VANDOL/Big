@@ -1,6 +1,6 @@
 import Cookies from "js-cookie";
 import { QueryFunctionContext } from "@tanstack/react-query";
-import axios from "axios";
+import axios, { AxiosError } from 'axios';
 
 const instance = axios.create({
     baseURL: "http://127.0.0.1:8000",
@@ -20,7 +20,13 @@ export const getRoomReviews = async ( { queryKey }: QueryFunctionContext) => {
     return response.data;
 }
 export const getMe = () => 
-    instance.get(`http://127.0.0.1:8000/user/me`).then((response) => response.data);
+    instance.get(`http://127.0.0.1:8000/user/me`,
+    {
+        headers: {
+            "X-CSRFToken": Cookies.get("csrftoken") || "",
+            'Authorization': `Token ${localStorage.getItem("authToken")}`
+        },
+    }).then((response) => response.data);
 
 export const logOut = () =>
     instance
@@ -30,7 +36,11 @@ export const logOut = () =>
                 'Authorization': `Token ${localStorage.getItem("authToken")}`
             },
         })
-        .then((response) => response.data);
+        .then((response) => {
+        
+            localStorage.removeItem("authToken");
+            return response.data
+        });
         
 export const githubLogIn = (code: string) =>
     instance
@@ -52,43 +62,48 @@ export const kakaoLogIn = (code: string) =>
             },
         })
         .then((response) => response.status);
-export interface IUsernameLoginVariables {
-    username: string;
+export interface IEmailLoginVariables {
+    email: string;
     password: string;
 }
-export interface IUsernameLoginSuccess {
+
+export interface IEmailLoginSuccess {
     ok: string;
+    Token: string;
 }
-export interface IUsernameLoginError {
+
+export interface IEmailLoginError {
     error: string;
 }
-export const usernameLogIn = ({
-    username,
+
+export const emailLogIn = ({
+    email,
     password,
-}: IUsernameLoginVariables) => axios.post(
+}: IEmailLoginVariables) => axios.post<IEmailLoginSuccess>(
     'http://127.0.0.1:8000/user/login',
-    {username, password},
+    { email, password },
     {
         headers: {
             "X-CSRFToken": Cookies.get("csrftoken") || "",
         },
         withCredentials: true,
-    })
-    .then((response) => {
-        const token = response.data.Token;
-        if (token) {
-            localStorage.setItem("authToken", token);
-        }
-        return response.data;
-    });
-    
-    export interface IUsernameSignUpVariables {
-          username: string;
-          password: string;
-          email: string;
-          name: string;
-        }
-    export const getCsrfToken = () => {
-    const csrfToken = Cookies.get("csrftoken") || "";
-    return csrfToken;
-    };
+    }
+).then((response) => {
+    const token = response.data.Token;
+    if (token) {
+        localStorage.setItem("authToken", token);
+    }
+    return response.data;
+}).catch((error: AxiosError<IEmailLoginError>) => {
+    // 오류 처리 로직
+    if (error.response) {
+        // 서버에서 오류 응답이 반환된 경우
+        return error.response.data;
+    } else {
+        // 오류가 네트워크 또는 다른 이유로 인해 발생한 경우
+        return { error: error.message };
+    }
+});
+export const getCsrfToken = () => {
+    return Cookies.get("csrftoken") || "";
+  };
