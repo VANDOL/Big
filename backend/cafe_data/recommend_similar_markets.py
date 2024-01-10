@@ -34,7 +34,9 @@ import numpy as np
 import pandas as pd
 from fuzzywuzzy import fuzz as fw_fuzz
 import skfuzzy as fuzz
+from sklearn.preprocessing import MinMaxScaler
 from .models import Sales
+from sklearn.cluster import KMeans
 
 def get_sales_data():
     sales_objects = Sales.objects.all()
@@ -93,15 +95,26 @@ def recommend_similar_markets(service_name, locations, user_preferences, n=5):
                 'Male','Female',
                 'Age_Group_20s','Age_Group_30s', 'Age_Group_40s', 'Age_Group_50s', 'Age_Group_60s']
     data_matrix = fuzzy_df3[features].values.T
- 
-    num_clusters = 5
+
+    num_clusters = 4
+    
+# =====
+    scaler = MinMaxScaler()
+    data_matrix = scaler.fit_transform(data_matrix)
+
+    init_kmeans = KMeans(n_clusters=num_clusters, init='k-means++')
+    init_kmeans.fit(data_matrix)
+
+    init_centers = init_kmeans.cluster_centers_
+ # =====
+    
     cntr, u, _, _, _, _, _ = fuzz.cluster.cmeans(
         data_matrix,
         num_clusters,
         m=2,
         error=0.005,
         maxiter=1000,
-        init=None
+        init=init_centers
     )
  
     user_df = pd.DataFrame(user_preferences, index=[0])
