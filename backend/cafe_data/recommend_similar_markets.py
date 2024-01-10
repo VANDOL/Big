@@ -109,7 +109,7 @@ def recommend_similar_markets(service_name, locations, user_preferences, n=5):
         m=2,
         error=0.005,
         maxiter=1000,
-        init=None
+        init=init_centers
     )
  
     user_df = pd.DataFrame(user_preferences, index=[0])
