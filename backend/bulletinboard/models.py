@@ -7,8 +7,12 @@ class Post(models.Model):
     title = models.CharField(max_length=100)
     content = models.TextField()
     created_at = models.DateTimeField(auto_now_add=True)
-    author = models.ForeignKey(User, on_delete=models.CASCADE)
-    
+    imgfile = models.ImageField(upload_to='post_images/', null=True, blank=True)
+    author = models.ForeignKey(
+        settings.AUTH_USER_MODEL,
+        on_delete=models.CASCADE,
+        default=1
+    )
 
 # class File(models.Model):
 #     post = models.ForeignKey(Post, related_name='files', on_delete=models.CASCADE)

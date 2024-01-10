@@ -14,6 +14,7 @@ function PostForm() {
     const { user } = useUser();
     const [csrfToken, setCsrfToken] = useState('');
     const { isLoggedIn } = useUser(); // Use useUser hook to check login status
+    const [file, setFile] = useState(null);
 
     useEffect(() => {
         axios.get('http://127.0.0.1:8000/api/get-csrf-token/')
@@ -24,6 +25,9 @@ function PostForm() {
                 console.error('CSRF 토큰을 가져오는 데 오류 발생:', error);
             });
     }, []);
+    const handleFileChange = (e) => {
+        setFile(e.target.files[0]); 
+    }
 
     const handleSubmit = (e) => {
         e.preventDefault();
@@ -41,7 +45,9 @@ function PostForm() {
         const formData = new FormData();
         formData.append('title', title);
         formData.append('content', content);
-        // formData.append('file', file);
+        if (file) {
+            formData.append('file', file); // Append file if it exists
+        }
         formData.append('author', user.email);
 
         axios.post('http://127.0.0.1:8000/board/posts/create/', formData, {
@@ -86,9 +92,9 @@ function PostForm() {
         const formData = new FormData();
         formData.append('title', title);
         formData.append('content', content);
-        // if (file) {
-        //     formData.append('file', file);
-        // }
+        if (file) {
+            formData.append('file', file);
+        }
     
         axios.put(`http://127.0.0.1:8000/board/posts/${pk}/update/`, formData, {
             headers: {
@@ -119,7 +125,7 @@ function PostForm() {
         <VStack as="form" onSubmit={handleSubmit} spacing={4}>
             <Input placeholder="제목" value={title} onChange={e => setTitle(e.target.value)} />
             <Textarea placeholder="내용" value={content} onChange={e => setContent(e.target.value)} />
-            {/* <Input type="file" p={1.5} onChange={e => setFile(e.target.files[0])} */}
+            <Input type="file" onChange={handleFileChange} />
             <Button colorScheme="blue" type="submit">게시</Button>
         </VStack>
     );
