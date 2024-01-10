@@ -3,7 +3,7 @@ import { QueryFunctionContext } from "@tanstack/react-query";
 import axios, { AxiosError } from 'axios';
  
 const instance = axios.create({
-    baseURL: "http://127.0.0.1:8000",
+    baseURL: "http://127.0.0.1:8000/",
     withCredentials: true,
 });
 export const getRooms = () =>
@@ -20,13 +20,8 @@ export const getRoomReviews = async ( { queryKey }: QueryFunctionContext) => {
     return response.data;
 }
 export const getMe = () =>
-    instance.get(`http://127.0.0.1:8000/user/me`,
-    {
-        headers: {
-            "X-CSRFToken": Cookies.get("csrftoken") || "",
-            'Authorization': `Token ${localStorage.getItem("authToken")}`
-        },
-    }).then((response) => response.data);
+    instance.get(`http://127.0.0.1:8000/user/me`,)
+    .then((response) => response.data);
  
 export const logOut = () =>
     instance
@@ -44,7 +39,7 @@ export const logOut = () =>
        
 export const githubLogIn = (code: string) =>
     instance
-        .post(`users/github`,
+        .post(`user/github`,
         {code},
         {
             headers: {
@@ -54,7 +49,7 @@ export const githubLogIn = (code: string) =>
         .then((response) => response.status);
 export const kakaoLogIn = (code: string) =>
     instance
-        .post(`users/kakao`,
+        .post(`user/kakao`,
         {code},
         {
             headers: {
