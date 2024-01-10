@@ -51,9 +51,14 @@ def create_post(request):
         except get_user_model().DoesNotExist:
             return JsonResponse({'error': '사용자가 존재하지 않습니다.'}, status=400)
 
-        new_post = Post(title=title, content=content, author=author)
-        new_post.save()
+        imgfile = request.FILES.get('file')
+        if imgfile:  # Check if a file is actually uploaded
+            new_post = Post(title=title, content=content, author=author, imgfile=imgfile)
+        else:
+            new_post = Post(title=title, content=content, author=author)
 
+        new_post.save()
+        
         return JsonResponse({'message': '게시물이 생성되었습니다.', 'post_id': new_post.pk}, status=201)
  
 # @csrf_exempt
@@ -71,14 +76,13 @@ def create_post(request):
 def post_detail(request, pk):
     try:
         post = Post.objects.get(pk=pk)
-        # 게시글의 작성자 정보 가져오기
-        author_username = post.author.username if post.author else None
+        imgfile_url = post.imgfile.url if post.imgfile else None
         return JsonResponse({
             'title': post.title,
             'content': post.content,
             'created_at': post.created_at,
-            'author_username': author_username  # 작성자의 사용자 이름 추가
-            # 'file_url': post.file.url if post.file else None
+            'author_username': post.author.username,  # Assuming author is not None
+            'imgfile_url': imgfile_url
         })
     except Post.DoesNotExist:
         return JsonResponse({'error': 'Post not found'}, status=404)
@@ -95,27 +99,23 @@ def delete_post(request, pk):
 def update_post(request, pk):
     try:
         post = Post.objects.get(pk=pk)
- 
-        if request.method == 'PUT':
-            # JSON 데이터 유효성 검사
-            if not request.body:
-                return JsonResponse({'error': '빈 요청 본문'}, status=400)
- 
-            data = json.loads(request.body.decode('utf-8'))
-            title = data.get('title', '제목을 입력하세요')
-            content = data.get('content', '내용을 작성하세요')
-            # file = request.FILES.get('file') if 'file' in request.FILES else None
- 
-            post.title = title.strip() if title.strip() != '' else '제목을 입력하세요'
-            post.content = content.strip() if content.strip() != '' else '내용을 작성하세요'
-            # if file:
-            #     # 파일 처리 로직을 추가할 수 있습니다.
-            #     pass
+
+        if request.method == 'POST':
+            title = request.POST.get('title')
+            content = request.POST.get('content')
+            file = request.FILES.get('file')
+
+            post.title = title if title else '제목을 입력하세요'
+            post.content = content if content else '내용을 작성하세요'
+            if file:
+                post.imgfile = file
+
             post.save()
- 
             return JsonResponse({'message': '게시글이 성공적으로 업데이트되었습니다.'})
- 
-    except json.JSONDecodeError:
-        return JsonResponse({'error': '유효하지 않은 JSON 데이터'}, status=400)
+
     except Post.DoesNotExist:
         return JsonResponse({'error': '게시글을 찾을 수 없습니다.'}, status=404)
+    except Exception as e:
+        return JsonResponse({'error': str(e)}, status=500)
+
+    return JsonResponse({'error': 'Invalid request'}, status=400)

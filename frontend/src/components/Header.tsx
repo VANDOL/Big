@@ -42,7 +42,7 @@ const ChatbotIcon =  ({ isLoggedIn }: { isLoggedIn: boolean }) => {
   };
   return (
     <>
-      <Box position="fixed" bottom="90px" right="50px" style={{ display: showChat ? 'block' : 'none' }}>
+      <Box position="fixed" bottom="90px" right="50px" style={{ display: showChat ? 'block' : 'none',}}>
         <ChatBot />
       </Box>
       <IconButton

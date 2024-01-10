@@ -21,6 +21,7 @@ function PostDetail() {
   const [editMode, setEditMode] = useState(false);
   const [editedTitle, setEditedTitle] = useState('');
   const [editedContent, setEditedContent] = useState('');
+  const [file, setFile] = useState(null); 
   const headers = {
     'X-CSRFToken': getCsrfToken(),
     // 필요한 경우 여기에 추가 헤더를 정의할 수 있습니다.
@@ -31,6 +32,7 @@ function PostDetail() {
         setPost(response.data);
         setEditedTitle(response.data.title);
         setEditedContent(response.data.content);
+        setFile(response.data.imgfile_url);
       });
   }, [pk]);
 
@@ -38,6 +40,9 @@ function PostDetail() {
     setEditMode(true);
   };
 
+  const handleFileChange = (e) => {
+    setFile(e.target.files[0]);
+  };
   // const handleFileChange = (e) => {
   //   setFile(e.target.files[0]);
   // };
@@ -50,23 +55,22 @@ function PostDetail() {
     const updatedData = {
       title: editedTitle,
       content: editedContent,
-      // 기타 필요한 데이터
+      file:file,
     };
     
     const formData = new FormData();
     formData.append('title', editedTitle);
     formData.append('content', editedContent);
-    // if (file) {
-    //   formData.append('file', file);
-    // }
+    if (file) {
+      formData.append('file', file);
+    }
+    console.log(pk)
 
-
-
-
-    axios.put(`http://127.0.0.1:8000/board/posts/${pk}/update/`, updatedData, {
-      headers: {
-        'Content-Type': 'application/json',
-      }
+    axios.post(`http://127.0.0.1:8000/board/posts/${pk}/update/`, formData, {
+        headers: {
+            'X-CSRFToken': getCsrfToken(),
+            'Content-Type': 'multipart/form-data',
+        }
     })
       .then((response) => {
         setPost(response.data);
@@ -81,6 +85,7 @@ function PostDetail() {
 
   return (
     <Container maxW="container.xl" py={5}>
+
       {editMode ? (
         <VStack spacing={4}>
           <Input
@@ -94,9 +99,11 @@ function PostDetail() {
             placeholder="내용"
             minHeight="300px"
           />
+          <Input type="file" onChange={handleFileChange} />
           <Flex justify="flex-end" w="full">
             <Button colorScheme="blue" onClick={handleSave}>저장</Button>
           </Flex>
+          
         </VStack>
       ) : (
         <Flex direction="column" align="stretch" w="60%" m="auto">
@@ -106,9 +113,17 @@ function PostDetail() {
               작성자: {post?.author_username}
             </Text>
           </Box>
-          <Box borderWidth="1px" borderRadius="md" p={3} minHeight="1200px" maxHeight="1200px" overflowY="auto">
-            <Text>{post?.content}</Text>
+          <Box borderWidth="1px" borderRadius="md" p={3} minHeight="1000px" maxHeight="1200px" overflowY="auto" textAlign={'center'} >
+            {file && (
+                <img 
+                    src={`http://127.0.0.1:8000/${file}`} 
+                    alt="Post Image" 
+                    style={{ display: 'block', marginLeft: 'auto', marginRight: 'auto' , marginTop:'20px'}}
+                />
+            )}
+            <Text mt={"20px"}>{post?.content}</Text>
           </Box>
+          
           <Flex justify="flex-end" mt={4}>
             <Button colorScheme="green" onClick={handleEdit} mr={2}>수정</Button>
             <Button colorScheme="red" onClick={() => {

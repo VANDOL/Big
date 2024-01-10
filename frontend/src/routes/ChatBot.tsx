@@ -74,8 +74,7 @@ const ChatBot = () => {
       overflow="hidden"
       padding="10px"
       position="relative"
-      bottom="10px"
-      right="35px"
+      backgroundColor={'white'}
     >
       <VStack>
         <Box

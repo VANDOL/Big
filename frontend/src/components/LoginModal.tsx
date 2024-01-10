@@ -72,7 +72,7 @@ export default function LoginModal({ isOpen, onClose }: LoginModalProps) {
     mutation.mutate({ email, password });
   };  
   return (
-    <Modal onClose={onClose} isOpen={isOpen}>
+    <Modal onClose={onClose} isOpen={isOpen} isCentered>
       <ModalOverlay />
       <ModalContent>
         <ModalHeader>Log in</ModalHeader>
@@ -118,10 +118,10 @@ export default function LoginModal({ isOpen, onClose }: LoginModalProps) {
             mt={4}
             colorScheme={"red"}
             w="100%"
+            marginBottom={10}
           >
             Log in
           </Button>
-          <SocialLogin />
         </ModalBody>
       </ModalContent>
     </Modal>
