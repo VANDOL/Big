@@ -34,6 +34,7 @@ import numpy as np
 import pandas as pd
 from fuzzywuzzy import fuzz as fw_fuzz
 import skfuzzy as fuzz
+from sklearn.preprocessing import MinMaxScaler
 from .models import Sales
 from sklearn.cluster import KMeans
 
