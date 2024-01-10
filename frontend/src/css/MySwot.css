@@ -1,45 +1,72 @@
+@font-face {
+  font-family: 'KCC-Ganpan';
+  src: url('../img/Form/KCC-Ganpan.woff') format('woff');
+}
 .dis-not {
     display: none;
 }
-
-.s-name {
+ 
+ 
+  .swot_window {
+    font-family: Montserrat;
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 10px;
     text-align: center;
-}
-
-.s-table {
+    align-items: center;
+    background-color: rgba(22, 84, 0, 0.7);
+    padding: 5px;
+    border-radius: 10px;
+    
     width: 100%;
-    /* border-collapse: separate; */
-    border-collapse: collapse;
-}
-
-.s-tr {
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+  }
+ 
+  .s-name {
+    font-family: 'KCC-Ganpan', sans-serif;
+    grid-column: span 2;
     width: 100%;
-    height: 80px;
-    min-height: 100px;
-    /* border-bottom: 1px solid #000; */
-    box-shadow: 0px 1px 2px -1px black;
+    text-align: center;
+    color: white;
+    position: relative;
+    right: 40px;
+    font-size: 32px;
+    
+  }
+  
+  .swot_window.hidden {
+    display: none;
+  }
+ 
+  .first,
+  .second,
+  .third,
+  .forth {
+    font-family: 'KCC-Ganpan', sans-serif;
+    font-size: 18px;
+    width: 100%;
+    text-align: left;
+    color: white;
+    padding: 20px; /* 각 그리드 아이템의 내부 여백 설정 */
+    /* margin: 10px; */
+    transition: background-color 0.3s ease, border-radius 0.3s ease; /* 호버 시 전환 효과 설정 */
+}
+ 
+ 
+/* 호버 효과 스타일 */
+.first:hover,
+.second:hover,
+.third:hover,
+.forth:hover {
+  background-color: rgba(15, 55, 0, 0.7); /* 마우스 호버 시 배경색 변경 */
+  border-radius: 10px; /* 마우스 호버 시 둥근 경계선 추가 */
+}
+.hidden {
+  display: none;
 }
 
-.s-th {
-    width: 60px;
-    content: "";
-    /* border-top: 1px solid black;
-    border-left: 1px solid black;
-    border-bottom: 1px solid black;
-    border-top-left-radius: 20px;
-    border-bottom-left-radius: 20px; */
-}
-
-.s-img {
-    width: 50px;
-    float: left;
-}
-
-.s-td {
-    /* border-top: 1px solid black; */
-    /* border-right: 1px solid black;
-    border-bottom: 1px solid black;
-    border-top-right-radius: 20px;
-    border-bottom-right-radius: 20px; */
-    text-wrap: wrap;
+.swot-txt {
+    font-size: 32px;
+    color: rgb(200, 255, 177);
+    text-align: center;
 }

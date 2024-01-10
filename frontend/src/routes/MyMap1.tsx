@@ -1056,7 +1056,7 @@ export default function MyMap1() {
                     (<MyForm setData={setRSang} setCheck={setGetCheck}></MyForm>)
                 }
               </TabPanel>
-              <TabPanel w={"400px"} bg={"white"} h={"500px"} mt={"10px"}
+              <TabPanel w={"500px"} h={"500px"} mt={"10px"}
                 borderRadius={"20px"}
                 boxShadow={"0px 0px 15px -5px #4A5568"}
                 overflowY={"auto"}
