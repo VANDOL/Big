@@ -35,6 +35,7 @@ import pandas as pd
 from fuzzywuzzy import fuzz as fw_fuzz
 import skfuzzy as fuzz
 from .models import Sales
+from sklearn.cluster import KMeans
 
 def get_sales_data():
     sales_objects = Sales.objects.all()
