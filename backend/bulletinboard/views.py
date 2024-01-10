@@ -1,4 +1,4 @@
-from django.http import JsonResponse, HttpResponse
+from django.http import JsonResponse, HttpResponseForbidden
 from .models import Post
 from django.views.decorators.csrf import csrf_exempt
 from django.core import serializers
@@ -82,6 +82,9 @@ def post_detail(request, pk):
         })
     except Post.DoesNotExist:
         return JsonResponse({'error': 'Post not found'}, status=404)
+ 
+
+
  
 @csrf_exempt
 def delete_post(request, pk):
