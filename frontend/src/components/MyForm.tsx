@@ -37,7 +37,6 @@ export default function MyForm(props: any) {
     useEffect(()=>{
         let guList:Array<any> = gu.name;
         guList.sort();
-        console.log(guList);
         setGu({name:guList});
     }, [])
     function sendData(f:any) {
@@ -86,7 +85,6 @@ export default function MyForm(props: any) {
             .then((res)=>{
 
                 props.setData(res);
-                console.log(res)
             })
             .catch((res)=>{console.error(res)})
             
@@ -186,7 +184,6 @@ export default function MyForm(props: any) {
                                                 const E:any = ev;
                                                 const el:any = document.getElementById(E.target.htmlFor);
                                                 if(el.checked == false) {
-                                                    console.log(el.checked);
                                                     let List:any = [];
                                                     for(let i of txtList) {
                                                         List.push(i);

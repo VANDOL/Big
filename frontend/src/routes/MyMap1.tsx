@@ -921,7 +921,7 @@ export default function MyMap1() {
           }
         }
       }
-      console.log(rList);
+      
       setRSang_(rList);
     }
     setGoRender((m) => (!m));
