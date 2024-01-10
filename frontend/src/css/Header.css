@@ -1,3 +1,8 @@
+.m-side {
+    margin-top: 5px;
+    margin-left: 10px;
+}
+
 .ring {
     position: relative;
     width: 200px;
@@ -13,7 +18,7 @@
     height: 65px;
     border: 2px solid #c62525;
     inset : 0;
-    left: 27px;
+    left: -14px;
     top: -1px;
     transition: 0s;
     border-radius: 59% 79% 73% 47% / 55% 64% 66% 69%;
@@ -25,7 +30,7 @@
     height: 65px;
     border: 2px solid #5e44bc;
     inset : 0;
-    left: 27px;
+    left: -14px;
     top: -1px;
     transition: 0.3s;
     border-radius: 51% 54% 76% 69% / 59% 72% 76% 67%;
@@ -37,7 +42,7 @@
     height: 65px;
     border: 2px solid #31d126;
     inset : 0.5;
-    left: 27px;
+    left: -14px;
     top: -1px;
     transition: 0.4s;
     border-radius: 65% 65% 76% 79% / 48% 72% 73% 47%;

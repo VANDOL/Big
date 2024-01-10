@@ -18,6 +18,7 @@
     transition: right 0.5s;
     /* Ensure no unwanted text selection on drag or double click */
     user-select: none; 
+    border-radius: 20px;
 }
 
 .i-btn {

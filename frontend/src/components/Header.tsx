@@ -30,6 +30,7 @@ import { BsChatDots } from 'react-icons/bs';
 import ChatBot from '../routes/ChatBot';
 import '../css/Header.css'
 import HeaderImage from '../img/Header_img/Header_img.png' 
+import HeaderImage2 from '../img/Header_img/Header_img2.png' 
 
 
 const ChatbotIcon =  ({ isLoggedIn }: { isLoggedIn: boolean }) => {
@@ -137,7 +138,9 @@ export default function Header() {
         <Link to={"/"}>
           <HStack>
             <img src={HeaderImage} alt='icon' width={"40"} height={"40"} />
-            <Text color="#0A66C2" fontSize="lg">요식이지</Text>
+            {/* <Text color="#0A66C2" fontSize="lg">요식이지</Text> */}
+            
+            <img className="m-side" src={HeaderImage2} alt="" />
           </HStack>
         </Link>
       </Box>
