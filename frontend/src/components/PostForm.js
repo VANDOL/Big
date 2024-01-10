@@ -122,11 +122,49 @@ function PostForm() {
     };
 
     return (
-        <VStack as="form" onSubmit={handleSubmit} spacing={4}>
-            <Input placeholder="제목" value={title} onChange={e => setTitle(e.target.value)} />
-            <Textarea placeholder="내용" value={content} onChange={e => setContent(e.target.value)} />
-            <Input type="file" onChange={handleFileChange} />
-            <Button colorScheme="blue" type="submit">게시</Button>
+        <VStack
+            as="form"
+            onSubmit={handleSubmit}
+            spacing={4}
+            align="stretch"
+            m="4"  // margin
+            p="4"  // padding
+            bg="white"  // background color
+            boxShadow="md"  // medium box shadow
+            borderRadius="md"  // medium border radius
+            width={'1000px'}
+            marginLeft={'auto'}
+            marginRight={'auto'}
+        >
+            <Input
+                placeholder="제목"
+                value={title}
+                onChange={e => setTitle(e.target.value)}
+                size="md"  // medium size
+                variant="filled"  // filled variant
+            />
+            <Textarea
+                placeholder="내용"
+                value={content}
+                onChange={e => setContent(e.target.value)}
+                size="md"
+                variant="filled"
+                height={'500px'}
+            />
+            <Input
+                type="file"
+                onChange={handleFileChange}
+                p="1"  // padding
+                borderColor="gray.200"  // border color
+            />
+            <Button
+                colorScheme="blue"
+                type="submit"
+                size="lg"  // large size
+                width="full"  // full width
+            >
+                게시
+            </Button>
         </VStack>
     );
 }

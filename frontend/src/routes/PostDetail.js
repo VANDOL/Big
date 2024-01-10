@@ -28,6 +28,8 @@ function PostDetail() {
   const headers = {
     'X-CSRFToken': getCsrfToken(),
   };
+  const { user } = useUser();
+  
   useEffect(() => {
     axios.get(`http://127.0.0.1:8000/board/posts/${pk}/`)
       .then((response) => {
