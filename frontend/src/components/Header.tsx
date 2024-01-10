@@ -23,16 +23,19 @@ import LoginModal from "./LoginModal";
 import useUser from "../lib/useUser";
 import { logOut } from "../api";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
-import { useRef } from "react";
+import { useEffect, useRef } from "react";
 import { Text } from "@chakra-ui/react";
 import React, { useState } from 'react';
 import { BsChatDots } from 'react-icons/bs';
 import ChatBot from '../routes/ChatBot';
- 
- 
+import '../css/Header.css'
+import HeaderImage from '../img/Header_img/Header_img.png' 
+import HeaderImage2 from '../img/Header_img/Header_img2.png' 
+
+
 const ChatbotIcon =  ({ isLoggedIn }: { isLoggedIn: boolean }) => {
   const [showChat, setShowChat] = useState(false);
- 
+
   const handleChatIconClick = () => {
     if (isLoggedIn) {
       setShowChat(!showChat);
@@ -59,7 +62,8 @@ const ChatbotIcon =  ({ isLoggedIn }: { isLoggedIn: boolean }) => {
     </>
   );
 };
- 
+
+
 export default function Header() {
   const { userLoading, isLoggedIn, user } = useUser();
   const {
@@ -102,6 +106,15 @@ export default function Header() {
   const onLogOut = async () => {
     mutation.mutate();
   };
+
+  const handleBoardClick = (event: React.MouseEvent<HTMLAnchorElement, MouseEvent>) => {
+    if (!isLoggedIn) {
+      alert('게시판을 사용하기 위해서는 로그인이 필요합니다.');
+      event.preventDefault();
+      return;
+    }
+  };
+
   return (
     <Stack
       justifyContent={"space-between"}
@@ -119,24 +132,31 @@ export default function Header() {
       borderBottomWidth={1}
       zIndex={50}
     >
+     <div className="ring">
+      <div className="ring2"></div>
       <Box color={logoColor}>
         <Link to={"/"}>
           <HStack>
-            <FcMindMap size={"48"} />
-            <Text color="#0A66C2" fontSize="lg">예비 창업자 도우미</Text>
+            <img src={HeaderImage} alt='icon' width={"40"} height={"40"} />
+            {/* <Text color="#0A66C2" fontSize="lg">요식이지</Text> */}
+            
+            <img className="m-side" src={HeaderImage2} alt="" />
           </HStack>
         </Link>
       </Box>
- 
+      <div className="ring3"></div>
+      <div className="ring4"></div>
+    </div>
+
       <HStack spacing={1}>      
-        <Link to="/new-board">게시판</Link>
+        <Link to="/new-board" onClick={handleBoardClick}>게시판</Link>
         <IconButton
           onClick={toggleColorMode}
           variant={"ghost"}
           aria-label="Toggle dark mode"
           icon={<Icon />}
         />
- 
+
         {!userLoading ? (
           !isLoggedIn ? (
             <>
@@ -164,10 +184,10 @@ export default function Header() {
           )
         ) : null}
       </HStack>
- 
+
       <LoginModal isOpen={isLoginOpen} onClose={onLoginClose} />
       {/* 챗봇 아이콘 컴포넌트 추가 */}
-      <ChatbotIcon isLoggedIn ={isLoggedIn} />
+      <ChatbotIcon isLoggedIn={isLoggedIn} />
     </Stack>
   );
 }

@@ -580,6 +580,7 @@ export default function MyMap1() {
               transform: scale(1);
           }
         }
+        
         .mk-1 {
             width: 80px;
             height: 80px;
@@ -921,7 +922,7 @@ export default function MyMap1() {
           }
         }
       }
-      console.log(rList);
+      
       setRSang_(rList);
     }
     setGoRender((m) => (!m));
@@ -989,8 +990,9 @@ export default function MyMap1() {
           zIndex={"15"}
           h={"100%"}
         >
-          <TabList gap={"5px"} w={"200px"}>
-            <Tab bg={"#EDF2F7"} boxShadow={"xs"}
+          <TabList gap={"5px"} w={"400px"} h={"60px"}>
+            <Tab bg={"#EDF2F7"} boxShadow={"xs"} fontFamily={'KCC-Ganpan'}
+              fontSize={"28px"}
               _selected={{
                 bg: "#4A5568",
                 color: "white"
@@ -1006,7 +1008,8 @@ export default function MyMap1() {
             >
               상권분석
             </Tab>
-            <Tab bg={"#EDF2F7"} boxShadow={"xs"}
+            <Tab bg={"#EDF2F7"} boxShadow={"xs"} fontFamily={'KCC-Ganpan'}
+              fontSize={"28px"}
               _selected={{
                 bg: "#4A5568",
                 color: "white"
@@ -1056,7 +1059,7 @@ export default function MyMap1() {
                     (<MyForm setData={setRSang} setCheck={setGetCheck}></MyForm>)
                 }
               </TabPanel>
-              <TabPanel w={"400px"} bg={"white"} h={"500px"} mt={"10px"}
+              <TabPanel w={"500px"} h={"500px"} mt={"10px"}
                 borderRadius={"20px"}
                 boxShadow={"0px 0px 15px -5px #4A5568"}
                 overflowY={"auto"}

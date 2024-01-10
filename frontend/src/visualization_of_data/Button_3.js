@@ -83,17 +83,17 @@ const Button_3 = ({ data1 } ) => {
     if (dayOfWeekChartData.length > 0) {
         const high =dayOfWeekChartData.reduce((max, entry) => max.value > entry.value ? max : entry);
         highname1 = high.category
-        console.log(highname1);
+        // console.log(highname1);
     } else {
-        console.log('dayOfWeekChartData is empty');
+        // console.log('dayOfWeekChartData is empty');
     }
 
     if (timeOfDayChartData.length > 0) {
         const high =timeOfDayChartData.reduce((max, entry) => max.value > entry.value ? max : entry);
         highname2 = high.category
-        console.log(highname2);
+        // console.log(highname2);
     } else {
-        console.log('timeOfDayChartData is empty');
+        // console.log('timeOfDayChartData is empty');
     }
 
     return (

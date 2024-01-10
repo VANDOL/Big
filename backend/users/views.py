@@ -10,7 +10,7 @@ from rest_framework.exceptions import ParseError, NotFound
 from rest_framework.permissions import IsAuthenticated
 from users.models import User
 from . import serializers
-
+from backend import settings
 class Me(APIView):
     permission_classes = [IsAuthenticated]
     
@@ -198,10 +198,10 @@ class KakaoLogIn(APIView):
             code = request.data.get("code")
             access_token = requests.post(
                 "https://kauth.kakao.com/oauth/token",
-                headers={"Content-Type": "application/x-www-form-urlencoded"},
+                headers={"Content-type": "application/x-www-form-urlencoded"},
                 data={
                     "grant_type": "authorization_code",
-                    "client_id": "c5faa6465d2032b32a9df057d3c74c1b",
+                    "client_id": "5ac61531d25aeb411d83ef75a75217e7",
                     "redirect_uri": "http://127.0.0.1:3000/social/kakao",
                     "code": code,
                 },

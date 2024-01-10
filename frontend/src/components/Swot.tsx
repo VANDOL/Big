@@ -7,67 +7,30 @@ import s_img2 from "../img/swot_img/swot_w.png";
 import s_img3 from "../img/swot_img/swot_o.png";
 import s_img4 from "../img/swot_img/swot_t.png";
 
-
 export default function MySwot(props: any) {
     const Hello = true;
     // console.log(props);
     return (
-        <>
-        <div className="s-name">
+        <div className={`swot_window`}>
+          <div className="s-name">
             {props.data.name}
+          </div>
+          <div className="first">
+            <div className="swot-txt">S</div>
+            <div>{props.data.s}</div>
+          </div>
+          <div className="second">
+            <div className="swot-txt">W</div>
+            <div>{props.data.w}</div>
+          </div>
+          <div className="third">
+            <div className="swot-txt">O</div>
+            <div>{props.data.o}</div>
+          </div>
+          <div className="forth">
+            <div className="swot-txt">T</div>
+            <div>{props.data.t}</div>
+          </div>
         </div>
-        <div>
-            <img src={s_img1} className="s-img" alt="" />
-            <div>
-                {props.data.s}
-            </div>
-        </div>
-        <div>
-            <img src={s_img2} className="s-img" alt="" />
-            <div>
-                {props.data.t}
-            </div>
-        </div>
-        <div>
-            <img src={s_img3} className="s-img" alt="" />
-            <div>
-                {props.data.o}
-            </div>
-        </div>
-        <div>
-            <img src={s_img4} className="s-img" alt="" />
-            <div>
-                {props.data.t}
-            </div>
-        </div>
-        {/* <table className="s-table">
-            <tbody>
-                <tr className="s-tr">
-                    <th className="s-th"><img className="s-img" src={s_img1} alt="" /></th>
-                    <td className="s-td">
-                        {props.data.s}
-                    </td>
-                </tr>
-                <tr className="s-tr">
-                    <th className="s-th"><img className="s-img" src={s_img2} alt="" /></th>
-                    <td className="s-td">
-                        {props.data.w}
-                    </td>
-                </tr>
-                <tr className="s-tr">
-                    <th className="s-th"><img className="s-img" src={s_img3} alt="" /></th>
-                    <td className="s-td">
-                        {props.data.o}
-                    </td>
-                </tr>
-                <tr className="s-tr">
-                    <th className="s-th"><img className="s-img" src={s_img4} alt="" /></th>
-                    <td className="s-td">
-                        {props.data.t}
-                    </td>
-                </tr>
-            </tbody>
-        </table> */}
-        </>
-    )
+    );
 }

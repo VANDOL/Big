@@ -13,13 +13,13 @@ const Button_2 = ({ data1 }) => {
             value: entry.total_sales_amount,
         }));
     }
-    console.log(chartData);
+    // console.log(chartData);
     if (chartData.length > 0) {
         const high = chartData.reduce((max, entry) => max.value > entry.value ? max : entry);
         highname = high.category
-        console.log(highname);
+        // console.log(highname);
     } else {
-        console.log('chartData is empty');
+        // console.log('chartData is empty');
     }
     
     return (
