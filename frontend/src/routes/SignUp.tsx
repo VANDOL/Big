@@ -64,13 +64,13 @@ const SignUpPage = () => {
             <VStack spacing={4}>
             <FormControl isInvalid={!!errors.email}>
                 <FormLabel htmlFor="email">ID</FormLabel>
-                <Input id="email" type="email" {...register("email", { required: "이메일이 필요합니다." })} />
+                <Input id="email" type="email" {...register("email", { required: "아이디가 필요합니다." })} />
                 <FormErrorMessage>{errors.email && errors.email.message}</FormErrorMessage>
               </FormControl> 
  
               <FormControl isInvalid={!!errors.username}>
-                <FormLabel htmlFor="username">이름</FormLabel>
-                <Input id="username" {...register("username", { required: "사용자 이름이 필요합니다." })} />
+                <FormLabel htmlFor="username">닉네임</FormLabel>
+                <Input id="username" {...register("username", { required: "닉네임이 필요합니다." })} />
                 <FormErrorMessage>{errors.username && errors.username.message}</FormErrorMessage>
               </FormControl>
 

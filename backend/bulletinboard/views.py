@@ -53,9 +53,9 @@ def create_post(request):
 
         imgfile = request.FILES.get('file')
         if imgfile:
-            allowed_extensions = ['.jpg', '.jpeg', '.png', '.gif']
+            allowed_extensions = ['jpg', 'jpeg', 'png', 'gif']
             file_extension = imgfile.name.split('.')[-1].lower()
-            
+            print(file_extension)
             if not file_extension in allowed_extensions:
                 return JsonResponse({'error': '올바른 파일 형식이 아닙니다. JPG, JPEG, PNG, GIF 파일만 허용됩니다.'}, status=400)
             

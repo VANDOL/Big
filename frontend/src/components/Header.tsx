@@ -149,7 +149,7 @@ export default function Header() {
     </div>
 
       <HStack spacing={1}>      
-        <Link to="/new-board" onClick={handleBoardClick} style={{marginRight:"20ypx"}}>게시판</Link>
+        <Link to="/new-board" onClick={handleBoardClick} style={{marginRight:"20px"}}>게시판</Link>
 
         {!userLoading ? (
           !isLoggedIn ? (

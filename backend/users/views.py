@@ -253,7 +253,7 @@ class SignUp(APIView):
             
             if User.objects.filter(username=username).exists():
                 return Response(
-                    {"error": "이름이 이미 있습니다"},
+                    {"error": "닉네임이 이미 있습니다"},
                     status=status.HTTP_400_BAD_REQUEST
                 )
             
