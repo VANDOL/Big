@@ -20,7 +20,11 @@ export const getRoomReviews = async ( { queryKey }: QueryFunctionContext) => {
     return response.data;
 }
 export const getMe = () =>
-    instance.get(`http://127.0.0.1:8000/user/me`,)
+    instance.get(`http://127.0.0.1:8000/user/me`,{
+        headers: {
+            'Authorization': `Token ${localStorage.getItem("authToken")}`
+        },
+    })
     .then((response) => response.data);
  
 export const logOut = () =>

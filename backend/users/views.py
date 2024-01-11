@@ -11,6 +11,7 @@ from rest_framework.permissions import IsAuthenticated
 from users.models import User
 from . import serializers
 from backend import settings
+
 class Me(APIView):
     permission_classes = [IsAuthenticated]
     

@@ -52,7 +52,13 @@ def create_post(request):
             return JsonResponse({'error': '사용자가 존재하지 않습니다.'}, status=400)
 
         imgfile = request.FILES.get('file')
-        if imgfile:  # Check if a file is actually uploaded
+        if imgfile:
+            allowed_extensions = ['.jpg', '.jpeg', '.png', '.gif']
+            file_extension = imgfile.name.split('.')[-1].lower()
+            
+            if not file_extension in allowed_extensions:
+                return JsonResponse({'error': '올바른 파일 형식이 아닙니다. JPG, JPEG, PNG, GIF 파일만 허용됩니다.'}, status=400)
+            
             new_post = Post(title=title, content=content, author=author, imgfile=imgfile)
         else:
             new_post = Post(title=title, content=content, author=author)
@@ -110,7 +116,14 @@ def update_post(request, pk):
 
             post.title = title if title else '제목을 입력하세요'
             post.content = content if content else '내용을 작성하세요'
+            print(file)
             if file:
+                allowed_extensions = ['.jpg', '.jpeg', '.png', '.gif']
+                file_extension = file.name.split('.')[-1].lower()
+                print(file_extension)
+                if not file_extension in allowed_extensions:
+                    return JsonResponse({'error': '올바른 파일 형식이 아닙니다. JPG, JPEG, PNG, GIF 파일만 허용됩니다.'}, status=400)
+                
                 post.imgfile = file
 
             post.save()

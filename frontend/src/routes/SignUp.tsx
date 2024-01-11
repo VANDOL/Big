@@ -43,13 +43,16 @@ const SignUpPage = () => {
         console.log("회원가입 성공!", response.data);
         navigate('/');
       } else {
-        console.error("회원가입 실패: ", response.data);
+        console.error("회원가입 실패: ", response.data.error);
+        alert("회원가입 실패: " + response.data.error);
       }
-    } catch (error) {
+    } catch (error: any) { // 에러 객체를 any 타입으로 명시
       if (axios.isAxiosError(error)) {
-        console.error("회원가입 오류: ", error.response?.data);
+        console.error("회원가입 오류: ", (error.response?.data as { error: string })?.error);
+        alert("회원가입 오류: " + (error.response?.data as { error: string })?.error);
       } else {
         console.error("네트워크 오류", error);
+        alert("네트워크 오류");
       }
     }
   };

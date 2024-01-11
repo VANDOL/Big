@@ -45,6 +45,7 @@ export default function LoginModal({ isOpen, onClose }: LoginModalProps) {
 
   const mutation = useMutation(emailLogIn, {
     onSuccess: (status) => {
+      console.log(status);
       if (status && !status.error) {
         toast({
           title: "Welcome back!",

@@ -103,7 +103,7 @@ function PostDetail() {
             placeholder="내용"
             minHeight="300px"
           />
-          <Input type="file" onChange={handleFileChange} />
+          <Input type="file" onChange={handleFileChange} accept=".jpg, .jpeg, .png, .gif" />
           <Flex justify="flex-end" w="full">
             <Button colorScheme="blue" onClick={handleSave}>저장</Button>
           </Flex>

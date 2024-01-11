@@ -149,13 +149,7 @@ export default function Header() {
     </div>
 
       <HStack spacing={1}>      
-        <Link to="/new-board" onClick={handleBoardClick}>게시판</Link>
-        <IconButton
-          onClick={toggleColorMode}
-          variant={"ghost"}
-          aria-label="Toggle dark mode"
-          icon={<Icon />}
-        />
+        <Link to="/new-board" onClick={handleBoardClick} style={{marginRight:"20ypx"}}>게시판</Link>
 
         {!userLoading ? (
           !isLoggedIn ? (
