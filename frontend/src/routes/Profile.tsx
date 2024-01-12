@@ -74,7 +74,7 @@ const Profile = () => {
       <Heading mb={5}>프로필</Heading>
 
       <FormControl mb={3}>
-        <FormLabel>이름:</FormLabel>
+        <FormLabel>닉네임:</FormLabel>
         <Input type="text" value={name} isReadOnly />
       </FormControl>
       <FormControl mb={3}>

@@ -4,8 +4,8 @@ from rest_framework.views import APIView
 from .models import Fo, Sales,Swot,Fx
 from cafe_data.recommend_similar_markets import recommend_similar_markets
 
-
-class dong(APIView):#동클릭시 카페데이터 가지고 오는 코드
+#동클릭시 카페데이터 가지고 오는 API
+class dong(APIView):
     def get(self, request):
         dong = request.query_params.get('dong')
 
@@ -19,7 +19,8 @@ class dong(APIView):#동클릭시 카페데이터 가지고 오는 코드
 
         return JsonResponse(data, safe=False)
     
-class sale(APIView):#상권클릭시 상권 정보 가지고오는 코드
+#상권클릭시 상권 정보 가지고오는 API
+class sale(APIView):
     def get(self, request):
         commercial_code = request.query_params.get('commercial_code')
 
@@ -32,6 +33,7 @@ class sale(APIView):#상권클릭시 상권 정보 가지고오는 코드
 
         return JsonResponse(data, safe=False)
     
+#상권 클릭시 상권데이터를 가지고 오는 API
 class sang_data1(APIView):
     def get(self, request):
         commercial_code = request.query_params.get('commercial_code')
@@ -44,7 +46,7 @@ class sang_data1(APIView):
         data = list(sales_data1.values())
 
         return JsonResponse(data, safe=False)
-    
+#상권 클릭시 상권데이터를 가지고 오는 API   
 class sang_data2(APIView):
     def get(self, request):
         commercial_code = request.query_params.get('commercial_code')

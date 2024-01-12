@@ -13,7 +13,3 @@ class Post(models.Model):
         on_delete=models.CASCADE,
         default=1
     )
-
-# class File(models.Model):
-#     post = models.ForeignKey(Post, related_name='files', on_delete=models.CASCADE)
-#     file = models.FileField(upload_to='uploads/', default=None)
