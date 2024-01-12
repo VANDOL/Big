@@ -7,7 +7,7 @@ export default function Home() {
   const [showMap, setShowMap] = useState(true);
 
   const toggleMap = () => setShowMap(!showMap);
-
+// 지도 CSS & 열고 닫기 구현
   return (
     <>
       <div style={{ 
@@ -25,7 +25,7 @@ export default function Home() {
         </Button>
       </div>
 
-      {showMap && <MyMap1  />} {/* 수정된 부분 */}
+      {showMap && <MyMap1  />}
     </>
   );
 }

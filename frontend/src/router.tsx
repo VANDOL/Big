@@ -1,13 +1,8 @@
 import { createBrowserRouter } from "react-router-dom";
-import SubBoard from "./routes/SubBoard";
 import Root from "./components/Root";
-import GithubConfirm from "./routes/GithubConfirm";
 import Home from "./routes/Home";
-import KakaoConfirm from "./routes/KakaoConfirm";
 import NotFound from "./routes/NotFound";
-import RoomDetail from "./routes/RoomDetail";
 import MyMap  from "./routes/MyMap1";
-import UploadRoom from "./routes/UploadRoom";
 import SignUpPage from "./routes/SignUp";
 import BulletinBoard from "./routes/BulletinBoard";
 import PostForm from "./components/PostForm";
@@ -30,31 +25,6 @@ const router = createBrowserRouter([
             element:<MyMap />,
           }
         ]
-      },
-      {
-        path: "rooms/:roomPk",
-        element: <RoomDetail />,
-      },
-      {
-        path: "social",
-        children: [
-          {
-            path: "github",
-            element: <GithubConfirm />,
-          },
-          {
-            path: "kakao",
-            element: <KakaoConfirm />,
-          },
-        ],
-      },
-      {
-        path: "/subboard",
-        element: <SubBoard />,
-      }, 
-      {
-        path: "rooms/upload",
-        element: <UploadRoom />,
       },
       {
         path: "signup",

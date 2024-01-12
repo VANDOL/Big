@@ -16,7 +16,7 @@ import { getCsrfToken } from '../api';
 import useUser from '../lib/useUser'; 
 axios.defaults.xsrfCookieName = 'csrftoken';
 axios.defaults.xsrfHeaderName = 'X-CSRFToken';
-
+// 사용할 함수 정의
 function PostDetail() {
   const { pk } = useParams();
   const navigate = useNavigate();
@@ -29,7 +29,7 @@ function PostDetail() {
     'X-CSRFToken': getCsrfToken(),
   };
   const { user } = useUser();
-  
+  //작성된 게시글 pk로 구분하여 불러오기
   useEffect(() => {
     axios.get(`http://127.0.0.1:8000/board/posts/${pk}/`)
       .then((response) => {
@@ -39,18 +39,15 @@ function PostDetail() {
         setFile(response.data.imgfile_url);
       });
   }, [pk]);
-
+//게시글 수정
   const handleEdit = () => {
     setEditMode(true);
   };
-
+// 파일수정
   const handleFileChange = (e) => {
     setFile(e.target.files[0]);
   };
-  // const handleFileChange = (e) => {
-  //   setFile(e.target.files[0]);
-  // };
-
+// 빈 값으로 제출 시 메시지 출력
   const handleSave = () => {
     if (!editedTitle.trim() || !editedContent.trim()) {
       alert('제목과 내용을 모두 입력해주세요.');
@@ -61,7 +58,7 @@ function PostDetail() {
       content: editedContent,
       file:file,
     };
-    
+// 게시글 수정 폼 
     const formData = new FormData();
     formData.append('title', editedTitle);
     formData.append('content', editedContent);
@@ -69,7 +66,7 @@ function PostDetail() {
       formData.append('file', file);
     }
     console.log(pk)
-
+// 게시글 수정요청 & 토큰발급
     axios.post(`http://127.0.0.1:8000/board/posts/${pk}/update/`, formData, {
         headers: {
             'X-CSRFToken': getCsrfToken(),
@@ -86,7 +83,7 @@ function PostDetail() {
         alert('게시글을 수정하는 중 오류가 발생했습니다.');
       });
   };
-
+// 게시글 수정 및 CSS
   return (
     <Container maxW="container.xl" py={5}>
 
@@ -127,7 +124,7 @@ function PostDetail() {
             )}
             <Text mt={"20px"}>{post?.content}</Text>
           </Box>
-          
+// 게시글 삭제로직          
           <Flex justify="flex-end" mt={4}>
             {user && user.username === post?.author_username && (
               <>

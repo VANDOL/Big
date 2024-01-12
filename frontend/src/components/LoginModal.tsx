@@ -17,22 +17,22 @@ import {
 } from "@chakra-ui/react";
 import React from "react";
 import { FaUserNinja, FaLock } from "react-icons/fa";
-import SocialLogin from "./SocialLogin";
+
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import {
   emailLogIn, // 'usernameLogIn' 대신 'emailLogIn'을 import
 } from "../api";
-
+// 함수 타입 정의
 interface LoginModalProps {
   isOpen: boolean;
   onClose: () => void;
 }
-
+// 함수 타입 정의
 interface IForm {
   email: string;
   password: string;
 }
-
+// 로그인 모달
 export default function LoginModal({ isOpen, onClose }: LoginModalProps) {
   const {
     register,
@@ -42,7 +42,7 @@ export default function LoginModal({ isOpen, onClose }: LoginModalProps) {
   } = useForm<IForm>();
   const toast = useToast();
   const queryClient = useQueryClient();
-
+// 로그인 성공 여부에 따른 메시지 출력
   const mutation = useMutation(emailLogIn, {
     onSuccess: (status) => {
       console.log(status);
@@ -68,7 +68,7 @@ export default function LoginModal({ isOpen, onClose }: LoginModalProps) {
     },
   });
 
-
+// 로그인 재츌 폼 체크
   const onSubmit = ({ email, password }: IForm) => {
     mutation.mutate({ email, password });
   };  

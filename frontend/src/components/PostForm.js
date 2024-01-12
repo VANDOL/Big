@@ -3,7 +3,7 @@ import axios from "axios";
 import { Input, Textarea, Button, useToast, VStack } from "@chakra-ui/react";
 import { useNavigate, useParams } from "react-router-dom";
 import useUser from "../lib/useUser"; // Import useUser hook
-
+// 
 function PostForm() {
     const navigate = useNavigate();
     const { pk } = useParams();
@@ -15,7 +15,7 @@ function PostForm() {
     const [csrfToken, setCsrfToken] = useState("");
     const { isLoggedIn } = useUser(); // Use useUser hook to check login status
     const [file, setFile] = useState(null);
-
+// csrf토큰 발급
     useEffect(() => {
         axios
             .get("http://127.0.0.1:8000/api/get-csrf-token/")
@@ -29,7 +29,7 @@ function PostForm() {
     const handleFileChange = (e) => {
         setFile(e.target.files[0]);
     };
-
+// 로그인 후 게시글 작성 접근허가
     const handleSubmit = (e) => {
         e.preventDefault();
         if (!isLoggedIn) {
@@ -42,7 +42,7 @@ function PostForm() {
             });
             return;
         }
-
+// 게시글 작성 폼
         const formData = new FormData();
         formData.append("title", title);
         formData.append("content", content);
@@ -50,7 +50,7 @@ function PostForm() {
             formData.append("file", file); // Append file if it exists
         }
         formData.append("author", user.email);
-
+// 작성요청 백엔드 전달
         axios
             .post("http://127.0.0.1:8000/board/posts/create/", formData, {
                 headers: {
@@ -58,6 +58,7 @@ function PostForm() {
                     "Content-Type": "multipart/form-data",
                 },
             })
+// 작성성공 메시지
             .then((response) => {
                 if (response.status === 201) {
                     toast({
@@ -78,6 +79,7 @@ function PostForm() {
                     });
                 }
             })
+// 작성실패 메시지
             .catch((error) => {
                 if (error.response && error.response.status === 400) {
                     toast({
@@ -99,7 +101,7 @@ function PostForm() {
                 }
             });
     };
-
+// 로그인 후 게시글 수정허가
     const handleUpdate = (e) => {
         e.preventDefault();
         if (!isLoggedIn) {
@@ -112,14 +114,14 @@ function PostForm() {
             });
             return;
         }
-
+// 게시글 수정 폼
         const formData = new FormData();
         formData.append("title", title);
         formData.append("content", content);
         if (file) {
             formData.append("file", file);
         }
-
+// 수정요청 백엔드 전달
         axios
             .put(`http://127.0.0.1:8000/board/posts/${pk}/update/`, formData, {
                 headers: {
@@ -147,7 +149,7 @@ function PostForm() {
                 });
             });
     };
-
+// 게시글 css
     return (
         <VStack
             as="form"

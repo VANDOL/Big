@@ -5,7 +5,7 @@ interface Message {
   text: string;
   isUser: boolean;
 }
-
+// 쿠기정의
 function getCookie(name: string): string | null {
   let cookieValue: string | null = null;
   if (document.cookie && document.cookie !== '') {
@@ -26,12 +26,12 @@ const ChatBot = () => {
   const [messages, setMessages] = useState<Message[]>([]);
   const [input, setInput] = useState('');
   const bottomRef = useRef<HTMLDivElement>(null);
-  const [isOpen, setIsOpen] = useState(false);
+  // const [isOpen, setIsOpen] = useState(false);
 
-  const toggleChat = () => {
-    setIsOpen(!isOpen);
-  };
-
+  // const toggleChat = () => {
+  //   setIsOpen(!isOpen);
+  // };
+// 챗봇 응답 및 답변 받는 로직 & 허가된 사용자만 접근허용
   const sendMessage = async () => {
     if (input.trim()) {
       const userInput = input;
@@ -66,7 +66,7 @@ const ChatBot = () => {
   useEffect(() => {
     bottomRef.current?.scrollIntoView({ behavior: 'smooth' });
   }, [messages]);
-
+// 챗봇 UI
   return (
     <Box
       border="1px solid lightgray"
