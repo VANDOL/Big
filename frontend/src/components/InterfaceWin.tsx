@@ -4,24 +4,15 @@ import { useRef, useState, useEffect } from "react"
 import { ArrowLeftIcon, ArrowRightIcon } from '@chakra-ui/icons'
 import { Tabs, TabList, TabPanels, Tab, TabPanel } from '@chakra-ui/react'
 import "../css/InterfaceWin.css"
-import Button_1 from "../visualization_of_data/Button_1"
-import Button_2 from "../visualization_of_data/Button_2"
-import Button_3 from "../visualization_of_data/Button_3"
-import Button_4 from "../visualization_of_data/Button_4"
+import Button_1 from "../visualization_of_data/Button_1" // 데이터 시각화 
+import Button_2 from "../visualization_of_data/Button_2" // 데이터 시각화 
+import Button_3 from "../visualization_of_data/Button_3" // 데이터 시각화 
+import Button_4 from "../visualization_of_data/Button_4" // 데이터 시각화 
 
-export default function InterfaceWin(props: any) {
-    const [openToggle, setOpenToggle] = useState(false);
-    const [check, setCheck] = useState<any>(false);
+export default function InterfaceWin(props: any) { // 데이터 시각화 창 
+    const [openToggle, setOpenToggle] = useState(false); // 데이터 시각창 열기 닫기 
 
-    useEffect(()=>{
-        setCheck(false);
-        if(props.data.length > 0) {
-            setCheck(true);
-            //console.log(props);
-        }
-        // console.log(props.data1);
-    },[props.data])
-    useEffect(()=>{
+    useEffect(()=>{ // 데이터 유무 확인 
         if(props.getCheck == '') {
             setOpenToggle(false);
         }

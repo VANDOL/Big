@@ -1,47 +1,29 @@
 import React, { Fragment } from "react"
 import { useRef, useState, useEffect } from "react"
-import { Map, MapMarker, Polygon, CustomOverlayMap } from "react-kakao-maps-sdk"
-
-import { Box, Center, Input, Button, IconButton, VStack, HStack, Text, Tabs, TabList, Tab, TabPanels, TabPanel, } from '@chakra-ui/react'
-import {
-    Slider,
-    SliderTrack,
-    SliderFilledTrack,
-    SliderThumb,
-    SliderMark,
-} from '@chakra-ui/react'
 import { SearchIcon, TriangleUpIcon } from '@chakra-ui/icons'
-import { isVisible } from "@testing-library/user-event/dist/utils";
 import "../css/MyForm.css"
-import cateData_ from "../json/cate_data.json";
-import uniqueValues_ from "../json/unique_values.json";
+import cateData_ from "../json/cate_data.json"; // 업종 이름 
+import uniqueValues_ from "../json/unique_values.json"; // 행정구 이름 
 
-export default function MyForm(props: any) {
+export default function MyForm(props: any) { // 추천 상권 조건 설정 창 
 
-    const [txtList, setTxtList] = useState<any>([]);
-
-    const [rV1, setRV1] = useState(2400);
-    const [rV2, setRV2] = useState(15);
-    const [rV3, setRV3] = useState(50);
-    const [rV4, setRV4] = useState(50);
-    
-    const [selectedRegions, setSelectedRegions] = useState([]);
-
+    const [txtList, setTxtList] = useState<any>([]); // 선택된 행중구 
+    const [rV1, setRV1] = useState(2400); // 보증금 
+    const [rV2, setRV2] = useState(15); // 월평당임대료
+    const [rV3, setRV3] = useState(50); // 성비율 
+    const [rV4, setRV4] = useState(50); // 인구비율 
     const uniqueValues:any = uniqueValues_;
     const cateData:any = cateData_;
     const name = ["한식", "일식", "중식", "양식", "분식", "패스트푸드", "치킨", "주점", "카페", "제과점"]
-
-    const moneyimgUrl = "../img/Form/money.png";
-
-    const [gu, setGu] = useState(uniqueValues_);
-    useEffect(()=>{
+    const [gu, setGu] = useState(uniqueValues_); // 행정구 
+    useEffect(()=>{ // 초기값 설정 
         let guList:Array<any> = gu.name;
         guList.sort();
         setGu({name:guList});
     }, [])
-    function sendData(f:any) {
+    function sendData(f:any) { // 조건 송신 추전 상권 수신 
         // let formData = new FormData();
-        let formObj:any = {
+        let formObj:any = { // 조건 데이터 
             "cate": null,
             "gu": [] as any,
             "rv1": null,
@@ -50,9 +32,6 @@ export default function MyForm(props: any) {
             "rv4": null,
             "age": [] as any
         };
-        let nameList = ["cate", "gu", "rv1", "rv2", "rv3", "rv4", "age"];
-        const checkList = ["cate","gu","age"];
-        
         for(let i of f.elements) {
             if(i.name == "cate") {
                 if(i.checked) {
@@ -75,7 +54,7 @@ export default function MyForm(props: any) {
         }
 
         try {
-            fetch("http://127.0.0.1:8000/cafe/anal", {
+            fetch("http://127.0.0.1:8000/cafe/anal", { // 조건 데이터 송신 
               method: "POST", // 또는 'PUT'
               headers: {
                 "Content-Type": "application/json",
@@ -84,7 +63,7 @@ export default function MyForm(props: any) {
             }).then((res)=>(res.json()))
             .then((res)=>{
 
-                props.setData(res);
+                props.setData(res); // 추천 상권 데이터 저장 
             })
             .catch((res)=>{console.error(res)})
             
@@ -135,8 +114,6 @@ export default function MyForm(props: any) {
                                 <Fragment key={"f-r-i-"+i}>
                                     <input id={"f-r-i-"+i} className="in-r dis-hi" type="radio" name="cate" value={n} required/>
                                     <label htmlFor={"f-r-i-"+i} className="form-r-w-i">
-                                        {/* <div>{name[i]}</div>
-                                        <div className={"formImg formImg" + i}></div> */}
                                         <div className="img-div">
                                             <div className={"formImg formImg" + i}>
                                             </div>
