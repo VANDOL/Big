@@ -6,9 +6,9 @@ import { Box, FormControl, FormLabel, Input, Heading, Button } from "@chakra-ui/
 const Profile = () => {
   const [name, setName] = useState("");  
   const [email, setEmail] = useState("");  
-  const [currentPassword, setCurrentPassword] = useState("");  // 현재 비밀번호
-  const [password, setPassword] = useState("");  // 새 비밀번호
-  const [confirmPassword, setConfirmPassword] = useState(""); // 비밀번호 확인
+  const [currentPassword, setCurrentPassword] = useState(""); 
+  const [password, setPassword] = useState("");
+  const [confirmPassword, setConfirmPassword] = useState("");
 
   useEffect(() => {
     const fetchUserData = async () => {

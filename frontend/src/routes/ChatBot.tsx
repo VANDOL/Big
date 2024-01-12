@@ -26,11 +26,11 @@ const ChatBot = () => {
   const [messages, setMessages] = useState<Message[]>([]);
   const [input, setInput] = useState('');
   const bottomRef = useRef<HTMLDivElement>(null);
-  const [isOpen, setIsOpen] = useState(false);
+  // const [isOpen, setIsOpen] = useState(false);
 
-  const toggleChat = () => {
-    setIsOpen(!isOpen);
-  };
+  // const toggleChat = () => {
+  //   setIsOpen(!isOpen);
+  // };
 
   const sendMessage = async () => {
     if (input.trim()) {

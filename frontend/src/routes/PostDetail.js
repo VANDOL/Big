@@ -47,9 +47,6 @@ function PostDetail() {
   const handleFileChange = (e) => {
     setFile(e.target.files[0]);
   };
-  // const handleFileChange = (e) => {
-  //   setFile(e.target.files[0]);
-  // };
 
   const handleSave = () => {
     if (!editedTitle.trim() || !editedContent.trim()) {

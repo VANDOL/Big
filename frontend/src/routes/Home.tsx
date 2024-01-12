@@ -25,7 +25,7 @@ export default function Home() {
         </Button>
       </div>
 
-      {showMap && <MyMap1  />} {/* 수정된 부분 */}
+      {showMap && <MyMap1  />}
     </>
   );
 }

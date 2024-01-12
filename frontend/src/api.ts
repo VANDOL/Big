@@ -96,12 +96,9 @@ export const emailLogIn = ({
         return { success: false, error: "Login failed. Please check your credentials." };
     }
 }).catch((error: AxiosError<IEmailLoginError>) => {
-    // 오류 처리 로직
     if (error.response) {
-        // 서버에서 오류 응답이 반환된 경우
         return error.response.data;
     } else {
-        // 오류가 네트워크 또는 다른 이유로 인해 발생한 경우
         return { error: error.message };
     }
 });
