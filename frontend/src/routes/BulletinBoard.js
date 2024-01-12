@@ -5,7 +5,7 @@ import { Link } from 'react-router-dom';
 import { VStack } from '@chakra-ui/react';
 function BulletinBoard() {
   const [posts, setPosts] = useState([]);
-
+// 게시글 작성 백엔드요청
   useEffect(() => {
     axios.get('http://127.0.0.1:8000/board/posts/')
       .then(response => {
@@ -15,7 +15,7 @@ function BulletinBoard() {
         console.error('Error fetching posts:', error);
       });
   }, []);
-
+// 게시글 작성페이지 css
   return (
     <VStack spacing={4} align="stretch">
       <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', marginTop: '20px' }}>

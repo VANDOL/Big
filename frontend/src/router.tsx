@@ -1,8 +1,6 @@
 import { createBrowserRouter } from "react-router-dom";
 import Root from "./components/Root";
-import GithubConfirm from "./routes/GithubConfirm";
 import Home from "./routes/Home";
-import KakaoConfirm from "./routes/KakaoConfirm";
 import NotFound from "./routes/NotFound";
 import MyMap  from "./routes/MyMap1";
 import SignUpPage from "./routes/SignUp";
@@ -27,19 +25,6 @@ const router = createBrowserRouter([
             element:<MyMap />,
           }
         ]
-      },
-      {
-        path: "social",
-        children: [
-          {
-            path: "github",
-            element: <GithubConfirm />,
-          },
-          {
-            path: "kakao",
-            element: <KakaoConfirm />,
-          },
-        ],
       },
       {
         path: "signup",

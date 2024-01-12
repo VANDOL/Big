@@ -2,14 +2,14 @@ import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import { Box, FormControl, FormLabel, Input, Heading, Button } from "@chakra-ui/react";
 
-
+// 사용할 함수 정의
 const Profile = () => {
   const [name, setName] = useState("");  
   const [email, setEmail] = useState("");  
   const [currentPassword, setCurrentPassword] = useState(""); 
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
-
+// 토큰발급 & 프로필 폼
   useEffect(() => {
     const fetchUserData = async () => {
       try {
@@ -29,7 +29,7 @@ const Profile = () => {
 
     fetchUserData();
   }, []);
-
+// 비밀번호 변경 백엔드 요청 및 토큰발급
   const updatePassword = async (oldPassword: string, newPassword: string) => {
     try {
       const authToken = localStorage.getItem("authToken");
@@ -54,7 +54,7 @@ const Profile = () => {
       alert("비밀번호 변경에 실패했습니다.");
     }
   };
-  
+// 변경된 비밀번호 재확인  
   const handlePasswordUpdate = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
   
@@ -68,7 +68,7 @@ const Profile = () => {
     } catch (error) {
     }
   };
-
+// 프로필 페이지 폼 & CSS
   return (
     <Box maxWidth="500px" margin="0 auto" p={5}>
       <Heading mb={5}>프로필</Heading>

@@ -15,14 +15,14 @@ import {
   Checkbox, Modal, ModalOverlay, ModalContent, ModalHeader, ModalBody, ModalCloseButton ,ModalFooter
 } from "@chakra-ui/react";
 import { useNavigate } from 'react-router-dom';
-
+// 사용할 함수 타입지정
 interface SignUpFormData {
   username: string;
   email: string;
   password: string;
   confirmPassword: string;
 }
-
+// 사용할 함수 정의
 const SignUpPage = () => {
   const [isAgreePrivacy, setIsAgreePrivacy] = useState(false);
   const [isAgreeTerms, setIsAgreeTerms] = useState(false);
@@ -36,9 +36,10 @@ const SignUpPage = () => {
   const { register, handleSubmit, formState: { errors } } = useForm<SignUpFormData>();
   const navigate = useNavigate();
   const onSubmit = async (data: SignUpFormData) => {
+// 회원가입 백엔드 요청
     try {
       const response = await axios.post('http://127.0.0.1:8000/user/signup', data);
-  
+// 회원가입 성공메시지 출력 & 홈 화면 이동  
       if (response.status === 200) {
         console.log("회원가입 성공!", response.data);
         navigate('/');
@@ -46,7 +47,8 @@ const SignUpPage = () => {
         console.error("회원가입 실패: ", response.data.error);
         alert("회원가입 실패: " + response.data.error);
       }
-    } catch (error: any) { // 에러 객체를 any 타입으로 명시
+    } catch (error: any) {
+// 회원가입 실패 시 메시지 출력
       if (axios.isAxiosError(error)) {
         console.error("회원가입 오류: ", (error.response?.data as { error: string })?.error);
         alert("회원가입 오류: " + (error.response?.data as { error: string })?.error);
@@ -56,6 +58,7 @@ const SignUpPage = () => {
       }
     }
   };
+//회원가입 페이지 폼 & CSS & 유효성 검사
   return (
     <Flex height="100vh" alignItems="center" justifyContent="center">
       <Container centerContent p={4}>
@@ -86,7 +89,7 @@ const SignUpPage = () => {
                 <FormErrorMessage>{errors.confirmPassword && errors.confirmPassword.message}</FormErrorMessage>
               </FormControl>
 
-
+// 개인정보수집 동의 모달 & 텍스트
               <Checkbox isChecked={isAgreePrivacy} onChange={(e) => setIsAgreePrivacy(e.target.checked)}>
                 개인정보수집 동의{" "}
                 <Button variant="link" onClick={onPrivacyModalOpen}>
@@ -291,7 +294,7 @@ const SignUpPage = () => {
                   </ModalFooter>
                 </ModalContent>
               </Modal>
-
+// 약관동의 모달 & 텍스트
               <Checkbox isChecked={isAgreeTerms} onChange={(e) => setIsAgreeTerms(e.target.checked)}>
                 약관 동의{" "}
                 <Button variant="link" onClick={onTermsModalOpen}>
@@ -626,7 +629,7 @@ const SignUpPage = () => {
                   </ModalFooter>
                 </ModalContent>
               </Modal>
-
+//회원가입 제출버튼
               <Button colorScheme="blue" isDisabled={!(isAgreePrivacy && isAgreeTerms)} onClick={handleSubmit(onSubmit)}>회원가입</Button>
             </VStack>
           </form>

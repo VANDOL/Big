@@ -1,24 +1,13 @@
 import Cookies from "js-cookie";
 import { QueryFunctionContext } from "@tanstack/react-query";
 import axios, { AxiosError } from 'axios';
- 
+// 기본주소 정의 
 const instance = axios.create({
     baseURL: "http://127.0.0.1:8000/",
     withCredentials: true,
 });
-export const getRooms = () =>
-    instance.get(`rooms/`).then((response) => response.data);
-export const getRoom = ({ queryKey }: QueryFunctionContext) => {
-    const [ _, roomPk ] = queryKey;
-    return instance.get(`rooms/${roomPk}`).then((response) => response.data);
-}
- 
-export const getRoomReviews = async ( { queryKey }: QueryFunctionContext) => {
-    const [ _, roomPk ] = queryKey;
-    const response = await instance
-        .get(`rooms/${roomPk}/reviews`);
-    return response.data;
-}
+
+// 사용자인증 백엔드 전달
 export const getMe = () =>
     instance.get(`http://127.0.0.1:8000/user/me`,{
         headers: {
@@ -26,7 +15,7 @@ export const getMe = () =>
         },
     })
     .then((response) => response.data);
- 
+// 로그아웃 백엔드 전달
 export const logOut = () =>
     instance
         .post(`http://127.0.0.1:8000/user/logout`, null, {
@@ -41,40 +30,21 @@ export const logOut = () =>
             return response.data
         });
        
-export const githubLogIn = (code: string) =>
-    instance
-        .post(`user/github`,
-        {code},
-        {
-            headers: {
-                "X-CSRFToken": Cookies.get("csrftoken") || "",
-            },
-        })
-        .then((response) => response.status);
-export const kakaoLogIn = (code: string) =>
-    instance
-        .post(`user/kakao`,
-        {code},
-        {
-            headers: {
-                "X-CSRFToken": Cookies.get("csrftoken") || "",
-            },
-        })
-        .then((response) => response.status);
+// 로그인 형식 정의
 export interface IEmailLoginVariables {
     email: string;
     password: string;
 }
- 
+// 로그인 성공 정의 
 export interface IEmailLoginSuccess {
     ok: string;
     Token: string;
 }
- 
+// 로그인 에러 정의 
 export interface IEmailLoginError {
     error: string;
 }
- 
+// 로그인 백엔드 전달 
 export const emailLogIn = ({
     email,
     password,
@@ -87,6 +57,7 @@ export const emailLogIn = ({
         },
         withCredentials: true,
     }
+// CSRF 토큰 체크 및 백엔드 전달
 ).then((response) => {
     const token = response.data.Token;
     if (token) {

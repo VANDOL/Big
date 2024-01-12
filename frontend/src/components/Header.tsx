@@ -32,7 +32,7 @@ import '../css/Header.css'
 import HeaderImage from '../img/Header_img/Header_img.png' 
 import HeaderImage2 from '../img/Header_img/Header_img2.png' 
 
-
+//로그인 상태에서만 챗봇 이용허가
 const ChatbotIcon =  ({ isLoggedIn }: { isLoggedIn: boolean }) => {
   const [showChat, setShowChat] = useState(false);
 
@@ -43,6 +43,7 @@ const ChatbotIcon =  ({ isLoggedIn }: { isLoggedIn: boolean }) => {
       alert('로그인이 필요한 서비스입니다. 로그인해주세요.');
     }
   };
+  // 챗봇 UI
   return (
     <>
       <Box position="fixed" bottom="90px" right="50px" style={{ display: showChat ? 'block' : 'none',}}>
@@ -63,7 +64,7 @@ const ChatbotIcon =  ({ isLoggedIn }: { isLoggedIn: boolean }) => {
   );
 };
 
-
+//로그인, 회원가입 창, 게시판 링크 & 로그인 상태에서만 게시판 접근허용
 export default function Header() {
   const { userLoading, isLoggedIn, user } = useUser();
   const {
