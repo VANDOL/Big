@@ -26,7 +26,7 @@
 ## 최종 결과물
 발표 자료 및 정의서는 위의 파일에 존재함
 ![27조  4기 27조 소개이미지](https://github.com/seo-hye-yum/Big/assets/138744768/2a2d58aa-ca81-4cb5-ac0d-ab29f0019514)
-[[27조] 4기 27조 발표영상.zip](https://github.com/seo-hye-yum/Big/files/14357561/27.4.27.zip)
+
 
 
 
