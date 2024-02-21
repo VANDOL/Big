@@ -24,7 +24,10 @@
    -  상권 분석을 처음 하는 요식업 예비 창업자
 
 최종 결과물
-[[27조] 4기 27조 발표자료.pptx](https://github.com/seo-hye-yum/Big/files/14356854/27.4.27.pptx)
+[[27조] 4기 27조 발표자료.pdf](https://github.com/seo-hye-yum/Big/files/14356912/27.4.27.pdf)
+![27조  4기 27조 소개이미지](https://github.com/seo-hye-yum/Big/assets/138744768/2a2d58aa-ca81-4cb5-ac0d-ab29f0019514)
+[[27조] 최종 조별 과제 정의서_pdf.pdf](https://github.com/seo-hye-yum/Big/files/14356920/27._pdf.pdf)
+
 
 **Fin.**  
 **Fin.**
