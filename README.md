@@ -23,6 +23,8 @@
 -  👓 메인 타겟
    -  상권 분석을 처음 하는 요식업 예비 창업자
 
+최종 결과물
+[[27조] 4기 27조 발표자료.pptx](https://github.com/seo-hye-yum/Big/files/14356854/27.4.27.pptx)
 
 **Fin.**  
 **Fin.**
