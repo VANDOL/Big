@@ -28,10 +28,7 @@
 ![27조  4기 27조 소개이미지](https://github.com/seo-hye-yum/Big/assets/138744768/2a2d58aa-ca81-4cb5-ac0d-ab29f0019514)
 
 ## 발표 영상
-https://youtu.be/I4X44fuR54o
-
-
+https://www.youtube.com/watch?v=UOZxsIfRQgs
 
 
 **Fin.**  
-**Fin.**
